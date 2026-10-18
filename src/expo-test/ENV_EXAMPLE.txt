@@ -1,0 +1,7 @@
+# Copy values into your existing .env; do not overwrite .env automatically.
+EXPO_PUBLIC_AUTH0_DOMAIN=mdate.au.auth0.com
+EXPO_PUBLIC_AUTH0_WEB_CLIENT_ID=ju9fuxzqxVmQQNSygtJyhyAKF5FYui33
+EXPO_PUBLIC_AUTH0_NATIVE_CLIENT_ID=PUT_YOUR_NATIVE_APP_CLIENT_ID_HERE
+EXPO_PUBLIC_AUTH0_AUDIENCE=https://api.mdate.com
+EXPO_PUBLIC_API_URL_WEB=http://localhost:3000
+EXPO_PUBLIC_API_URL_NATIVE=http://192.168.1.XXX:3000

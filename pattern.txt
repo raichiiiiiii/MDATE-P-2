@@ -1,0 +1,65 @@
+`node express js | clean architecture`
+
+```
+src/
+    application/
+    domain/
+    infrastructure/
+    main/
+    shared/
+test/
+prisma/
+package.json
+package-lock.json
+README.md
+```
+
+`react-native/expo | feature based architecture`
+
+```
+app/
+    _layout.tsx
+    index.tsx
+    (auth)/
+        _layout.tsx
+        login.tsx
+    (tabs)/
+        _layout.tsx
+        feed.tsx
+        profile.tsx
+src/
+    features/
+        auth/
+            components/
+            hooks/
+            services/
+            types/
+        feed/
+            components/
+            hooks/
+            api/
+            index.ts
+        profile/
+            components/
+            ...
+    components/
+    hooks/
+    services/
+    constants/
+    types/
+assets/
+app.json
+package.json
+package-lock.json
+README.md
+```
+
+```
+src/features/
+    auth/
+    profile/
+    module/
+    therapist-portal/
+    settings/
+    shops/
+```
