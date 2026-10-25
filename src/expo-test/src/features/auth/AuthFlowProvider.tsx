@@ -22,13 +22,7 @@ import {
 } from "./auth0Config";
 
 export type AuthMode = "sign-in" | "sign-up";
-
-export type AuthPhase =
-  | "loading"
-  | "signed-out"
-  | "setup-required"
-  | "ready"
-  | "error";
+export type AuthPhase = "loading" | "signed-out" | "setup-required" | "ready" | "error";
 
 type AuthFlowContextValue = {
   phase: AuthPhase;
@@ -36,19 +30,16 @@ type AuthFlowContextValue = {
   errorMessage: string | null;
   loadingProgress: number;
   loadingMessage: string;
+  getAuthHeaders: ApiHeadersFactory;
   signIn: (mode: AuthMode, email?: string) => Promise<void>;
   retrySession: () => Promise<void>;
   completeSetup: (input: AccountSetupInput) => Promise<void>;
 };
 
-const AuthFlowContext =
-  createContext<AuthFlowContextValue | null>(null);
-
+const AuthFlowContext = createContext<AuthFlowContextValue | null>(null);
 const AUTH_SCOPE = "openid profile email offline_access";
 
-export function AuthFlowProvider({
-  children,
-}: PropsWithChildren) {
+export function AuthFlowProvider({ children }: PropsWithChildren) {
   const {
     authorize,
     getApiCredentials,
@@ -61,28 +52,11 @@ export function AuthFlowProvider({
   const [account, setAccount] = useState<MdateAccount | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loadingProgress, setLoadingProgress] = useState(5);
-  const [loadingMessage, setLoadingMessage] = useState(
-    "Starting MDATE…"
-  );
+  const [loadingMessage, setLoadingMessage] = useState("Starting MDATE…");
 
-  /**
-   * Loading progress represents completed initialization milestones,
-   * not an estimate of elapsed time.
-   */
   const getAuthHeaders: ApiHeadersFactory = useCallback(
     async (url, method) => {
-      const credentials = await getApiCredentials(
-        AUTH0_AUDIENCE,
-        AUTH_SCOPE,
-        0
-      );
-
-      // Log metadata only. Never log the access token itself.
-      console.info("[MDATE API credentials]", {
-        tokenType: credentials.tokenType,
-        segmentCount: credentials.accessToken.split(".").length,
-      });
-
+      const credentials = await getApiCredentials(AUTH0_AUDIENCE, AUTH_SCOPE, 0);
       return getDPoPHeaders({
         url,
         method,
@@ -90,30 +64,23 @@ export function AuthFlowProvider({
         tokenType: credentials.tokenType,
       });
     },
-    [getApiCredentials, getDPoPHeaders]
+    [getApiCredentials, getDPoPHeaders],
   );
 
   const synchronizeAccount = useCallback(async () => {
     setLoadingProgress(35);
     setLoadingMessage("Connecting securely to MDATE…");
-
     await bootstrapAccount(getAuthHeaders);
-
     setLoadingProgress(68);
     setLoadingMessage("Checking your account details…");
-
     const currentAccount = await getCurrentAccount(getAuthHeaders);
-
     setLoadingProgress(92);
     setLoadingMessage("Preparing your MDATE home screen…");
-
     setAccount(currentAccount);
     setErrorMessage(null);
     setLoadingProgress(100);
     setLoadingMessage("Ready");
-    setPhase(
-      currentAccount.setupComplete ? "ready" : "setup-required"
-    );
+    setPhase(currentAccount.setupComplete ? "ready" : "setup-required");
   }, [getAuthHeaders]);
 
   const retrySession = useCallback(async () => {
@@ -123,7 +90,6 @@ export function AuthFlowProvider({
       setLoadingMessage("Checking your secure sign-in…");
       return;
     }
-
     if (!auth0User) {
       setAccount(null);
       setErrorMessage(null);
@@ -132,25 +98,15 @@ export function AuthFlowProvider({
       setPhase("signed-out");
       return;
     }
-
     setPhase("loading");
     setErrorMessage(null);
     setLoadingProgress(20);
     setLoadingMessage("Secure sign-in restored. Preparing your account…");
-
     try {
       await synchronizeAccount();
     } catch (error) {
-      console.error(
-        "Session or account synchronization failed:",
-        error
-      );
-
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "We couldn't load your MDATE account. Please try again."
-      );
+      console.error("Session or account synchronization failed:", error);
+      setErrorMessage(error instanceof Error ? error.message : "We couldn't load your MDATE account. Please try again.");
       setLoadingMessage("We couldn't finish loading your account.");
       setPhase("error");
     }
@@ -160,74 +116,53 @@ export function AuthFlowProvider({
     void retrySession();
   }, [retrySession]);
 
-  const signIn = useCallback(
-    async (mode: AuthMode, email?: string) => {
-      setErrorMessage(null);
-
-      await authorize(
-        {
-          audience: AUTH0_AUDIENCE,
-          scope: AUTH_SCOPE,
-          additionalParameters: {
-            screen_hint: mode === "sign-up" ? "signup" : "login",
-            ...(email?.trim() ? { login_hint: email.trim() } : {}),
-            // Temporary diagnostic setting. Remove after the consent
-            // configuration is confirmed in the Auth0 dashboard.
-            prompt: "consent",
-          },
+  const signIn = useCallback(async (mode: AuthMode, email?: string) => {
+    setErrorMessage(null);
+    await authorize(
+      {
+        audience: AUTH0_AUDIENCE,
+        scope: AUTH_SCOPE,
+        additionalParameters: {
+          screen_hint: mode === "sign-up" ? "signup" : "login",
+          ...(email?.trim() ? { login_hint: email.trim() } : {}),
+          prompt: "consent",
         },
-        {
-          customScheme: AUTH0_CUSTOM_SCHEME,
-        }
-      );
-    },
-    [authorize]
-  );
+      },
+      { customScheme: AUTH0_CUSTOM_SCHEME },
+    );
+  }, [authorize]);
 
-  const completeSetup = useCallback(
-    async (input: AccountSetupInput) => {
-      setErrorMessage(null);
-
-      try {
-        await completeAccountSetup(getAuthHeaders, input);
-        const currentAccount = await getCurrentAccount(getAuthHeaders);
-
-        if (!currentAccount.setupComplete) {
-          throw new Error(
-            "The server has not confirmed account setup completion."
-          );
-        }
-
-        setAccount(currentAccount);
-        setPhase("ready");
-        setErrorMessage(null);
-      } catch (error) {
-        console.error("Account setup failed:", error);
-        setErrorMessage(
-          error instanceof Error
-            ? error.message
-            : "We couldn't save your account details. Please try again."
-        );
-        setPhase("setup-required");
-        throw error;
+  const completeSetup = useCallback(async (input: AccountSetupInput) => {
+    setErrorMessage(null);
+    try {
+      await completeAccountSetup(getAuthHeaders, input);
+      const currentAccount = await getCurrentAccount(getAuthHeaders);
+      if (!currentAccount.setupComplete) {
+        throw new Error("The server has not confirmed account setup completion.");
       }
-    },
-    [getAuthHeaders]
-  );
+      setAccount(currentAccount);
+      setPhase("ready");
+      setErrorMessage(null);
+    } catch (error) {
+      console.error("Account setup failed:", error);
+      setErrorMessage(error instanceof Error ? error.message : "We couldn't save your account details. Please try again.");
+      setPhase("setup-required");
+      throw error;
+    }
+  }, [getAuthHeaders]);
 
   return (
-    <AuthFlowContext.Provider
-      value={{
-        phase,
-        account,
-        errorMessage,
-        loadingProgress,
-        loadingMessage,
-        signIn,
-        retrySession,
-        completeSetup,
-      }}
-    >
+    <AuthFlowContext.Provider value={{
+      phase,
+      account,
+      errorMessage,
+      loadingProgress,
+      loadingMessage,
+      getAuthHeaders,
+      signIn,
+      retrySession,
+      completeSetup,
+    }}>
       {children}
     </AuthFlowContext.Provider>
   );
@@ -235,12 +170,6 @@ export function AuthFlowProvider({
 
 export function useAuthFlow(): AuthFlowContextValue {
   const context = useContext(AuthFlowContext);
-
-  if (!context) {
-    throw new Error(
-      "useAuthFlow must be used inside AuthFlowProvider."
-    );
-  }
-
+  if (!context) throw new Error("useAuthFlow must be used inside AuthFlowProvider.");
   return context;
 }

@@ -1,2 +1,10 @@
 node_modules/
 .env
+
+# Local-only therapy media copied from the POC (never commit recordings or datasets).
+src/express-test/storage/media/*
+!src/express-test/storage/media/README.md
+!src/express-test/storage/media/.gitkeep
+!src/express-test/storage/media/images/
+src/express-test/storage/media/images/*
+!src/express-test/storage/media/images/.gitkeep
