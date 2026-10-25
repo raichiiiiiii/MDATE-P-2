@@ -6,6 +6,11 @@ import { env } from "../../../shared/configuration/env.js";
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
+/** Express 5 parameter typings may allow repeated parameters as string[]. */
+function getSingleParam(value: string | string[] | undefined): string | null {
+  return typeof value === "string" ? value : null;
+}
+
 function validId(value: string): boolean {
   return UUID_PATTERN.test(value);
 }
@@ -26,8 +31,8 @@ export const listModulesController: RequestHandler = async (_req, res, next) => 
 };
 
 export const getModuleController: RequestHandler = async (req, res, next) => {
-  const { moduleId } = req.params;
-  if (!validId(moduleId)) {
+  const moduleId = getSingleParam(req.params.moduleId);
+  if (moduleId === null || !validId(moduleId)) {
     invalidId(res, "moduleId");
     return;
   }
@@ -44,8 +49,8 @@ export const getModuleController: RequestHandler = async (req, res, next) => {
 };
 
 export const listQSetsController: RequestHandler = async (req, res, next) => {
-  const { submoduleId } = req.params;
-  if (!validId(submoduleId)) {
+  const submoduleId = getSingleParam(req.params.submoduleId);
+  if (submoduleId === null || !validId(submoduleId)) {
     invalidId(res, "submoduleId");
     return;
   }
@@ -62,8 +67,8 @@ export const listQSetsController: RequestHandler = async (req, res, next) => {
 };
 
 export const getQSetController: RequestHandler = async (req, res, next) => {
-  const { qSetId } = req.params;
-  if (!validId(qSetId)) {
+  const qSetId = getSingleParam(req.params.qSetId);
+  if (qSetId === null || !validId(qSetId)) {
     invalidId(res, "qSetId");
     return;
   }
@@ -91,8 +96,8 @@ export const getQSetController: RequestHandler = async (req, res, next) => {
 };
 
 export const getMediaController: RequestHandler = async (req, res, next) => {
-  const { assetId } = req.params;
-  if (!validId(assetId)) {
+  const assetId = getSingleParam(req.params.assetId);
+  if (assetId === null || !validId(assetId)) {
     invalidId(res, "assetId");
     return;
   }
