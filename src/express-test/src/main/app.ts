@@ -10,6 +10,7 @@ import { errorHandler } from "./http/middleware/errorHandler.js";
 import { accountRoutes } from "./http/routes/accountRoutes.js";
 import { trainingContentRoutes } from "./http/routes/trainingContentRoutes.js";
 import { mediaRoutes } from "./http/routes/mediaRoutes.js";
+import { speechRoutes } from "./http/routes/speechRoutes.js";
 
 export function createApp() {
   const app = express();
@@ -30,6 +31,7 @@ export function createApp() {
   app.use("/api/v1/media", mediaRoutes);
   app.use("/api/v1", accountRoutes);
   app.use("/api/v1", trainingContentRoutes);
+  app.use("/api/v1", speechRoutes);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
