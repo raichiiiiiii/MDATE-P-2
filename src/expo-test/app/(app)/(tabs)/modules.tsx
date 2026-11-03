@@ -30,9 +30,6 @@ export default function ModulesScreen() {
   return (
     <ScrollView contentContainerStyle={styles.page}>
       <View style={styles.content}>
-        <Text style={styles.eyebrow}>TRAINING</Text>
-        <Text accessibilityRole="header" style={styles.title}>Training modules</Text>
-        <Text style={styles.description}>Choose a program to practise. Take your time.</Text>
 
         {loading ? (
           <View style={styles.messageCard}><Text style={styles.messageText}>Loading your training modules…</Text></View>

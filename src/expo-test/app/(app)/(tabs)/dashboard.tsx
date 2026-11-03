@@ -7,37 +7,6 @@ export default function DashboardScreen() {
   return (
     <ScrollView contentContainerStyle={styles.page}>
       <View style={styles.content}>
-        <Text style={styles.brand}>MDATE</Text>
-        <Text accessibilityRole="header" style={styles.title}>
-          Welcome back
-        </Text>
-        <Text style={styles.description}>
-          Your speech practice space. Take your time and work at your own pace.
-        </Text>
-
-        <View style={styles.card}>
-          <Text accessibilityRole="header" style={styles.cardTitle}>
-            Ready to practise?
-          </Text>
-          <Text style={styles.cardDescription}>
-            Open your training area to see the exercises available to you.
-          </Text>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Open training modules"
-            onPress={() => router.push("/modules")}
-            style={styles.primaryButton}
-          >
-            <Text style={styles.primaryButtonText}>View training</Text>
-          </Pressable>
-        </View>
-
-        <View style={styles.noteCard}>
-          <Text style={styles.noteTitle}>A reminder</Text>
-          <Text style={styles.noteText}>
-            There is no need to rush. You can take a break whenever you need one.
-          </Text>
-        </View>
       </View>
     </ScrollView>
   );

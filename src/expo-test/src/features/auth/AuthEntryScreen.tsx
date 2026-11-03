@@ -45,22 +45,7 @@ export default function AuthEntryScreen() {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.main}>
-          <View style={styles.brandRow}>
-            <View style={styles.brandMark}><Text style={styles.brandInitial}>M</Text></View>
-            <View>
-              <Text style={styles.brandName}>MDATE</Text>
-              <Text style={styles.brandSubtitle}>Speech therapy, at your pace</Text>
-            </View>
-          </View>
-
-          <Text accessibilityRole="header" style={styles.heading}>Welcome</Text>
-          <Text style={styles.intro}>
-            Sign in to continue your practice, or create an account to get started.
-          </Text>
-
           <View style={styles.credentialCard}>
-            <Text style={styles.cardTitle}>Your sign-in details</Text>
-            <Text style={styles.fieldLabel}>Email address</Text>
             <TextInput
               accessibilityLabel="Email address"
               autoCapitalize="none"
@@ -69,22 +54,18 @@ export default function AuthEntryScreen() {
               editable={activeMode === null}
               keyboardType="email-address"
               onChangeText={setEmail}
-              placeholder="you@example.com"
+              placeholder="Email Address"
               placeholderTextColor="#718096"
               returnKeyType="done"
               style={styles.input}
               textContentType="emailAddress"
               value={email}
             />
-            <View style={styles.secureNote}>
-              <Text style={styles.lockIcon}>●</Text>
-              <View style={styles.secureTextWrap}>
-                <Text style={styles.secureTitle}>Password stays secure</Text>
-                <Text style={styles.secureDescription}>
-                  You’ll enter your password on Auth0’s secure sign-in page. MDATE never handles or stores your password.
-                </Text>
-              </View>
-            </View>
+            <TextInput
+              placeholder="Password"
+              placeholderTextColor="#718096"
+              style={styles.input}
+            />
           </View>
 
           {errorMessage ? (
@@ -111,7 +92,6 @@ export default function AuthEntryScreen() {
           >
             {activeMode === "sign-up" ? <ActivityIndicator color="#174EA6" /> : <Text style={styles.secondaryButtonText}>Sign up</Text>}
           </Pressable>
-          <Text style={styles.footerNote}>Your account and therapy information are protected.</Text>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

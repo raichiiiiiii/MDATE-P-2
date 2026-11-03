@@ -4,13 +4,6 @@ export default function ProgressScreen() {
   return (
     <View style={styles.page}>
       <View style={styles.content}>
-        <Text style={styles.eyebrow}>YOUR JOURNEY</Text>
-        <Text accessibilityRole="header" style={styles.title}>
-          Your progress
-        </Text>
-        <Text style={styles.description}>
-          This space will show your practice history and progress over time.
-        </Text>
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Progress reports are not connected yet</Text>
           <Text style={styles.cardText}>

@@ -4,14 +4,7 @@ export default function SettingsScreen() {
   return (
     <View style={styles.page}>
       <View style={styles.content}>
-        <Text style={styles.eyebrow}>PREFERENCES</Text>
-        <Text accessibilityRole="header" style={styles.title}>
-          Settings
-        </Text>
-        <Text style={styles.description}>
-          Personalize how MDATE works for you.
-        </Text>
-        <View style={styles.card}>
+       <View style={styles.card}>
           <Text style={styles.cardTitle}>Preferences are not connected yet</Text>
           <Text style={styles.cardText}>
             Account details, accessibility settings, and voice preferences will be added here.
