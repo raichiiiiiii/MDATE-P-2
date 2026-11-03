@@ -1,5 +1,5 @@
 import AuthEntryScreen from "../../src/features/auth/AuthEntryScreen";
 
 export default function SignInScreen() {
-  return <AuthEntryScreen />;
+  return <AuthEntryScreen initialMode="sign-in" />;
 }

@@ -5,11 +5,27 @@ import {
   completeAccountSetup,
   getCurrentAccount,
 } from "../../container.js";
+import type { Auth0IdentityClaims } from "../../../domain/identity/Account.js";
 
 import { accountSetupSchema } from "../validators/accountSetupSchema.js";
 
 function getSubject(res: Parameters<RequestHandler>[1]): string {
   return res.locals.auth0Subject as string;
+}
+
+function getIdentityClaims(
+  res: Parameters<RequestHandler>[1],
+): Auth0IdentityClaims {
+  return {
+    email:
+      typeof res.locals.auth0Email === "string"
+        ? res.locals.auth0Email
+        : undefined,
+    emailVerified:
+      typeof res.locals.auth0EmailVerified === "boolean"
+        ? res.locals.auth0EmailVerified
+        : undefined,
+  };
 }
 
 function isUnavailable(status: string): boolean {
@@ -23,10 +39,13 @@ function getNextStep(setupCompletedAt: string | null) {
 export const bootstrapAccountController: RequestHandler = async (
   _req,
   res,
-  next
+  next,
 ) => {
   try {
-    const result = await bootstrapAccount.execute(getSubject(res));
+    const result = await bootstrapAccount.execute(
+      getSubject(res),
+      getIdentityClaims(res),
+    );
     const { account } = result;
 
     if (isUnavailable(account.status)) {
@@ -49,7 +68,7 @@ export const bootstrapAccountController: RequestHandler = async (
 export const currentAccountController: RequestHandler = async (
   _req,
   res,
-  next
+  next,
 ) => {
   try {
     const account = await getCurrentAccount.execute(getSubject(res));
@@ -82,7 +101,7 @@ export const currentAccountController: RequestHandler = async (
 export const completeAccountSetupController: RequestHandler = async (
   req,
   res,
-  next
+  next,
 ) => {
   try {
     const parsed = accountSetupSchema.safeParse(req.body);
@@ -120,7 +139,7 @@ export const completeAccountSetupController: RequestHandler = async (
 
     const account = await completeAccountSetup.execute(
       subject,
-      parsed.data
+      parsed.data,
     );
 
     if (!account) {

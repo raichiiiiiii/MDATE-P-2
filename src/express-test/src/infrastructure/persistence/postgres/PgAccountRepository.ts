@@ -3,9 +3,9 @@ import type { Pool, PoolClient, QueryResultRow } from "pg";
 import type {
   AccountSnapshot,
   AccountSetupInput,
+  Auth0IdentityClaims,
   BootstrapResult,
 } from "../../../domain/identity/Account.js";
-
 import type { AccountRepository } from "../../../domain/identity/AccountRepository.js";
 
 type DatabaseExecutor = Pool | PoolClient;
@@ -83,13 +83,11 @@ function toSnapshot(row: AccountRow): AccountSnapshot {
     createdAt: new Date(row.createdAt).toISOString(),
     updatedAt: new Date(row.updatedAt).toISOString(),
     roles: row.roles ?? [],
-
     accessibilityPreferences: {
       textSize: row.textSize,
       contrast: row.contrast,
       alternativeInputOn: row.alternativeInputOn,
     },
-
     voicePreferences: {
       preferredVoiceId: row.preferredVoiceId,
       audioRate: Number(row.audioRate),
@@ -101,14 +99,45 @@ function toSnapshot(row: AccountRow): AccountSnapshot {
 
 async function selectBySubject(
   db: DatabaseExecutor,
-  subject: string
+  subject: string,
 ): Promise<AccountSnapshot | null> {
-  const result = await db.query<AccountRow>(
-    ACCOUNT_BY_SUBJECT_SQL,
-    [subject]
-  );
-
+  const result = await db.query<AccountRow>(ACCOUNT_BY_SUBJECT_SQL, [subject]);
   return result.rows[0] ? toSnapshot(result.rows[0]) : null;
+}
+
+/**
+ * Synchronize only claims extracted from the validated Auth0 access token.
+ * A missing claim never erases an existing application-account value.
+ */
+async function updateIdentityClaims(
+  db: DatabaseExecutor,
+  auth0Subject: string,
+  identity: Auth0IdentityClaims,
+): Promise<void> {
+  const email =
+    typeof identity.email === "string" && identity.email.trim()
+      ? identity.email.trim().toLowerCase()
+      : null;
+  const emailVerified =
+    typeof identity.emailVerified === "boolean"
+      ? identity.emailVerified
+      : null;
+
+  if (email === null && emailVerified === null) return;
+
+  await db.query(
+    [
+      "UPDATE users AS u",
+      "SET email = CASE WHEN $2::text IS NOT NULL THEN $2 ELSE u.email END,",
+      "    email_verified = CASE WHEN $3::boolean IS NOT NULL THEN $3 ELSE u.email_verified END,",
+      "    updated_at = CURRENT_TIMESTAMP",
+      "FROM oauth_providers AS op",
+      "WHERE op.user_id = u.id",
+      "  AND op.provider = 'auth0'",
+      "  AND op.provider_user_id = $1",
+    ].join("\n"),
+    [auth0Subject, email, emailVerified],
+  );
 }
 
 function isUniqueViolation(error: unknown): boolean {
@@ -124,16 +153,24 @@ export class PgAccountRepository implements AccountRepository {
   constructor(private readonly pool: Pool) {}
 
   async findByAuth0Subject(
-    auth0Subject: string
+    auth0Subject: string,
   ): Promise<AccountSnapshot | null> {
     return selectBySubject(this.pool, auth0Subject);
   }
 
-  async bootstrap(auth0Subject: string): Promise<BootstrapResult> {
+  async bootstrap(
+    auth0Subject: string,
+    identity: Auth0IdentityClaims = {},
+  ): Promise<BootstrapResult> {
     const existing = await this.findByAuth0Subject(auth0Subject);
 
     if (existing) {
-      return { account: existing, created: false };
+      await updateIdentityClaims(this.pool, auth0Subject, identity);
+      const synchronized = await this.findByAuth0Subject(auth0Subject);
+      if (!synchronized) {
+        throw new Error("Failed to synchronize the MDATE account.");
+      }
+      return { account: synchronized, created: false };
     }
 
     const client = await this.pool.connect();
@@ -143,20 +180,21 @@ export class PgAccountRepository implements AccountRepository {
 
       // Recheck inside the transaction. Another request may have
       // provisioned this identity after the first lookup.
-      const concurrentAccount = await selectBySubject(
-        client,
-        auth0Subject
-      );
+      const concurrentAccount = await selectBySubject(client, auth0Subject);
 
       if (concurrentAccount) {
+        await updateIdentityClaims(client, auth0Subject, identity);
+        const synchronized = await selectBySubject(client, auth0Subject);
+        if (!synchronized) {
+          throw new Error("Failed to synchronize the MDATE account.");
+        }
         await client.query("COMMIT");
-        return { account: concurrentAccount, created: false };
+        return { account: synchronized, created: false };
       }
 
       const userResult = await client.query<{ id: string }>(
-        `INSERT INTO users DEFAULT VALUES RETURNING id`
+        `INSERT INTO users DEFAULT VALUES RETURNING id`,
       );
-
       const userId = userResult.rows[0]?.id;
 
       if (!userId) {
@@ -167,35 +205,34 @@ export class PgAccountRepository implements AccountRepository {
         `INSERT INTO oauth_providers
            (user_id, provider, provider_user_id)
          VALUES ($1, 'auth0', $2)`,
-        [userId, auth0Subject]
+        [userId, auth0Subject],
       );
+
+      await updateIdentityClaims(client, auth0Subject, identity);
 
       const roleResult = await client.query<{ id: number }>(
-        `SELECT id FROM roles WHERE name = 'patient' LIMIT 1`
+        `SELECT id FROM roles WHERE name = 'patient' LIMIT 1`,
       );
-
       const patientRoleId = roleResult.rows[0]?.id;
 
       if (patientRoleId === undefined) {
         throw new Error(
-          "The patient role is missing. Seed the roles table first."
+          "The patient role is missing. Seed the roles table first.",
         );
       }
 
       await client.query(
         `INSERT INTO user_roles (user_id, role_id)
          VALUES ($1, $2)`,
-        [userId, patientRoleId]
+        [userId, patientRoleId],
       );
 
       const account = await selectBySubject(client, auth0Subject);
-
       if (!account) {
         throw new Error("Failed to retrieve the created MDATE account.");
       }
 
       await client.query("COMMIT");
-
       return { account, created: true };
     } catch (error) {
       await client.query("ROLLBACK").catch(() => undefined);
@@ -204,12 +241,14 @@ export class PgAccountRepository implements AccountRepository {
       // provider/subject constraint. Return the account that won.
       if (isUniqueViolation(error)) {
         const account = await this.findByAuth0Subject(auth0Subject);
-
         if (account) {
-          return { account, created: false };
+          await updateIdentityClaims(this.pool, auth0Subject, identity);
+          const synchronized = await this.findByAuth0Subject(auth0Subject);
+          if (synchronized) {
+            return { account: synchronized, created: false };
+          }
         }
       }
-
       throw error;
     } finally {
       client.release();
@@ -218,7 +257,7 @@ export class PgAccountRepository implements AccountRepository {
 
   async completeSetup(
     auth0Subject: string,
-    input: AccountSetupInput
+    input: AccountSetupInput,
   ): Promise<AccountSnapshot | null> {
     const client = await this.pool.connect();
 
@@ -240,15 +279,10 @@ export class PgAccountRepository implements AccountRepository {
            AND u.status IN ('PENDING_SETUP', 'ACTIVE')
            AND u.deleted_at IS NULL
          RETURNING u.id`,
-        [
-          auth0Subject,
-          input.displayName,
-          input.preferredLanguage,
-        ]
+        [auth0Subject, input.displayName, input.preferredLanguage],
       );
 
       const userId = updatedUser.rows[0]?.id;
-
       if (!userId) {
         await client.query("ROLLBACK");
         return null;
@@ -269,7 +303,7 @@ export class PgAccountRepository implements AccountRepository {
           input.accessibilityPreferences.textSize,
           input.accessibilityPreferences.contrast,
           input.accessibilityPreferences.alternativeInputOn,
-        ]
+        ],
       );
 
       await client.query(
@@ -290,17 +324,15 @@ export class PgAccountRepository implements AccountRepository {
           input.voicePreferences.audioRate,
           input.voicePreferences.audioVolume,
           input.voicePreferences.voiceDisabled,
-        ]
+        ],
       );
 
       const account = await selectBySubject(client, auth0Subject);
-
       if (!account) {
         throw new Error("Failed to retrieve the updated MDATE account.");
       }
 
       await client.query("COMMIT");
-
       return account;
     } catch (error) {
       await client.query("ROLLBACK").catch(() => undefined);

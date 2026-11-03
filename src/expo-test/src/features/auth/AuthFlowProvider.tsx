@@ -6,6 +6,7 @@ import {
   useState,
   type PropsWithChildren,
 } from "react";
+import { Platform } from "react-native";
 import { useAuth0 } from "react-native-auth0";
 
 import {
@@ -16,13 +17,15 @@ import {
   type ApiHeadersFactory,
   type MdateAccount,
 } from "./accountApi";
-import {
-  AUTH0_AUDIENCE,
-  AUTH0_CUSTOM_SCHEME,
-} from "./auth0Config";
+import { AUTH0_AUDIENCE, AUTH0_DATABASE_CONNECTION } from "./auth0Config";
 
 export type AuthMode = "sign-in" | "sign-up";
-export type AuthPhase = "loading" | "signed-out" | "setup-required" | "ready" | "error";
+export type AuthPhase =
+  | "loading"
+  | "signed-out"
+  | "setup-required"
+  | "ready"
+  | "error";
 
 type AuthFlowContextValue = {
   phase: AuthPhase;
@@ -31,7 +34,8 @@ type AuthFlowContextValue = {
   loadingProgress: number;
   loadingMessage: string;
   getAuthHeaders: ApiHeadersFactory;
-  signIn: (mode: AuthMode, email?: string) => Promise<void>;
+  signIn: (mode: AuthMode, email: string, password?: string) => Promise<void>;
+  requestPasswordReset: (email: string) => Promise<void>;
   retrySession: () => Promise<void>;
   completeSetup: (input: AccountSetupInput) => Promise<void>;
 };
@@ -42,6 +46,9 @@ const AUTH_SCOPE = "openid profile email offline_access";
 export function AuthFlowProvider({ children }: PropsWithChildren) {
   const {
     authorize,
+    loginWithPasswordRealm,
+    createUser,
+    resetPassword,
     getApiCredentials,
     getDPoPHeaders,
     user: auth0User,
@@ -56,7 +63,11 @@ export function AuthFlowProvider({ children }: PropsWithChildren) {
 
   const getAuthHeaders: ApiHeadersFactory = useCallback(
     async (url, method) => {
-      const credentials = await getApiCredentials(AUTH0_AUDIENCE, AUTH_SCOPE, 0);
+      const credentials = await getApiCredentials(
+        AUTH0_AUDIENCE,
+        AUTH_SCOPE,
+        0,
+      );
       return getDPoPHeaders({
         url,
         method,
@@ -98,6 +109,7 @@ export function AuthFlowProvider({ children }: PropsWithChildren) {
       setPhase("signed-out");
       return;
     }
+
     setPhase("loading");
     setErrorMessage(null);
     setLoadingProgress(20);
@@ -106,7 +118,11 @@ export function AuthFlowProvider({ children }: PropsWithChildren) {
       await synchronizeAccount();
     } catch (error) {
       console.error("Session or account synchronization failed:", error);
-      setErrorMessage(error instanceof Error ? error.message : "We couldn't load your MDATE account. Please try again.");
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "We couldn't load your MDATE account. Please try again.",
+      );
       setLoadingMessage("We couldn't finish loading your account.");
       setPhase("error");
     }
@@ -116,53 +132,106 @@ export function AuthFlowProvider({ children }: PropsWithChildren) {
     void retrySession();
   }, [retrySession]);
 
-  const signIn = useCallback(async (mode: AuthMode, email?: string) => {
-    setErrorMessage(null);
-    await authorize(
-      {
+  const signIn = useCallback(
+    async (mode: AuthMode, email: string, password?: string) => {
+      const normalizedEmail = email.trim().toLowerCase();
+      if (!normalizedEmail) throw new Error("Enter your email address.");
+
+      // Auth0 owns registration and credentials. If account creation succeeds
+      // but login fails, the user can retry sign-in without duplicating the ID.
+      if (mode === "sign-up") {
+        if (!password) throw new Error("Enter a password.");
+        await createUser({
+          email: normalizedEmail,
+          password,
+          connection: AUTH0_DATABASE_CONNECTION,
+        });
+      }
+
+      if (Platform.OS === "web") {
+        // The SDK's password-realm grant is native-only. Web uses the system
+        // browser and Universal Login (Authorization Code + PKCE) for passwords.
+        await authorize({
+          audience: AUTH0_AUDIENCE,
+          scope: AUTH_SCOPE,
+          additionalParameters: {
+            login_hint: normalizedEmail,
+            prompt: "login",
+          },
+        });
+        return;
+      }
+
+      if (!password) throw new Error("Enter your password.");
+
+      // Native custom email/password login. This uses Auth0's password-realm
+      // grant, which must be enabled for the Native application in Auth0.
+      await loginWithPasswordRealm({
+        username: normalizedEmail,
+        password,
+        realm: AUTH0_DATABASE_CONNECTION,
         audience: AUTH0_AUDIENCE,
         scope: AUTH_SCOPE,
-        additionalParameters: {
-          screen_hint: mode === "sign-up" ? "signup" : "login",
-          ...(email?.trim() ? { login_hint: email.trim() } : {}),
-          prompt: "consent",
-        },
-      },
-      { customScheme: AUTH0_CUSTOM_SCHEME },
-    );
-  }, [authorize]);
+      });
+    },
+    [authorize, createUser, loginWithPasswordRealm],
+  );
 
-  const completeSetup = useCallback(async (input: AccountSetupInput) => {
-    setErrorMessage(null);
-    try {
-      await completeAccountSetup(getAuthHeaders, input);
-      const currentAccount = await getCurrentAccount(getAuthHeaders);
-      if (!currentAccount.setupComplete) {
-        throw new Error("The server has not confirmed account setup completion.");
-      }
-      setAccount(currentAccount);
-      setPhase("ready");
+  const requestPasswordReset = useCallback(
+    async (email: string) => {
+      const normalizedEmail = email.trim().toLowerCase();
+      if (!normalizedEmail) throw new Error("Enter your email address first.");
+      await resetPassword({
+        email: normalizedEmail,
+        connection: AUTH0_DATABASE_CONNECTION,
+      });
+    },
+    [resetPassword],
+  );
+
+  const completeSetup = useCallback(
+    async (input: AccountSetupInput) => {
       setErrorMessage(null);
-    } catch (error) {
-      console.error("Account setup failed:", error);
-      setErrorMessage(error instanceof Error ? error.message : "We couldn't save your account details. Please try again.");
-      setPhase("setup-required");
-      throw error;
-    }
-  }, [getAuthHeaders]);
+      try {
+        await completeAccountSetup(getAuthHeaders, input);
+        const currentAccount = await getCurrentAccount(getAuthHeaders);
+        if (!currentAccount.setupComplete) {
+          throw new Error(
+            "The server has not confirmed account setup completion.",
+          );
+        }
+        setAccount(currentAccount);
+        setPhase("ready");
+        setErrorMessage(null);
+      } catch (error) {
+        console.error("Account setup failed:", error);
+        setErrorMessage(
+          error instanceof Error
+            ? error.message
+            : "We couldn't save your account details. Please try again.",
+        );
+        setPhase("setup-required");
+        throw error;
+      }
+    },
+    [getAuthHeaders],
+  );
 
   return (
-    <AuthFlowContext.Provider value={{
-      phase,
-      account,
-      errorMessage,
-      loadingProgress,
-      loadingMessage,
-      getAuthHeaders,
-      signIn,
-      retrySession,
-      completeSetup,
-    }}>
+    <AuthFlowContext.Provider
+      value={{
+        phase,
+        account,
+        errorMessage,
+        loadingProgress,
+        loadingMessage,
+        getAuthHeaders,
+        signIn,
+        requestPasswordReset,
+        retrySession,
+        completeSetup,
+      }}
+    >
       {children}
     </AuthFlowContext.Provider>
   );
@@ -170,6 +239,8 @@ export function AuthFlowProvider({ children }: PropsWithChildren) {
 
 export function useAuthFlow(): AuthFlowContextValue {
   const context = useContext(AuthFlowContext);
-  if (!context) throw new Error("useAuthFlow must be used inside AuthFlowProvider.");
+  if (!context) {
+    throw new Error("useAuthFlow must be used inside AuthFlowProvider.");
+  }
   return context;
 }

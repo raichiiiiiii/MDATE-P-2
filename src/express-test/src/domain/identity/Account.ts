@@ -1,3 +1,8 @@
+export interface Auth0IdentityClaims {
+  email?: string;
+  emailVerified?: boolean;
+}
+
 export type AccountStatus =
   | "PENDING_SETUP"
   | "ACTIVE"

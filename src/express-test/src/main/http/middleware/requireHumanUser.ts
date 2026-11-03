@@ -4,12 +4,16 @@ type RequestWithAuth = Request & {
   auth?: {
     payload?: {
       sub?: unknown;
+      [claim: string]: unknown;
     };
   };
 };
 
+const MDATE_CLAIMS_NAMESPACE = "https://api.mdate.com/claims/";
+
 export const requireHumanUser: RequestHandler = (req, res, next) => {
-  const subject = (req as RequestWithAuth).auth?.payload?.sub;
+  const payload = (req as RequestWithAuth).auth?.payload;
+  const subject = payload?.sub;
 
   if (typeof subject !== "string" || subject.length === 0) {
     res.status(401).json({
@@ -29,6 +33,18 @@ export const requireHumanUser: RequestHandler = (req, res, next) => {
     return;
   }
 
+  // These values are accepted only from the signed and validated access token.
+  // The client must never be allowed to set account email / verification state.
+  const email = payload?.[MDATE_CLAIMS_NAMESPACE + "email"];
+  const emailVerified = payload?.[MDATE_CLAIMS_NAMESPACE + "email_verified"];
+
   res.locals.auth0Subject = subject;
+  if (typeof email === "string" && email.trim()) {
+    res.locals.auth0Email = email.trim();
+  }
+  if (typeof emailVerified === "boolean") {
+    res.locals.auth0EmailVerified = emailVerified;
+  }
+
   next();
 };
