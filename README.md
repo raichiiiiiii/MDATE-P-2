@@ -1,39 +1,61 @@
-# MDATE authentication overlay
+# MDATE dashboard feature-separation overlay (layout-preserving)
 
-This ZIP is a root-relative overlay for `raichiiiiiii/MDATE-P-2`. Copy the contents into the repository root and allow the listed files to be replaced.
+This overlay separates the existing dashboard into feature-scoped components while preserving the original screen composition and styling.
 
-## Included changes
+## Merge
 
-- Replaces the placeholder custom auth UI with email/password sign-in, open sign-up, password confirmation, password visibility, and password reset.
-- Native iOS/Android use Auth0's password-realm grant and the configured Auth0 Database Connection.
-- Web uses the branded MDATE screen followed by Auth0 Universal Login. The React Native Auth0 SDK does not support password-realm grant on web; do not attempt to submit browser passwords to that native-only method.
-- Keeps Auth0 as the credential store and PostgreSQL as the application-account store.
-- Synchronizes Auth0 email and email_verified claims from the validated access token during idempotent account bootstrap.
-- Preserves the default patient role assignment; the client cannot choose a role.
-- Adds Auth0 Dashboard setup and local verification instructions.
+Extract this ZIP at the **repository root** (`MDATE-P-2/`) and allow the dashboard route file to be replaced.
 
-## Important deployment work outside the source tree
+## Preserved dashboard composition
 
-1. Set `EXPO_PUBLIC_AUTH0_DATABASE_CONNECTION` to the exact Auth0 Database Connection name.
-2. Enable the Password grant on the Native Auth0 application only. Configure the web SPA to use Universal Login.
-3. Ensure the Auth0 Database Connection permits unverified users to sign in, because MDATE email verification is optional.
-4. Deploy the Post Login Action in `docs/authentication/README.md` to add namespaced email claims to the MDATE API access token. Without the Action, bootstrap still works but the email fields will not be synchronized from Auth0.
-5. Configure the correct API audience, native callback URLs, web callback/origin URLs and Auth0 password-reset email template.
+1. Existing 75×75 circular profile image and user-information row.
+2. Existing 180px carousel/data widget placeholder.
+3. Existing two side-by-side metric boxes: coin placeholder and `TBD / Metric` placeholder.
+4. Existing outer card, spacing, borders, colors, and shadow.
+5. Existing four-column, two-row grid of eight square action buttons.
 
-## Merge and test
+The carousel and coin/metric areas are intentionally placeholders. No carousel data loading, coin balance, or metric calculation is implemented. The coin value is shown as an em dash instead of the former hard-coded sample value (`129`) so it is not mistaken for a real balance.
 
-From the repository root, extract this archive so that `src/` and `docs/` merge with the existing folders. Then run:
+## New feature structure
 
-```powershell
-cd src/express-test
-npm run typecheck
-npm run build
-
-cd ../expo-test
-npx expo install --check
-npx tsc --noEmit
+```text
+src/expo-test/
+├── app/(app)/(main)/dashboard.tsx
+└── src/features/dashboard/
+    ├── DashboardScreen.tsx
+    ├── components/
+    │   ├── DashboardActionGrid.tsx
+    │   ├── DashboardCarouselPlaceholder.tsx
+    │   ├── DashboardHeader.tsx
+    │   └── DashboardMetricsRow.tsx
+    └── data/
+        └── dashboardActions.ts
 ```
 
-`npx tsc --noEmit` may depend on the Expo TypeScript configuration / installed project dependencies. Then follow the manual scenarios in `docs/authentication/README.md` on both a native development build and the web build.
+The dashboard route is now a thin Expo Router entry point. Screen composition, UI components, and action/route definitions are separated under `src/features/dashboard`.
 
-This overlay has not been typechecked against the full repository in this environment. Review the Auth0 tenant settings and test login/signup before merging into `main`.
+## Navigation
+
+The current `app/(app)/(main)/_layout.tsx` declares four routes: `dashboard`, `modules`, `progress`, and `setting`. The eight buttons route to those declared destinations (some shortcuts share a destination):
+
+- Dashboard → `/dashboard`
+- Start Training and Modules → `/modules`
+- Progress and History → `/progress`
+- Settings, Accessibility, and Voice → `/setting`
+
+No changes are made to `(main)/_layout.tsx`.
+
+## User data
+
+The display name and secondary label are sourced from the existing `useAuth()` context. The profile image remains a placeholder URL, matching the original dashboard's image placeholder.
+
+## Verify locally
+
+From `src/expo-test`:
+
+```powershell
+npx tsc --noEmit
+npx expo start --web --port 8081 --clear
+```
+
+The overlay has not been typechecked against your local working tree. Run the commands above after merging it.
