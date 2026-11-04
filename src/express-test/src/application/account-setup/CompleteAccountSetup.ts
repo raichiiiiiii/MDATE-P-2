@@ -4,7 +4,7 @@ import type { AccountRepository } from "../../domain/identity/AccountRepository.
 export class CompleteAccountSetup {
   constructor(private readonly accounts: AccountRepository) {}
 
-  execute(auth0Subject: string, input: AccountSetupInput) {
-    return this.accounts.completeSetup(auth0Subject, input);
+  execute(userId: string, input: AccountSetupInput) {
+    return this.accounts.completeSetup(userId, input);
   }
 }

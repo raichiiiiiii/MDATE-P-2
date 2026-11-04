@@ -1,36 +1,34 @@
-# MDATE training content slice — local setup
+# MDATE training content setup — local JWT authentication
 
-This overlay adds the first published-content flow while preserving the existing account/auth implementation:
+This guide adds the first published-content flow while using MDATE's first-party Express identity service:
 
 1. A PostgreSQL migration creates the training hierarchy and seeds one published module.
-2. Authenticated read-only Express endpoints expose modules, exercise types, Q_Sets, questions, and associated local media.
-3. Expo displays a backend-driven module list, exercise selector, practice-set list, and first activity screen.
+2. Authenticated Express endpoints expose modules, exercise types, Q_Sets, questions, and associated local media.
+3. Expo displays the backend-driven module list, exercise selector, practice-set list, and first activity screen.
 
-## 1. Apply the database migration
+## 1. Apply the training migration
 
-Start your existing SQL-only PostgreSQL Compose service. From `C:\Users\User\dev\test`, apply the migration using your actual PostgreSQL container name, user, and database:
+Start the SQL-only PostgreSQL Docker service. From the repository root:
 
 ```powershell
 Get-Content -Raw .\infra\postgres\migrations\003_training_content.sql | docker exec -i postgres psql -U YOUR_DB_USER -d YOUR_DB_NAME
 ```
 
-Replace `YOUR_DB_USER` and `YOUR_DB_NAME` with the values from your existing `.env`. The migration requires the existing identity tables (`users`) and does not replace them. It creates one published module (`mdate-core-practice`), three exercise types, one sample Q_Set per exercise, three sample questions, and media metadata rows.
-
-For a fresh database, this migration must be applied after the existing `infra/postgres/init` scripts. It is not automatically run by PostgreSQL's init directory for an already-created volume.
+Replace the user and database with the values in your existing `.env`. This migration depends on `users` and the local identity migration. For an existing database, apply `004_local_identity.sql` first; then apply `003_training_content.sql` only if it has not already been applied. Do not recreate the PostgreSQL volume.
 
 ## 2. Import starter images
 
-From `C:\Users\User\dev\test\src\express-test`:
+From `src/express-test`:
 
 ```powershell
 .\scripts\import-poc-media.ps1
 ```
 
-This copies just the four images referenced by the seed from the POC `images` directory to `src/express-test/storage/media/images`. If your POC has moved, use `-PocRoot 'D:\path\to\M-DATE'`. These media files remain local and are not committed.
+The script copies the four seed images into `storage/media/images`. These media files remain local.
 
 ## 3. Start Express
 
-Confirm `src/express-test/.env` has the existing database/Auth0 settings and add:
+Ensure `src/express-test/.env` contains `DATABASE_URL`, `JWT_ACCESS_SECRET`, and the other settings in `.env.example`, plus:
 
 ```dotenv
 MEDIA_STORAGE_DIR=./storage/media
@@ -39,43 +37,44 @@ MEDIA_STORAGE_DIR=./storage/media
 Then run:
 
 ```powershell
-cd C:\Users\User\dev\test\src\express-test
+cd src/express-test
 npm install
 npm run dev
 ```
 
-The new content API requires a valid Auth0 human-user access token, just like the account API.
+Authenticate through `POST /api/v1/auth/login` or `/register`. The returned MDATE access token is attached to protected training requests as `Authorization: Bearer <token>`.
 
 ## 4. Start Expo
 
-Ensure `src/expo-test/.env` has valid Auth0 settings plus these URLs:
+Copy `src/expo-test/.env.example` to `.env` and set:
 
 ```dotenv
 EXPO_PUBLIC_API_URL_WEB=http://localhost:3000
 EXPO_PUBLIC_API_URL_NATIVE=http://YOUR_PC_LAN_IP:3000
 ```
 
-Use `http://localhost:3000` for a web app running on the same PC; replace `YOUR_PC_LAN_IP` with your PC's private LAN IP for a physical tablet. Add the icon dependency and reconcile the existing lockfile:
+For a physical tablet, use the PC's private LAN address. Then:
 
 ```powershell
-cd C:\Users\User\dev\test\src\expo-test
+cd src/expo-test
+npx expo install expo-secure-store
 npm install
-npm run web
+npx expo start --web --port 8081 --clear
 ```
-
-For Android/native development, use `npm run android` or `npm start` as appropriate. Do not use `localhost` as the API host from a physical device; it refers to the device itself.
 
 ## API
 
-The content JSON routes require Auth0 authentication and a human-user token:
+The following content routes require a valid MDATE access token and an active account:
 
 - `GET /api/v1/modules`
 - `GET /api/v1/modules/:moduleId`
 - `GET /api/v1/submodules/:submoduleId/q-sets`
 - `GET /api/v1/q-sets/:qSetId`
 
-`GET /api/v1/media/:assetId` is intentionally a public, read-only endpoint for generic media linked to active questions in published module versions. This lets native and web image elements load media without custom authorization headers. Never store patient audio, exports, or any other private data through this endpoint. Patient recordings will require a separate authorized upload/download flow. The activity screen currently previews questions and hints; submission, therapeutic assessment, speech recording, XP awards, and progress persistence are deliberately not implemented in this slice.
+`GET /api/v1/media/:assetId` is intentionally a public, read-only endpoint for generic media linked to active questions in published module versions. Patient recordings and other private assets must use a separately authorized upload/download flow.
+
+The activity screen currently previews questions and hints. Submission, therapeutic assessment, speech recording, XP awards, and progress persistence are deliberately not implemented in this slice.
 
 ## First check
 
-After the app is running and signed in, open Training, select `MDATE Core Practice`, then open each exercise type and its Set 1. The car, reading, and book-pair images should load if the POC image import succeeded.
+After signing in, open Training, select `MDATE Core Practice`, then open each exercise type and its Set 1. The car, reading, and book-pair images should load if the POC image import succeeded.

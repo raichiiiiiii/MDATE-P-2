@@ -4478,3 +4478,418 @@
 {"_e":"metro:client_log","_t":1793694157375,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
 {"_e":"metro:client_log","_t":1793694157777,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
 {"_e":"metro:client_log","_t":1793694157780,"level":"log","data":["[MDATE routing]","{\"phase\": \"signed-out\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701405222,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701405222,"level":"log","data":["[MDATE routing]","{\"phase\": \"signed-out\", \"roles\": undefined}"]}
+{"_e":"metro:bundling:started","_t":1793701411554,"id":"26","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793701411554,"id":"26","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793701411606,"id":"26","total":1,"ms":51.574}
+{"_e":"metro:client_log","_t":1793701411820,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793701411850,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701411851,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701411866,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701411904,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701412508,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701412511,"level":"log","data":["[MDATE routing]","{\"phase\": \"signed-out\", \"roles\": undefined}"]}
+{"_e":"metro:bundling:started","_t":1793701431782,"id":"29","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793701431782,"id":"29","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793701431806,"id":"29","total":1,"ms":23.7049}
+{"_e":"metro:client_log","_t":1793701431970,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793701431984,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701431984,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701431991,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701432011,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701432840,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701432845,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701433549,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701433557,"level":"log","data":["[MDATE routing]","{\"phase\": \"ready\", \"roles\": [\"patient\"]}"]}
+{"_e":"metro:client_log","_t":1793701433560,"level":"warn","data":["[Layout children]: No route named \"index\" exists in nested children:","[\"dashboard\", \"modules\", \"progress\", \"setting\"]"]}
+{"_e":"metro:bundling:started","_t":1793701621100,"id":"2p","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793701621100,"id":"2p","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793701621130,"id":"2p","total":1,"ms":30.8303}
+{"_e":"metro:client_log","_t":1793701621347,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793701621382,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701621384,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701621400,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701621437,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701621948,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701621952,"level":"log","data":["[MDATE routing]","{\"phase\": \"signed-out\", \"roles\": undefined}"]}
+{"_e":"metro:bundling:started","_t":1793701622925,"id":"2u","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793701622925,"id":"2u","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793701622968,"id":"2u","total":1,"ms":43.0632}
+{"_e":"metro:client_log","_t":1793701623130,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793701623145,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701623146,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701623151,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701623165,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701623559,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701623563,"level":"log","data":["[MDATE routing]","{\"phase\": \"signed-out\", \"roles\": undefined}"]}
+{"_e":"metro:bundling:started","_t":1793701624410,"id":"2y","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793701624410,"id":"2y","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793701624432,"id":"2y","total":1,"ms":22.0284}
+{"_e":"metro:client_log","_t":1793701624590,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793701624602,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701624603,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701624608,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701624623,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701625017,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701625019,"level":"log","data":["[MDATE routing]","{\"phase\": \"signed-out\", \"roles\": undefined}"]}
+{"_e":"metro:bundling:started","_t":1793701625687,"id":"32","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793701625687,"id":"32","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793701625727,"id":"32","total":1,"ms":39.8179}
+{"_e":"metro:client_log","_t":1793701625879,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793701625891,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701625891,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701625895,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701625910,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701626270,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701626276,"level":"log","data":["[MDATE routing]","{\"phase\": \"signed-out\", \"roles\": undefined}"]}
+{"_e":"metro:bundling:started","_t":1793701626895,"id":"36","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793701626895,"id":"36","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793701626926,"id":"36","total":1,"ms":31.4362}
+{"_e":"metro:client_log","_t":1793701627110,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793701627123,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701627123,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701627128,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701627142,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701627550,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701627554,"level":"log","data":["[MDATE routing]","{\"phase\": \"signed-out\", \"roles\": undefined}"]}
+{"_e":"metro:bundling:started","_t":1793701644911,"id":"39","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793701644911,"id":"39","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793701644934,"id":"39","total":1,"ms":22.7057}
+{"_e":"metro:client_log","_t":1793701645124,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793701645151,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701645153,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701645172,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701645216,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701645230,"level":"log","data":["[MDATE routing]","{\"phase\": \"signed-out\", \"roles\": undefined}"]}
+{"_e":"metro:bundling:started","_t":1793701659885,"id":"3d","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793701659885,"id":"3d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793701659908,"id":"3d","total":1,"ms":23.5618}
+{"_e":"metro:client_log","_t":1793701660111,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793701660139,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701660140,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793701660159,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701660201,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701660578,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701660583,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701660625,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793701660633,"level":"log","data":["[MDATE routing]","{\"phase\": \"ready\", \"roles\": [\"patient\"]}"]}
+{"_e":"metro:client_log","_t":1793701660635,"level":"warn","data":["[Layout children]: No route named \"index\" exists in nested children:","[\"dashboard\", \"modules\", \"progress\", \"setting\"]"]}
+{"_e":"metro:bundling:started","_t":1793707304693,"id":"3l","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793707304693,"id":"3l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793707304697,"id":"3l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793707304798,"id":"3l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793707304936,"id":"3l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793707305035,"id":"3l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793707305135,"id":"3l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793707305235,"id":"3l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793707305335,"id":"3l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793707305435,"id":"3l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793707305538,"id":"3l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793707305605,"id":"3l","total":1,"ms":911.7088}
+{"_e":"metro:client_log","_t":1793707305897,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793707305942,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793707305944,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793707305972,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793707306048,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793707306769,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793707306782,"level":"log","data":["[MDATE routing]","{\"phase\": \"signed-out\", \"roles\": undefined}"]}
+{"_e":"metro:bundling:started","_t":1793707495227,"id":"3p","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793707495228,"id":"3p","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793707495295,"id":"3p","total":1,"ms":67.4553}
+{"_e":"metro:client_log","_t":1793707495578,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793707495617,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793707495619,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793707495639,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793707495690,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793707497503,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793707497510,"level":"log","data":["[MDATE routing]","{\"phase\": \"signed-out\", \"roles\": undefined}"]}
+{"_e":"metro:bundling:started","_t":1793707549226,"id":"3s","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793707549226,"id":"3s","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793707549281,"id":"3s","total":1,"ms":55.6794}
+{"_e":"metro:client_log","_t":1793707549598,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793707549637,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793707549641,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793707549669,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793707549741,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793707550746,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793707550752,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793707551540,"level":"log","data":["[MDATE routing]","{\"phase\": \"loading\", \"roles\": undefined}"]}
+{"_e":"metro:client_log","_t":1793707551551,"level":"log","data":["[MDATE routing]","{\"phase\": \"ready\", \"roles\": [\"patient\"]}"]}
+{"_e":"metro:client_log","_t":1793707551556,"level":"warn","data":["[Layout children]: No route named \"index\" exists in nested children:","[\"dashboard\", \"modules\", \"progress\", \"setting\"]"]}
+{"_e":"metro:bundling:started","_t":1793799057678,"id":"40","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793799057679,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799057694,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799057877,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799058067,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799058167,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799058269,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799058369,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799058469,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799058569,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799058669,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799058770,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799058882,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799058961,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799059080,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799059196,"id":"40","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:failed","_t":1793799059293,"id":"40","message":"Unable to resolve \"expo-secure-store\" from \"src\\features\\auth\\AuthProvider.tsx\"\n  10 | } from \"react\";\n  11 | import { Platform } from \"react-native\";\n> 12 | import * as SecureStore from \"expo-secure-store\";\n     |                               ^\n  13 | import { ApiError, parseApiResponse, toApiUrl, type ApiRequest, type ApiRequestOptions } from \"./apiClient\";\n  14 | import { completeAccountSetup, normalizeAccount, type AccountSetupInput, type MdateAccount, type ApiHeadersFactory } from \"./accountApi\";\n  15 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\auth\\AuthProvider.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-secure-store\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\_layout.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../src/features/auth/AuthProvider\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-secure-store","originModulePath":"src\\features\\auth\\AuthProvider.tsx"}
+{"_e":"metro:bundling:started","_t":1793799060423,"id":"43","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793799060423,"id":"43","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799060425,"id":"43","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799060542,"id":"43","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799060593,"id":"43","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799060693,"id":"43","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799060797,"id":"43","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799060897,"id":"43","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799060997,"id":"43","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799061097,"id":"43","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:failed","_t":1793799061164,"id":"43","message":"Unable to resolve \"expo-secure-store\" from \"src\\features\\auth\\AuthProvider.tsx\"\n  10 | } from \"react\";\n  11 | import { Platform } from \"react-native\";\n> 12 | import * as SecureStore from \"expo-secure-store\";\n     |                               ^\n  13 | import { ApiError, parseApiResponse, toApiUrl, type ApiRequest, type ApiRequestOptions } from \"./apiClient\";\n  14 | import { completeAccountSetup, normalizeAccount, type AccountSetupInput, type MdateAccount, type ApiHeadersFactory } from \"./accountApi\";\n  15 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\auth\\AuthProvider.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-secure-store\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\_layout.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../src/features/auth/AuthProvider\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-secure-store","originModulePath":"src\\features\\auth\\AuthProvider.tsx"}
+{"_e":"metro:bundling:started","_t":1793799064648,"id":"45","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793799064648,"id":"45","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799064649,"id":"45","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799064752,"id":"45","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799064852,"id":"45","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799064952,"id":"45","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:failed","_t":1793799065053,"id":"45","message":"Unable to resolve \"expo-secure-store\" from \"src\\features\\auth\\AuthProvider.tsx\"\n  10 | } from \"react\";\n  11 | import { Platform } from \"react-native\";\n> 12 | import * as SecureStore from \"expo-secure-store\";\n     |                               ^\n  13 | import { ApiError, parseApiResponse, toApiUrl, type ApiRequest, type ApiRequestOptions } from \"./apiClient\";\n  14 | import { completeAccountSetup, normalizeAccount, type AccountSetupInput, type MdateAccount, type ApiHeadersFactory } from \"./accountApi\";\n  15 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\auth\\AuthProvider.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-secure-store\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\_layout.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../src/features/auth/AuthProvider\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-secure-store","originModulePath":"src\\features\\auth\\AuthProvider.tsx"}
+{"_e":"metro:bundling:started","_t":1793799068838,"id":"47","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793799068838,"id":"47","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799068840,"id":"47","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799068960,"id":"47","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799069017,"id":"47","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799069117,"id":"47","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799069227,"id":"47","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:failed","_t":1793799069295,"id":"47","message":"Unable to resolve \"expo-secure-store\" from \"src\\features\\auth\\AuthProvider.tsx\"\n  10 | } from \"react\";\n  11 | import { Platform } from \"react-native\";\n> 12 | import * as SecureStore from \"expo-secure-store\";\n     |                               ^\n  13 | import { ApiError, parseApiResponse, toApiUrl, type ApiRequest, type ApiRequestOptions } from \"./apiClient\";\n  14 | import { completeAccountSetup, normalizeAccount, type AccountSetupInput, type MdateAccount, type ApiHeadersFactory } from \"./accountApi\";\n  15 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\auth\\AuthProvider.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-secure-store\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\_layout.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../src/features/auth/AuthProvider\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-secure-store","originModulePath":"src\\features\\auth\\AuthProvider.tsx"}
+{"_e":"metro:bundling:started","_t":1793799836673,"id":"49","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793799836673,"id":"49","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799836677,"id":"49","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799836806,"id":"49","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799836898,"id":"49","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799836998,"id":"49","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799837107,"id":"49","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799837207,"id":"49","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799837308,"id":"49","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799837408,"id":"49","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799837511,"id":"49","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793799837611,"id":"49","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:failed","_t":1793799837666,"id":"49","message":"Unable to resolve \"expo-secure-store\" from \"src\\features\\auth\\AuthProvider.tsx\"\n  10 | } from \"react\";\n  11 | import { Platform } from \"react-native\";\n> 12 | import * as SecureStore from \"expo-secure-store\";\n     |                               ^\n  13 | import { ApiError, parseApiResponse, toApiUrl, type ApiRequest, type ApiRequestOptions } from \"./apiClient\";\n  14 | import { completeAccountSetup, normalizeAccount, type AccountSetupInput, type MdateAccount, type ApiHeadersFactory } from \"./accountApi\";\n  15 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\auth\\AuthProvider.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-secure-store\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\_layout.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../src/features/auth/AuthProvider\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-secure-store","originModulePath":"src\\features\\auth\\AuthProvider.tsx"}
+{"_e":"metro:bundling:started","_t":1793800893342,"id":"4b","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793800893342,"id":"4b","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800893344,"id":"4b","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800893462,"id":"4b","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800893463,"id":"4b","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800893563,"id":"4b","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800893663,"id":"4b","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800893763,"id":"4b","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800893863,"id":"4b","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:failed","_t":1793800893929,"id":"4b","message":"Unable to resolve \"expo-secure-store\" from \"src\\features\\auth\\AuthProvider.tsx\"\n  10 | } from \"react\";\n  11 | import { Platform } from \"react-native\";\n> 12 | import * as SecureStore from \"expo-secure-store\";\n     |                               ^\n  13 | import { ApiError, parseApiResponse, toApiUrl, type ApiRequest, type ApiRequestOptions } from \"./apiClient\";\n  14 | import { completeAccountSetup, normalizeAccount, type AccountSetupInput, type MdateAccount, type ApiHeadersFactory } from \"./accountApi\";\n  15 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\auth\\AuthProvider.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-secure-store\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\_layout.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../src/features/auth/AuthProvider\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-secure-store","originModulePath":"src\\features\\auth\\AuthProvider.tsx"}
+{"_e":"metro:bundling:started","_t":1793800895041,"id":"4d","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793800895041,"id":"4d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800895042,"id":"4d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800895145,"id":"4d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800895245,"id":"4d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800895346,"id":"4d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800895445,"id":"4d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800895556,"id":"4d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:failed","_t":1793800895567,"id":"4d","message":"Unable to resolve \"expo-secure-store\" from \"src\\features\\auth\\AuthProvider.tsx\"\n  10 | } from \"react\";\n  11 | import { Platform } from \"react-native\";\n> 12 | import * as SecureStore from \"expo-secure-store\";\n     |                               ^\n  13 | import { ApiError, parseApiResponse, toApiUrl, type ApiRequest, type ApiRequestOptions } from \"./apiClient\";\n  14 | import { completeAccountSetup, normalizeAccount, type AccountSetupInput, type MdateAccount, type ApiHeadersFactory } from \"./accountApi\";\n  15 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\auth\\AuthProvider.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-secure-store\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\_layout.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../src/features/auth/AuthProvider\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-secure-store","originModulePath":"src\\features\\auth\\AuthProvider.tsx"}
+{"_e":"metro:bundling:started","_t":1793800897888,"id":"4f","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793800897888,"id":"4f","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800897889,"id":"4f","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800897989,"id":"4f","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800898089,"id":"4f","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:failed","_t":1793800898167,"id":"4f","message":"Unable to resolve \"expo-secure-store\" from \"src\\features\\auth\\AuthProvider.tsx\"\n  10 | } from \"react\";\n  11 | import { Platform } from \"react-native\";\n> 12 | import * as SecureStore from \"expo-secure-store\";\n     |                               ^\n  13 | import { ApiError, parseApiResponse, toApiUrl, type ApiRequest, type ApiRequestOptions } from \"./apiClient\";\n  14 | import { completeAccountSetup, normalizeAccount, type AccountSetupInput, type MdateAccount, type ApiHeadersFactory } from \"./accountApi\";\n  15 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\auth\\AuthProvider.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-secure-store\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\_layout.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../src/features/auth/AuthProvider\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-secure-store","originModulePath":"src\\features\\auth\\AuthProvider.tsx"}
+{"_e":"metro:bundling:started","_t":1793800898305,"id":"4h","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793800898306,"id":"4h","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800898306,"id":"4h","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800898406,"id":"4h","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800898506,"id":"4h","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:failed","_t":1793800898575,"id":"4h","message":"Unable to resolve \"expo-secure-store\" from \"src\\features\\auth\\AuthProvider.tsx\"\n  10 | } from \"react\";\n  11 | import { Platform } from \"react-native\";\n> 12 | import * as SecureStore from \"expo-secure-store\";\n     |                               ^\n  13 | import { ApiError, parseApiResponse, toApiUrl, type ApiRequest, type ApiRequestOptions } from \"./apiClient\";\n  14 | import { completeAccountSetup, normalizeAccount, type AccountSetupInput, type MdateAccount, type ApiHeadersFactory } from \"./accountApi\";\n  15 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\auth\\AuthProvider.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-secure-store\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\_layout.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../src/features/auth/AuthProvider\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-secure-store","originModulePath":"src\\features\\auth\\AuthProvider.tsx"}
+{"_e":"metro:bundling:started","_t":1793800898591,"id":"4i","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793800898591,"id":"4i","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800898630,"id":"4i","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800898730,"id":"4i","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800898843,"id":"4i","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:started","_t":1793800898844,"id":"4j","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793800898844,"id":"4i","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800898844,"id":"4j","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800898852,"id":"4j","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:failed","_t":1793800898852,"id":"4i","message":"Unable to resolve \"expo-secure-store\" from \"src\\features\\auth\\AuthProvider.tsx\"\n  10 | } from \"react\";\n  11 | import { Platform } from \"react-native\";\n> 12 | import * as SecureStore from \"expo-secure-store\";\n     |                               ^\n  13 | import { ApiError, parseApiResponse, toApiUrl, type ApiRequest, type ApiRequestOptions } from \"./apiClient\";\n  14 | import { completeAccountSetup, normalizeAccount, type AccountSetupInput, type MdateAccount, type ApiHeadersFactory } from \"./accountApi\";\n  15 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\auth\\AuthProvider.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-secure-store\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\_layout.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../src/features/auth/AuthProvider\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-secure-store","originModulePath":"src\\features\\auth\\AuthProvider.tsx"}
+{"_e":"metro:bundling:progress","_t":1793800898852,"id":"4j","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:failed","_t":1793800898852,"id":"4j","message":"Unable to resolve \"expo-secure-store\" from \"src\\features\\auth\\AuthProvider.tsx\"\n  10 | } from \"react\";\n  11 | import { Platform } from \"react-native\";\n> 12 | import * as SecureStore from \"expo-secure-store\";\n     |                               ^\n  13 | import { ApiError, parseApiResponse, toApiUrl, type ApiRequest, type ApiRequestOptions } from \"./apiClient\";\n  14 | import { completeAccountSetup, normalizeAccount, type AccountSetupInput, type MdateAccount, type ApiHeadersFactory } from \"./accountApi\";\n  15 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\auth\\AuthProvider.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-secure-store\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\_layout.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../src/features/auth/AuthProvider\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-secure-store","originModulePath":"src\\features\\auth\\AuthProvider.tsx"}
+{"_e":"metro:bundling:started","_t":1793800904738,"id":"4m","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793800904738,"id":"4m","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800904739,"id":"4m","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800904839,"id":"4m","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800904939,"id":"4m","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:failed","_t":1793800905028,"id":"4m","message":"Unable to resolve \"expo-secure-store\" from \"src\\features\\auth\\AuthProvider.tsx\"\n  10 | } from \"react\";\n  11 | import { Platform } from \"react-native\";\n> 12 | import * as SecureStore from \"expo-secure-store\";\n     |                               ^\n  13 | import { ApiError, parseApiResponse, toApiUrl, type ApiRequest, type ApiRequestOptions } from \"./apiClient\";\n  14 | import { completeAccountSetup, normalizeAccount, type AccountSetupInput, type MdateAccount, type ApiHeadersFactory } from \"./accountApi\";\n  15 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\auth\\AuthProvider.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-secure-store\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\_layout.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../src/features/auth/AuthProvider\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-secure-store","originModulePath":"src\\features\\auth\\AuthProvider.tsx"}
+{"_e":"root:init","_t":1793800933000,"format":"v0-jsonl","version":"57.0.31"}
+{"_e":"env:mode","_t":1793800933004,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1793800933008,"mode":"development","files":["../..\\..\\.env"],"env":{"EXPO_PUBLIC_API_URL_NATIVE":"http://192.168.1.XXX:3000","EXPO_PUBLIC_API_URL_WEB":"http://localhost:3000","EXPO_PUBLIC_AUTH0_AUDIENCE":"https://api.mdate.com","EXPO_PUBLIC_AUTH0_DOMAIN":"mdate.au.auth0.com","EXPO_PUBLIC_AUTH0_NATIVE_CLIENT_ID":"pr8QDYIMCIM5WXsHK3FKcC8D6sYvQ8nT","EXPO_PUBLIC_AUTH0_WEB_CLIENT_ID":"ju9fuxzqxVmQQNSygtJyhyAKF5FYui33"}}
+{"_e":"devserver:start","_t":1793800933857,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1793800934814,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1793800935626,"plugins":[]}
+{"_e":"metro:instantiate","_t":1793800941560,"atlas":false,"workers":10,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1793800942072,"id":"1","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793800942073,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800942082,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793800942183,"id":"1","progress":0.04694444444444445,"total":120,"current":26}
+{"_e":"metro:bundling:progress","_t":1793800942283,"id":"1","progress":0.21368814524741903,"total":212,"current":98}
+{"_e":"metro:bundling:progress","_t":1793800942383,"id":"1","progress":0.36067070316157424,"total":358,"current":215}
+{"_e":"metro:bundling:progress","_t":1793800942484,"id":"1","progress":0.5353955978584176,"total":533,"current":390}
+{"_e":"metro:bundling:progress","_t":1793800942583,"id":"1","progress":0.6115746755711531,"total":679,"current":531}
+{"_e":"metro:bundling:progress","_t":1793800942683,"id":"1","progress":0.7168296491225057,"total":763,"current":646}
+{"_e":"metro:bundling:progress","_t":1793800942783,"id":"1","progress":0.9122557971081664,"total":869,"current":830}
+{"_e":"metro:bundling:failed","_t":1793800942851,"id":"1","message":"Unable to resolve \"expo-secure-store\" from \"src\\features\\auth\\AuthProvider.tsx\"\n  10 | } from \"react\";\n  11 | import { Platform } from \"react-native\";\n> 12 | import * as SecureStore from \"expo-secure-store\";\n     |                               ^\n  13 | import { ApiError, parseApiResponse, toApiUrl, type ApiRequest, type ApiRequestOptions } from \"./apiClient\";\n  14 | import { completeAccountSetup, normalizeAccount, type AccountSetupInput, type MdateAccount, type ApiHeadersFactory } from \"./accountApi\";\n  15 |","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\auth\\AuthProvider.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-secure-store\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\_layout.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../src/features/auth/AuthProvider\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-secure-store","originModulePath":"src\\features\\auth\\AuthProvider.tsx"}
+{"_e":"root:init","_t":1793800993443,"format":"v0-jsonl","version":"57.0.31"}
+{"_e":"env:mode","_t":1793800993443,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1793800993446,"mode":"development","files":["../..\\..\\.env"],"env":{"EXPO_PUBLIC_API_URL_NATIVE":"http://192.168.1.XXX:3000","EXPO_PUBLIC_API_URL_WEB":"http://localhost:3000","EXPO_PUBLIC_AUTH0_AUDIENCE":"https://api.mdate.com","EXPO_PUBLIC_AUTH0_DOMAIN":"mdate.au.auth0.com","EXPO_PUBLIC_AUTH0_NATIVE_CLIENT_ID":"pr8QDYIMCIM5WXsHK3FKcC8D6sYvQ8nT","EXPO_PUBLIC_AUTH0_WEB_CLIENT_ID":"ju9fuxzqxVmQQNSygtJyhyAKF5FYui33"}}
+{"_e":"devserver:start","_t":1793800993707,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1793800993962,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1793800994196,"plugins":[]}
+{"_e":"metro:instantiate","_t":1793800999783,"atlas":false,"workers":10,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1793801000030,"id":"1","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793801000031,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793801000034,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793801000135,"id":"1","progress":0.03334593572778828,"total":115,"current":21}
+{"_e":"metro:bundling:progress","_t":1793801000237,"id":"1","progress":0.13904050560183856,"total":236,"current":88}
+{"_e":"metro:bundling:progress","_t":1793801000339,"id":"1","progress":0.29394687182464796,"total":415,"current":225}
+{"_e":"metro:bundling:progress","_t":1793801000438,"id":"1","progress":0.419430554409757,"total":613,"current":397}
+{"_e":"metro:bundling:progress","_t":1793801000543,"id":"1","progress":0.7032907813331093,"total":756,"current":634}
+{"_e":"metro:bundling:progress","_t":1793801000643,"id":"1","progress":0.9263531326598736,"total":906,"current":872}
+{"_e":"metro:bundling:progress","_t":1793801000747,"id":"1","progress":0.9959225322782174,"total":980,"current":978}
+{"_e":"metro:bundling:progress","_t":1793801001763,"id":"1","progress":0.997960224906289,"total":980,"current":979}
+{"_e":"metro:bundling:done","_t":1793801001870,"id":"1","total":980,"ms":1839.5425}
+{"_e":"metro:client_log","_t":1793801002050,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793801002084,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793801002085,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793801002484,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793801002484,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793801002493,"level":"warn","data":["An error occurred in the <SplashScreen> component.\n\nConsider adding an error boundary to your tree to customize error handling behavior.\nVisit https://react.dev/link/error-boundaries to learn more about error boundaries.\n"]}
+{"_e":"metro:client_log","_t":1793801002617,"level":"error","data":["[ReferenceError: useAuthFlow is not defined]","\n\n\u001b[1mCode: SplashScreen.tsx\u001b[22m\n\u001b[0m \u001b[90m 26 |\u001b[39m     loadingMessage\u001b[33m,\u001b[39m\n \u001b[90m 27 |\u001b[39m     retrySession\u001b[33m,\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 28 |\u001b[39m   } \u001b[33m=\u001b[39m useAuthFlow()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 29 |\u001b[39m\n \u001b[90m 30 |\u001b[39m   \u001b[36mconst\u001b[39m [tipIndex\u001b[33m,\u001b[39m setTipIndex] \u001b[33m=\u001b[39m useState(\u001b[35m0\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 31 |\u001b[39m\u001b[0m\n\u001b[1mCall Stack\u001b[22m\n\u001b[90m  SplashScreen (src\\features\\splash\\SplashScreen.tsx:28:7)\u001b[39m","\n\n\u001b[1mCode: index.tsx\u001b[22m\n\u001b[0m \u001b[90m  6 |\u001b[39m \u001b[90m */\u001b[39m\n \u001b[90m  7 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m \u001b[36mfunction\u001b[39m \u001b[33mIndexScreen\u001b[39m() {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  8 |\u001b[39m   \u001b[36mreturn\u001b[39m \u001b[33m<\u001b[39m\u001b[33mSplashScreen\u001b[39m \u001b[33m/\u001b[39m\u001b[33m>\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m  9 |\u001b[39m }\n \u001b[90m 10 |\u001b[39m\u001b[0m\n\u001b[1mCall Stack\u001b[22m\n\u001b[90m  IndexScreen (app\\index.tsx:8:10)\u001b[39m\n\u001b[90m  RootNavigator (app\\_layout.tsx:9:5)\u001b[39m\n\u001b[90m  RootLayout (app\\_layout.tsx:31:37)\u001b[39m"]}
+{"_e":"metro:client_log","_t":1793801022474,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793801022475,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793801026099,"level":"error","data":["MDATE sign-in failed:","[ApiError: Email or password is incorrect.]","\n\n\u001b[1mCode: apiClient.ts\u001b[22m\n\u001b[0m \u001b[90m 40 |\u001b[39m         \u001b[33m?\u001b[39m record\u001b[33m.\u001b[39merror\n \u001b[90m 41 |\u001b[39m         \u001b[33m:\u001b[39m \u001b[32m`The API returned HTTP ${response.status}.`\u001b[39m\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 42 |\u001b[39m     \u001b[36mthrow\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mApiError\u001b[39m(message\u001b[33m,\u001b[39m response\u001b[33m.\u001b[39mstatus)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 43 |\u001b[39m   }\n \u001b[90m 44 |\u001b[39m   \u001b[36mreturn\u001b[39m payload \u001b[36mas\u001b[39m \u001b[33mT\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m }\u001b[0m\n\u001b[1mCall Stack\u001b[22m\n\u001b[90m  parseApiResponse (src\\features\\auth\\apiClient.ts:42:11)\u001b[39m\n\u001b[90m  signIn (src\\features\\auth\\AuthProvider.tsx:192:23)\u001b[39m\n\u001b[90m  submit (src\\features\\auth\\AuthEntryScreen.tsx:33:31)\u001b[39m"]}
+{"_e":"metro:client_log","_t":1793801327433,"level":"warn","data":["[Layout children]: No route named \"index\" exists in nested children:","[\"dashboard\", \"modules\", \"progress\", \"setting\"]"]}
+{"_e":"metro:bundling:started","_t":1793801711750,"id":"j","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793801711750,"id":"j","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793801711800,"id":"j","total":1,"ms":49.697}
+{"_e":"metro:bundling:started","_t":1793801713557,"id":"o","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793801713557,"id":"o","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793801713602,"id":"o","total":1,"ms":44.403}
+{"_e":"metro:client_log","_t":1793801713808,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793801713829,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793801713831,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793801713891,"level":"warn","data":["[Layout children]: No route named \"index\" exists in nested children:","[\"dashboard\", \"modules\", \"progress\", \"setting\"]"]}
+{"_e":"metro:client_log","_t":1793802874222,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793802874226,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793802874364,"level":"warn","data":["[Layout children]: No route named \"(tabs)\" exists in nested children:","[\"(main)\", \"modules/[moduleId]\", \"q-sets/[qSetId]\", \"submodules/[submoduleId]\"]"]}
+{"_e":"metro:client_log","_t":1793802874397,"level":"warn","data":["[Layout children]: No route named \"(tabs)\" exists in nested children:","[\"(main)\", \"modules/[moduleId]\", \"q-sets/[qSetId]\", \"submodules/[submoduleId]\"]"]}
+{"_e":"metro:client_log","_t":1793802874406,"level":"warn","data":["An error occurred in the <NativeStackNavigator> component.\n\nConsider adding an error boundary to your tree to customize error handling behavior.\nVisit https://react.dev/link/error-boundaries to learn more about error boundaries.\n"]}
+{"_e":"metro:client_log","_t":1793802874435,"level":"error","data":["[Error: Couldn't find a screen named '(tabs)' to use as 'initialRouteName'.]","\n\n\u001b[1mCode: useNavigationBuilder.js\u001b[22m\n\u001b[0m \u001b[90m 221 |\u001b[39m \u001b[32m        if (rest.initialRouteName != null &&\u001b[39m\n \u001b[90m 222 |\u001b[39m \u001b[32m            routeConfigs.every((config) => config.props.name !== rest.initialRouteName)) {\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 223 |\u001b[39m \u001b[32m            throw new Error(`\u001b[39m\u001b[33mCouldn\u001b[39m\u001b[32m't find a screen named '\u001b[39m${rest\u001b[33m.\u001b[39minitialRouteName}\u001b[32m' to use as '\u001b[39minitialRouteName\u001b[32m'.`);\u001b[39m\n \u001b[90m     |\u001b[39m                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 224 |\u001b[39m         }\n \u001b[90m 225 |\u001b[39m         \u001b[36mconst\u001b[39m original \u001b[33m=\u001b[39m createRouter(rest)\u001b[33m;\u001b[39m\n \u001b[90m 226 |\u001b[39m         \u001b[36mif\u001b[39m (\u001b[33mUNSTABLE_router\u001b[39m \u001b[33m!=\u001b[39m \u001b[36mnull\u001b[39m) {\u001b[0m\n\u001b[1mCall Stack\u001b[22m\n\u001b[2m\u001b[90m  <anonymous> (node_modules\\expo-router\\build\\react-navigation\\core\\useNavigationBuilder.js:223:19)\u001b[39m\u001b[22m\n\u001b[2m\u001b[90m  useLazyValue (node_modules\\expo-router\\build\\react-navigation\\core\\useLazyValue.js:42:27)\u001b[39m\u001b[22m\n\u001b[2m\u001b[90m  useNavigationBuilder (node_modules\\expo-router\\build\\react-navigation\\core\\useNavigationBuilder.js:220:51)\u001b[39m\u001b[22m\n\u001b[2m\u001b[90m  NativeStackNavigator (node_modules\\expo-router\\build\\fork\\native-stack\\createNativeStackNavigator.js:48:110)\u001b[39m\u001b[22m\n\u001b[2m\u001b[90m  callComponent.react_stack_bottom_frame (node_modules\\react-dom\\cjs\\react-dom-client.development.js:25904:20)\u001b[39m\u001b[22m\n\u001b[2m\u001b[90m  renderWithHooks (node_modules\\react-dom\\cjs\\react-dom-client.development.js:7662:22)\u001b[39m\u001b[22m\n\u001b[2m\u001b[90m  updateFunctionComponent (node_modules\\react-dom\\cjs\\react-dom-client.development.js:10166:19)\u001b[39m\u001b[22m\n\u001b[2m\u001b[90m  beginWork (node_modules\\react-dom\\cjs\\react-dom-client.development.js:11778:18)\u001b[39m\u001b[22m\n\u001b[2m\u001b[90m  runWithFiberInDEV (node_modules\\react-dom\\cjs\\react-dom-client.development.js:871:30)\u001b[39m\u001b[22m\n\u001b[2m\u001b[90m  performUnitOfWork (node_modules\\react-dom\\cjs\\react-dom-client.development.js:17641:22)\u001b[39m\u001b[22m\n\u001b[2m\u001b[90m  workLoopSync (node_modules\\react-dom\\cjs\\react-dom-client.development.js:17469:41)\u001b[39m\u001b[22m\n\u001b[2m\u001b[90m  renderRootSync (node_modules\\react-dom\\cjs\\react-dom-client.development.js:17450:11)\u001b[39m\u001b[22m\n\u001b[2m\u001b[90m  performWorkOnRoot (node_modules\\react-dom\\cjs\\react-dom-client.development.js:16583:35)\u001b[39m\u001b[22m\n\u001b[2m\u001b[90m  performWorkOnRootViaSchedulerTask (node_modules\\react-dom\\cjs\\react-dom-client.development.js:18957:7)\u001b[39m\u001b[22m\n\u001b[2m\u001b[90m  performWorkUntilDeadline (node_modules\\scheduler\\cjs\\scheduler.development.js:45:48)\u001b[39m\u001b[22m","\n\n\u001b[1mCode: [qSetId].tsx\u001b[22m\n\u001b[0m \u001b[90m 126 |\u001b[39m   noMediaText\u001b[33m:\u001b[39m { color\u001b[33m:\u001b[39m \u001b[32m\"#64748B\"\u001b[39m\u001b[33m,\u001b[39m fontSize\u001b[33m:\u001b[39m \u001b[35m14\u001b[39m\u001b[33m,\u001b[39m lineHeight\u001b[33m:\u001b[39m \u001b[35m20\u001b[39m\u001b[33m,\u001b[39m textAlign\u001b[33m:\u001b[39m \u001b[32m\"center\"\u001b[39m }\u001b[33m,\u001b[39m\n \u001b[90m 127 |\u001b[39m   fieldLabel\u001b[33m:\u001b[39m { color\u001b[33m:\u001b[39m \u001b[32m\"#243B53\"\u001b[39m\u001b[33m,\u001b[39m fontSize\u001b[33m:\u001b[39m \u001b[35m16\u001b[39m\u001b[33m,\u001b[39m lineHeight\u001b[33m:\u001b[39m \u001b[35m23\u001b[39m\u001b[33m,\u001b[39m fontWeight\u001b[33m:\u001b[39m \u001b[32m\"800\"\u001b[39m\u001b[33m,\u001b[39m marginTop\u001b[33m:\u001b[39m \u001b[35m2\u001b[39m }\u001b[33m,\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 128 |\u001b[39m   answerInput\u001b[33m:\u001b[39m { minHeight\u001b[33m:\u001b[39m \u001b[35m56\u001b[39m\u001b[33m,\u001b[39m borderWidth\u001b[33m:\u001b[39m \u001b[35m1.5\u001b[39m\u001b[33m,\u001b[39m borderColor\u001b[33m:\u001b[39m \u001b[32m\"#B8C7D9\"\u001b[39m\u001b[33m,\u001b[39m borderRadius\u001b[33m:\u001b[39m \u001b[35m12\u001b[39m\u001b[33m,\u001b[39m paddingHorizontal\u001b[33m:\u001b[39m \u001b[35m15\u001b[39m\u001b[33m,\u001b[39m backgroundColor\u001b[33m:\u001b[39m \u001b[32m\"#FFFFFF\"\u001b[39m\u001b[33m,\u001b[39m color\u001b[33m:\u001b[39m \u001b[32m\"#172B4D\"\u001b[39m\u001b[33m,\u001b[39m fontSize\u001b[33m:\u001b[39m \u001b[35m18\u001b[39m }\u001b[33m,\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                                                                                                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 129 |\u001b[39m   actionRow\u001b[33m:\u001b[39m { flexDirection\u001b[33m:\u001b[39m \u001b[32m\"row\"\u001b[39m\u001b[33m,\u001b[39m flexWrap\u001b[33m:\u001b[39m \u001b[32m\"wrap\"\u001b[39m\u001b[33m,\u001b[39m gap\u001b[33m:\u001b[39m \u001b[35m10\u001b[39m }\u001b[33m,\u001b[39m\n \u001b[90m 130 |\u001b[39m   secondaryButton\u001b[33m:\u001b[39m { flex\u001b[33m:\u001b[39m \u001b[35m1\u001b[39m\u001b[33m,\u001b[39m minWidth\u001b[33m:\u001b[39m \u001b[35m130\u001b[39m\u001b[33m,\u001b[39m minHeight\u001b[33m:\u001b[39m \u001b[35m50\u001b[39m\u001b[33m,\u001b[39m flexDirection\u001b[33m:\u001b[39m \u001b[32m\"row\"\u001b[39m\u001b[33m,\u001b[39m alignItems\u001b[33m:\u001b[39m \u001b[32m\"center\"\u001b[39m\u001b[33m,\u001b[39m justifyContent\u001b[33m:\u001b[39m \u001b[32m\"center\"\u001b[39m\u001b[33m,\u001b[39m gap\u001b[33m:\u001b[39m \u001b[35m8\u001b[39m\u001b[33m,\u001b[39m backgroundColor\u001b[33m:\u001b[39m \u001b[32m\"#FFFFFF\"\u001b[39m\u001b[33m,\u001b[39m borderWidth\u001b[33m:\u001b[39m \u001b[35m1.5\u001b[39m\u001b[33m,\u001b[39m borderColor\u001b[33m:\u001b[39m \u001b[32m\"#B8C7D9\"\u001b[39m\u001b[33m,\u001b[39m borderRadius\u001b[33m:\u001b[39m \u001b[35m12\u001b[39m\u001b[33m,\u001b[39m paddingHorizontal\u001b[33m:\u001b[39m \u001b[35m12\u001b[39m }\u001b[33m,\u001b[39m\n \u001b[90m 131 |\u001b[39m   secondaryButtonText\u001b[33m:\u001b[39m { color\u001b[33m:\u001b[39m \u001b[32m\"#174EA6\"\u001b[39m\u001b[33m,\u001b[39m fontSize\u001b[33m:\u001b[39m \u001b[35m15\u001b[39m\u001b[33m,\u001b[39m fontWeight\u001b[33m:\u001b[39m \u001b[32m\"800\"\u001b[39m }\u001b[33m,\u001b[39m\u001b[0m\n\u001b[1mCall Stack\u001b[22m\n\u001b[90m  <global> (app\\(app)\\q-sets\\[qSetId].tsx:128:172)\u001b[39m\n\u001b[90m  <global> (src\\features\\auth\\ResetPasswordScreen.tsx:46:660)\u001b[39m"]}
+{"_e":"metro:client_log","_t":1793802895198,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793802895199,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793802895255,"level":"warn","data":["[Layout children]: No route named \"index\" exists in nested children:","[\"dashboard\", \"modules\", \"progress\", \"setting\"]"]}
+{"_e":"metro:bundling:started","_t":1793802897054,"id":"14","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793802897054,"id":"14","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793802897103,"id":"14","total":1,"ms":49.1277}
+{"_e":"metro:client_log","_t":1793802897331,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793802897354,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793802897355,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793802897420,"level":"warn","data":["[Layout children]: No route named \"index\" exists in nested children:","[\"dashboard\", \"modules\", \"progress\", \"setting\"]"]}
+{"_e":"metro:bundling:started","_t":1793802899645,"id":"19","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793802899645,"id":"19","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793802899686,"id":"19","total":1,"ms":41.1519}
+{"_e":"metro:bundling:started","_t":1793802901458,"id":"1e","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793802901458,"id":"1e","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793802901497,"id":"1e","total":1,"ms":38.6181}
+{"_e":"metro:client_log","_t":1793802901674,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793802901687,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793802901687,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793802909226,"level":"warn","data":["[Layout children]: No route named \"index\" exists in nested children:","[\"dashboard\", \"modules\", \"progress\", \"setting\"]"]}
+{"_e":"metro:bundling:started","_t":1793803183342,"id":"1q","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793803183342,"id":"1q","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793803183387,"id":"1q","total":1,"ms":45.3696}
+{"_e":"metro:client_log","_t":1793803183615,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793803183641,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793803183643,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793805104508,"id":"1v","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805104509,"id":"1v","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805104552,"id":"1v","total":1,"ms":43.797}
+{"_e":"metro:bundling:started","_t":1793805107144,"id":"1z","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805107145,"id":"1z","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805107183,"id":"1z","total":1,"ms":38.2478}
+{"_e":"metro:client_log","_t":1793805107392,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793805107417,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793805107419,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793805648944,"id":"24","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805648944,"id":"24","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805648980,"id":"24","total":1,"ms":36.0395}
+{"_e":"metro:bundling:started","_t":1793805650624,"id":"28","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805650625,"id":"28","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805650653,"id":"28","total":1,"ms":28.7962}
+{"_e":"metro:client_log","_t":1793805650854,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793805650876,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793805650879,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793805655233,"id":"2d","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805655233,"id":"2d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805655273,"id":"2d","total":1,"ms":39.1396}
+{"_e":"metro:bundling:started","_t":1793805656294,"id":"2h","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805656294,"id":"2h","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805656334,"id":"2h","total":1,"ms":40.1204}
+{"_e":"metro:client_log","_t":1793805656508,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793805656521,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793805656521,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793805659991,"id":"2l","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805659991,"id":"2l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805660025,"id":"2l","total":1,"ms":33.7419}
+{"_e":"metro:client_log","_t":1793805660189,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793805660202,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793805660203,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793805673477,"id":"2r","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805673477,"id":"2r","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805673508,"id":"2r","total":1,"ms":30.4141}
+{"_e":"metro:client_log","_t":1793805673668,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793805673679,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793805673680,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793805674385,"id":"2v","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805674385,"id":"2v","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805674434,"id":"2v","total":1,"ms":49.0127}
+{"_e":"metro:client_log","_t":1793805674594,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793805674606,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793805674607,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793805675233,"id":"30","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805675234,"id":"30","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805675279,"id":"30","total":1,"ms":45.2834}
+{"_e":"metro:client_log","_t":1793805675444,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793805675455,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793805675456,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793805676179,"id":"35","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805676179,"id":"35","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805676213,"id":"35","total":1,"ms":33.1237}
+{"_e":"metro:client_log","_t":1793805676374,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793805676386,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793805676386,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793805676989,"id":"3a","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805676989,"id":"3a","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805677033,"id":"3a","total":1,"ms":44.1892}
+{"_e":"metro:client_log","_t":1793805677194,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793805677207,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793805677207,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793805678004,"id":"3g","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805678004,"id":"3g","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805678040,"id":"3g","total":1,"ms":36.194}
+{"_e":"metro:client_log","_t":1793805678219,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793805678230,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793805678232,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793805680638,"id":"3m","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805680638,"id":"3m","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805680684,"id":"3m","total":1,"ms":45.5282}
+{"_e":"metro:client_log","_t":1793805680858,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793805680872,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793805680872,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793805682103,"id":"3r","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793805682103,"id":"3r","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793805682142,"id":"3r","total":1,"ms":38.9818}
+{"_e":"metro:client_log","_t":1793805682298,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793805682310,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793805682311,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}

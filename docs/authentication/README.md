@@ -1,68 +1,116 @@
-# MDATE authentication setup
+# MDATE first-party authentication
 
-This implementation keeps Auth0 as the credential provider and PostgreSQL as the MDATE application-account store.
+MDATE now owns credentials and sessions inside the Express modular monolith. Auth0 is not part of the runtime authentication flow.
 
-## Authentication flow
+## Runtime flow
 
-- **Native iOS/Android:** the MDATE-branded screen collects email and password. Sign-up calls the Auth0 Database Connection signup endpoint through the React Native SDK, then signs in with Auth0's password-realm grant.
-- **Web:** the MDATE-branded screen remains the entry point. The SDK does not support password-realm authentication in browsers, so sign-in continues in Auth0 Universal Login using Authorization Code + PKCE. The custom sign-up form creates the Auth0 database identity, then opens the hosted login page to obtain tokens; the user may need to enter the password again there because the SDK signup call does not establish the browser login session.
-- The SDK stores native credentials in the platform secure credential store. The app requests an Auth0 access token for the MDATE API and sends it to Express. Never send the ID token to the API as its bearer token.
-- Express validates the access token and obtains the immutable Auth0 subject. PostgreSQL links that subject to one MDATE user and assigns the default `patient` role. The bootstrap operation is safe to retry.
-- MDATE never stores or compares passwords. It stores application profile, preferences, account status, role assignments, and the Auth0 subject mapping.
+1. Expo sends email/password to `POST /api/v1/auth/register` or `/login` over HTTPS.
+2. Express validates input, hashes passwords with bcryptjs, and persists the user in PostgreSQL.
+3. Registration assigns the default `patient` role in the same transaction as the user insert.
+4. Express issues a short-lived HS256 access JWT (`sub = users.id`) and an opaque refresh token.
+5. Native clients store refresh tokens with `expo-secure-store`. Web clients receive a HttpOnly refresh cookie; the cookie is never exposed to JavaScript.
+6. Protected routes validate the JWT and resolve the current MDATE account from PostgreSQL. Current account status and roles are not trusted from client-supplied data.
 
-## Auth0 Dashboard configuration
+## API
 
-1. Create or select a **Native** Auth0 application for iOS/Android and a separate **Single Page Application** for the web build.
-2. Create/enable a first-party **Database Connection** (for example, `Username-Password-Authentication`) and enable it for the relevant Auth0 applications. Configure email as the login identifier; this implementation does not collect or submit a separate username.
-3. Set the exact connection name in `EXPO_PUBLIC_AUTH0_DATABASE_CONNECTION`.
-4. For native custom email/password sign-in, enable the **Password** grant type for the Native application only. The SDK's password-realm method is not supported on web. This is a Resource Owner Password Grant flow. Auth0 recommends browser-based authentication instead and describes this grant as a last resort; keep it limited to this first-party native database connection and do not use it for social login, federation, or MFA flows. Revisit this choice before production if MFA, passkeys, or federated providers are required.
-5. Configure the MDATE API identifier to match `EXPO_PUBLIC_AUTH0_AUDIENCE` and the Express `AUTH0_AUDIENCE`.
-6. Configure the Native application callback URLs to match the app's scheme, package and bundle identifiers. With the current values, the expected callback URLs are:
-   - `mdateauth0://mdate.au.auth0.com/ios/com.mdate.app/callback`
-   - `mdateauth0://mdate.au.auth0.com/android/com.mdate.app/callback`
-7. Add the web development origin (currently `http://localhost:8081`) to the SPA's Allowed Callback URLs, Allowed Logout URLs and Allowed Web Origins as appropriate for the Auth0 SDK web setup. Add production origins before deployment.
-8. Configure the Database Connection's password policy and reset-password email template. The app includes a password-reset request.
+| Method | Endpoint | Purpose |
+|---|---|---|
+| POST | `/api/v1/auth/register` | Register and create a session |
+| POST | `/api/v1/auth/login` | Sign in and create a session |
+| POST | `/api/v1/auth/refresh` | Rotate the refresh token and return a new access token |
+| POST | `/api/v1/auth/logout` | Revoke the current refresh token |
+| POST | `/api/v1/auth/password-reset/request` | Request a reset link |
+| POST | `/api/v1/auth/password-reset/confirm` | Consume a reset link and change password |
+| GET | `/api/v1/me` | Return current authenticated account |
+| PUT | `/api/v1/account/setup` | Complete profile and preferences |
 
-## Email verification policy: optional
+`/api/v1/modules`, module details, Q_Sets and speech endpoints require an active, set-up user. `/api/v1/me` and account setup accept a `PENDING_SETUP` account.
 
-MDATE does not block sign-in, account creation, setup, or therapy access solely because `email_verified` is false. Make sure the Auth0 Database Connection does not require email verification before allowing a password login. Auth0 may still send a verification email; it is informational until MDATE changes this policy.
+## Password policy
 
-To synchronize the authoritative email and verification state into PostgreSQL, create and deploy an Auth0 **Post Login Action** in the Login flow using the example in `docs/authentication/actions/post-login.js`:
-
-
-
-The Express middleware reads these namespaced claims only from the validated JWT. The client must not submit email or verification status as trusted account data. If this Action is not deployed, account provisioning still works; the email fields remain unchanged / at their database defaults until the claims are available.
+Passwords must be at least 12 characters and at most 72 UTF-8 bytes. The upper byte limit is required by bcrypt. The implementation uses bcrypt cost 12. Passwords and raw refresh/reset tokens are never stored in PostgreSQL.
 
 ## Environment
 
-Expo client (`src/expo-test/.env`):
+Copy `src/express-test/.env.example` to `src/express-test/.env` and set:
 
-```dotenv
-EXPO_PUBLIC_AUTH0_DOMAIN=mdate.au.auth0.com
-EXPO_PUBLIC_AUTH0_AUDIENCE=https://api.mdate.com
-EXPO_PUBLIC_AUTH0_DATABASE_CONNECTION=Username-Password-Authentication
-EXPO_PUBLIC_AUTH0_NATIVE_CLIENT_ID=YOUR_NATIVE_CLIENT_ID
-EXPO_PUBLIC_AUTH0_WEB_CLIENT_ID=YOUR_SPA_CLIENT_ID
-EXPO_PUBLIC_API_URL_WEB=http://localhost:3000
-EXPO_PUBLIC_API_URL_NATIVE=http://YOUR_LAN_IP:3000
+- `DATABASE_URL` to the database reachable from the Express process.
+- `JWT_ACCESS_SECRET` to a random secret of at least 32 characters. Generate one with `node -e "console.log(require('node:crypto').randomBytes(48).toString('base64url'))"`.
+- `EXPO_WEB_ORIGIN` to the exact Expo Web origin.
+- SMTP settings before enabling production password-reset email. During development, reset links are printed to the Express console.
+
+Copy `src/expo-test/.env.example` to `src/expo-test/.env`. The native URL must use the Windows PC LAN IP when testing from the physical tablet/phone. Do not set the native API URL to `localhost` on a separate device.
+
+## Web cookies and HTTPS
+
+The web refresh cookie is HttpOnly, SameSite=Lax, scoped to `/api/v1/auth`, and Secure in production. Web API requests use `credentials: include`; Express CORS uses an explicit origin and `credentials: true`. The configured frontend and API should be same-site for SameSite=Lax. Use HTTPS for production and do not weaken cookie flags to work around a deployment-domain mismatch.
+
+## Database migration and existing accounts
+
+Back up the PostgreSQL database first. From the repository root, apply the forward migration through the existing Docker PostgreSQL container (the repository's development container is named `postgres`):
+
+```powershell
+Get-Content -Raw .\infra\postgres\migrations\004_local_identity.sql | docker exec -i postgres psql -U YOUR_DB_USER -d YOUR_DB_NAME
 ```
 
-Express API (`src/express-test/.env`):
+Replace `YOUR_DB_USER` and `YOUR_DB_NAME` with the values from your project-root `.env`. This streams the migration into the container and does not require a local `psql` installation.
 
-```dotenv
-AUTH0_DOMAIN=mdate.au.auth0.com
-AUTH0_AUDIENCE=https://api.mdate.com
+Ensure the default `patient` role exists before testing registration. For an existing database where it is missing, run this once using the same container/user/database values:
+
+```powershell
+docker exec postgres psql -U YOUR_DB_USER -d YOUR_DB_NAME -c "INSERT INTO roles (name, description) VALUES ('patient', 'Default role for MDATE patients') ON CONFLICT (name) DO NOTHING;"
 ```
 
-Do not put an Auth0 client secret or Management API secret in either Expo environment file. Values prefixed with `EXPO_PUBLIC_` are bundled into the client and are public.
+The migration adds `password_hash`, `refresh_sessions`, and `password_reset_tokens` without dropping or recreating `users`, changing user UUIDs, or touching their role/profile/training foreign keys. It normalizes existing email addresses before creating a case-insensitive unique index. Check for duplicates first using the query below; resolve duplicates deliberately rather than merging accounts automatically.
 
-## Local verification checklist
+Before applying the migration, check for existing duplicate email addresses because the new case-insensitive unique index will reject them:
 
-- Native: sign-up with a new email; verify Auth0 identity creation; confirm the SDK receives an API access token; confirm exactly one PostgreSQL user, one Auth0 subject mapping and one `patient` role are created.
-- Native: sign in with correct credentials; wrong credentials return a generic sign-in error (not an account-existence disclosure).
-- Web: sign-in opens Auth0-hosted login in the browser; sign-up creates the database identity then opens hosted login.
-- Password reset: request reset and verify the configured Auth0 email delivery.
-- Email not verified: sign in and complete setup without an email-verification gate; after the Post Login Action is deployed, verify PostgreSQL records `email_verified = false`.
-- Repeat account bootstrap and verify that no duplicate user or role mapping is created.
-- Change the Auth0 email address and sign in again; verify the PostgreSQL email value is refreshed from the signed claim.
-- Verify that a client-credentials token is rejected by `requireHumanUser`, and that the frontend cannot assign therapist/admin roles.
+```sql
+SELECT lower(btrim(email)) AS normalized_email, count(*)
+FROM users
+WHERE email IS NOT NULL AND deleted_at IS NULL
+GROUP BY lower(email)
+HAVING count(*) > 1;
+```
+
+Existing Auth0-linked users retain their MDATE UUID and related data, but no password can be imported from Auth0. If their email is already stored in `users.email`, they can use the password-reset flow to establish a new local password. Accounts with no stored email require an administrator-assisted email update before password recovery. In development, request reset and copy the one-time URL printed by Express. In production, configure SMTP. `email_verified` remains false unless a separate MDATE email-verification workflow is implemented; the current app does not block access on this flag.
+
+The old `oauth_providers` table is deliberately left unused by this migration so existing data is not destroyed during cutover. Once the rollout is verified and no rollback to Auth0 is required, remove that legacy table in a separately reviewed cleanup migration.
+
+## Install and run
+
+From `src/express-test`:
+
+```powershell
+npm install
+npm run typecheck
+npm run build
+npm run dev
+```
+
+From `src/expo-test`:
+
+```powershell
+npx expo install expo-secure-store
+npm install
+npx tsc --noEmit
+npx expo start --web --port 8081 --clear
+```
+
+Rebuild the native development client after adding SecureStore. Do not use `npm ci` until the lockfile has been regenerated by `npm install`.
+
+## Verification checklist
+
+- Register a new patient; confirm one `users` row and one patient `user_roles` row are created.
+- Confirm password hashes start with a bcrypt prefix and never equal the submitted password.
+- Sign in with correct credentials; wrong credentials return a generic 401.
+- Confirm no access token is placed in persistent client storage.
+- Confirm native refresh token is in SecureStore; web refresh token is an HttpOnly cookie.
+- Refresh twice and verify the previous refresh token cannot be reused; reuse should revoke the token family.
+- Logout and verify refresh fails.
+- Verify expired/invalid access JWTs are rejected.
+- Verify PENDING_SETUP users can access `/me` and account setup but cannot access training/speech endpoints.
+- Verify SUSPENDED/DELETED users cannot access protected APIs.
+- Verify roles come from PostgreSQL, never from registration input.
+- Request password reset, consume the link once, verify it expires, and verify all existing sessions are revoked after reset.
+- Verify existing `users.id`, `user_roles`, preference rows and training foreign keys remain unchanged.

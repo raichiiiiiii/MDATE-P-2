@@ -1,160 +1,42 @@
 import type { RequestHandler } from "express";
-
-import {
-  bootstrapAccount,
-  completeAccountSetup,
-  getCurrentAccount,
-} from "../../container.js";
-import type { Auth0IdentityClaims } from "../../../domain/identity/Account.js";
-
+import { completeAccountSetup, getCurrentAccount } from "../../container.js";
 import { accountSetupSchema } from "../validators/accountSetupSchema.js";
 
-function getSubject(res: Parameters<RequestHandler>[1]): string {
-  return res.locals.auth0Subject as string;
-}
-
-function getIdentityClaims(
-  res: Parameters<RequestHandler>[1],
-): Auth0IdentityClaims {
-  return {
-    email:
-      typeof res.locals.auth0Email === "string"
-        ? res.locals.auth0Email
-        : undefined,
-    emailVerified:
-      typeof res.locals.auth0EmailVerified === "boolean"
-        ? res.locals.auth0EmailVerified
-        : undefined,
-  };
+function getUserId(res: Parameters<RequestHandler>[1]): string {
+  return res.locals.userId as string;
 }
 
 function isUnavailable(status: string): boolean {
   return status === "SUSPENDED" || status === "DELETED";
 }
 
-function getNextStep(setupCompletedAt: string | null) {
-  return setupCompletedAt ? "dashboard" : "account_setup";
-}
-
-export const bootstrapAccountController: RequestHandler = async (
-  _req,
-  res,
-  next,
-) => {
+export const currentAccountController: RequestHandler = async (_req, res, next) => {
   try {
-    const result = await bootstrapAccount.execute(
-      getSubject(res),
-      getIdentityClaims(res),
-    );
-    const { account } = result;
-
-    if (isUnavailable(account.status)) {
-      res.status(403).json({
-        error: "account_unavailable",
-        message: "This MDATE account is not available.",
-      });
+    const account = await getCurrentAccount.execute(getUserId(res));
+    if (!account || isUnavailable(account.status)) {
+      res.status(403).json({ error: "account_unavailable", message: "This MDATE account is not available." });
       return;
     }
-
-    res.status(result.created ? 201 : 200).json({
-      account,
-      nextStep: getNextStep(account.setupCompletedAt),
-    });
-  } catch (error) {
-    next(error);
-  }
+    res.json({ account, nextStep: account.setupCompletedAt ? "dashboard" : "account_setup" });
+  } catch (error) { next(error); }
 };
 
-export const currentAccountController: RequestHandler = async (
-  _req,
-  res,
-  next,
-) => {
-  try {
-    const account = await getCurrentAccount.execute(getSubject(res));
-
-    if (!account) {
-      res.status(404).json({
-        error: "account_not_provisioned",
-        message: "Bootstrap the MDATE account before requesting it.",
-      });
-      return;
-    }
-
-    if (isUnavailable(account.status)) {
-      res.status(403).json({
-        error: "account_unavailable",
-        message: "This MDATE account is not available.",
-      });
-      return;
-    }
-
-    res.json({
-      account,
-      nextStep: getNextStep(account.setupCompletedAt),
+export const completeAccountSetupController: RequestHandler = async (req, res, next) => {
+  const parsed = accountSetupSchema.safeParse(req.body);
+  if (!parsed.success) {
+    res.status(400).json({
+      error: "invalid_request",
+      message: "Please check the account setup fields.",
+      details: parsed.error.issues.map((issue) => ({ path: issue.path.join("."), message: issue.message })),
     });
-  } catch (error) {
-    next(error);
+    return;
   }
-};
-
-export const completeAccountSetupController: RequestHandler = async (
-  req,
-  res,
-  next,
-) => {
   try {
-    const parsed = accountSetupSchema.safeParse(req.body);
-
-    if (!parsed.success) {
-      res.status(400).json({
-        error: "invalid_request",
-        message: "Please check the account setup fields.",
-        details: parsed.error.issues.map((issue) => ({
-          path: issue.path.join("."),
-          message: issue.message,
-        })),
-      });
-      return;
-    }
-
-    const subject = getSubject(res);
-    const existing = await getCurrentAccount.execute(subject);
-
-    if (!existing) {
-      res.status(404).json({
-        error: "account_not_provisioned",
-        message: "Bootstrap the MDATE account before completing setup.",
-      });
-      return;
-    }
-
-    if (isUnavailable(existing.status)) {
-      res.status(403).json({
-        error: "account_unavailable",
-        message: "This MDATE account is not available.",
-      });
-      return;
-    }
-
-    const account = await completeAccountSetup.execute(
-      subject,
-      parsed.data,
-    );
-
+    const account = await completeAccountSetup.execute(getUserId(res), parsed.data);
     if (!account) {
-      res.status(403).json({
-        error: "setup_not_allowed",
-        message: "Account setup could not be completed.",
-      });
+      res.status(403).json({ error: "setup_not_allowed", message: "Account setup could not be completed." });
       return;
     }
-
-    res.json({
-      account,
-      nextStep: "dashboard",
-    });
-  } catch (error) {
-    next(error);
-  }
+    res.json({ account, nextStep: "dashboard" });
+  } catch (error) { next(error); }
 };

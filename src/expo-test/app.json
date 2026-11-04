@@ -6,25 +6,9 @@
     "orientation": "portrait",
     "platforms": ["web", "android", "ios"],
     "scheme": "mdate",
-    "ios": {
-      "bundleIdentifier": "com.mdate.app"
-    },
-    "android": {
-      "package": "com.mdate.app"
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "react-native-auth0",
-        {
-          "domain": "mdate.au.auth0.com",
-          "customScheme": "mdateauth0"
-        }
-      ]
-    ],
-    "web": {
-      "bundler": "metro"
-    }
+    "ios": { "bundleIdentifier": "com.mdate.app" },
+    "android": { "package": "com.mdate.app" },
+    "plugins": ["expo-router"],
+    "web": { "bundler": "metro" }
   }
 }
-

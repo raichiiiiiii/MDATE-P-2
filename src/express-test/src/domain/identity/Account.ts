@@ -1,8 +1,3 @@
-export interface Auth0IdentityClaims {
-  email?: string;
-  emailVerified?: boolean;
-}
-
 export type AccountStatus =
   | "PENDING_SETUP"
   | "ACTIVE"
@@ -23,13 +18,11 @@ export interface AccountSnapshot {
   createdAt: string;
   updatedAt: string;
   roles: string[];
-
   accessibilityPreferences: {
     textSize: TextSize;
     contrast: Contrast;
     alternativeInputOn: boolean;
   };
-
   voicePreferences: {
     preferredVoiceId: string | null;
     audioRate: number;
@@ -41,22 +34,15 @@ export interface AccountSnapshot {
 export interface AccountSetupInput {
   displayName: string;
   preferredLanguage: string;
-
   accessibilityPreferences: {
     textSize: TextSize;
     contrast: Contrast;
     alternativeInputOn: boolean;
   };
-
   voicePreferences: {
     preferredVoiceId: string | null;
     audioRate: number;
     audioVolume: number;
     voiceDisabled: boolean;
   };
-}
-
-export interface BootstrapResult {
-  account: AccountSnapshot;
-  created: boolean;
 }
