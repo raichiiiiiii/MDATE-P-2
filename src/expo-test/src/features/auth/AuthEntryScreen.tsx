@@ -144,9 +144,6 @@ export default function AuthEntryScreen({ initialMode = "sign-in" }: Props) {
             {isWebLogin ? (
               <View style={styles.webNote}>
                 <Text style={styles.webNoteTitle}>Secure sign-in</Text>
-                <Text style={styles.webNoteText}>
-                  Your password will be entered on Auth0's secure sign-in page after you continue.
-                </Text>
               </View>
             ) : (
               <>
@@ -212,7 +209,7 @@ export default function AuthEntryScreen({ initialMode = "sign-in" }: Props) {
             </Text>
           ) : null}
           {notice ? (
-            <Text accessibilityRole="status" style={styles.noticeText}>
+            <Text style={styles.noticeText}>
               {notice}
             </Text>
           ) : null}
