@@ -12,6 +12,7 @@ import { Platform } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { ApiError, parseApiResponse, toApiUrl, type ApiRequest, type ApiRequestOptions } from "./apiClient";
 import { completeAccountSetup, normalizeAccount, type AccountSetupInput, type MdateAccount, type ApiHeadersFactory } from "./accountApi";
+import { saveAccountPreferences, type AccountPreferences } from "../settings/settingsApi";
 
 export type AuthMode = "sign-in" | "sign-up";
 export type AuthPhase = "loading" | "signed-out" | "setup-required" | "ready" | "error";
@@ -41,6 +42,7 @@ type AuthContextValue = {
   requestPasswordReset: (email: string) => Promise<void>;
   confirmPasswordReset: (token: string, password: string) => Promise<void>;
   completeSetup: (input: AccountSetupInput) => Promise<void>;
+  updatePreferences: (preferences: AccountPreferences) => Promise<AccountPreferences>;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -275,6 +277,17 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setErrorMessage(null);
   }, [apiRequest]);
 
+  const updatePreferences = useCallback(async (preferences: AccountPreferences) => {
+    const saved = await saveAccountPreferences(apiRequest, preferences);
+    setUser((current) => current ? {
+      ...current,
+      preferredLanguage: saved.preferredLanguage,
+      accessibilityPreferences: saved.accessibilityPreferences,
+      voicePreferences: saved.voicePreferences,
+    } : current);
+    return saved;
+  }, [apiRequest]);
+
   const value = useMemo<AuthContextValue>(() => ({
     user,
     account: user,
@@ -293,10 +306,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
     requestPasswordReset,
     confirmPasswordReset,
     completeSetup,
+    updatePreferences,
   }), [
     user, accessToken, phase, errorMessage, loadingProgress, loadingMessage,
     apiRequest, getAuthHeaders, signIn, signUp, signOut, refreshSession, retrySession,
-    requestPasswordReset, confirmPasswordReset, completeSetup,
+    requestPasswordReset, confirmPasswordReset, completeSetup, updatePreferences,
   ]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

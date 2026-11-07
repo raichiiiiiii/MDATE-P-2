@@ -23,6 +23,8 @@ function RootNavigator() {
       <Stack.Protected guard={phase === "ready" && isTherapist}>
         <Stack.Screen name="(therapist-portal)" />
       </Stack.Protected>
+      {/* Verification links must remain reachable while signed in or signed out. */}
+      <Stack.Screen name="confirm-email-change" />
     </Stack>
   );
 }

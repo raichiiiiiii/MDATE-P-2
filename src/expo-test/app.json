@@ -8,7 +8,10 @@
     "scheme": "mdate",
     "ios": { "bundleIdentifier": "com.mdate.app" },
     "android": { "package": "com.mdate.app" },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router",
+      ["expo-image-picker", { "photosPermission": "MDATE uses your photo library so you can choose a profile picture." }]
+    ],
     "web": { "bundler": "metro" }
   }
 }

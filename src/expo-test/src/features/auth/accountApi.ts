@@ -28,6 +28,8 @@ export type MdateAccount = {
   setupCompletedAt: string | null;
   setupComplete: boolean;
   roles: string[];
+  avatarUrl?: string | null;
+  avatarUpdatedAt?: string | null;
   accessibilityPreferences?: AccountSetupInput["accessibilityPreferences"];
   voicePreferences?: AccountSetupInput["voicePreferences"];
 };
@@ -41,25 +43,18 @@ export function normalizeAccount(account: Omit<MdateAccount, "setupComplete"> & 
   }
   return {
     ...account,
-    setupComplete: typeof account.setupComplete === "boolean"
-      ? account.setupComplete
-      : account.setupCompletedAt != null,
+    setupComplete: typeof account.setupComplete === "boolean" ? account.setupComplete : account.setupCompletedAt != null,
     roles: Array.isArray(account.roles) ? account.roles : [],
   };
 }
 
 export async function getCurrentAccount(apiRequest: ApiRequest): Promise<MdateAccount> {
   const result = await apiRequest<AccountEnvelope>("/api/v1/me");
-  if (!result?.account || typeof result.account.id !== "string") {
-    throw new Error("The API returned an invalid current-account response.");
-  }
+  if (!result?.account || typeof result.account.id !== "string") throw new Error("The API returned an invalid current-account response.");
   return normalizeAccount(result.account);
 }
 
-export async function completeAccountSetup(
-  apiRequest: ApiRequest,
-  input: AccountSetupInput,
-): Promise<MdateAccount> {
+export async function completeAccountSetup(apiRequest: ApiRequest, input: AccountSetupInput): Promise<MdateAccount> {
   const result = await apiRequest<AccountEnvelope>("/api/v1/account/setup", {
     method: "PUT",
     body: {

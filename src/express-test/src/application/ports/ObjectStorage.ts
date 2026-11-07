@@ -23,5 +23,10 @@ export interface ObjectStorage {
     key: string;
     expiresInSeconds?: number;
   }): Promise<string>;
+  getObjectBytes(input: {
+    bucket: MdateStorageBucket;
+    key: string;
+    maxBytes: number;
+  }): Promise<{ body: Uint8Array; contentType: string | null } | null>;
   deleteObject(input: { bucket: MdateStorageBucket; key: string }): Promise<void>;
 }

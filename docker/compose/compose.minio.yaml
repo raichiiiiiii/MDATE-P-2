@@ -21,6 +21,7 @@ services:
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Add MINIO_ROOT_PASSWORD to the project-root .env file}
       MINIO_APP_USER: ${MINIO_APP_USER:?Add MINIO_APP_USER to the project-root .env file}
       MINIO_APP_PASSWORD: ${MINIO_APP_PASSWORD:?Add MINIO_APP_PASSWORD to the project-root .env file}
+      EXPO_WEB_ORIGIN: ${EXPO_WEB_ORIGIN:-http://localhost:8081}
     entrypoint: ["/bin/sh", "/scripts/init-minio.sh"]
     volumes:
       - ../scripts/init-minio.sh:/scripts/init-minio.sh:ro

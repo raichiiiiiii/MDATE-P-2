@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-import { accessTokenService, getCurrentAccount } from "../../container.js";
+import { accessTokenService, accountSecurityService, getCurrentAccount } from "../../container.js";
 
 export const requireAuth: RequestHandler = async (req, res, next) => {
   const authorization = req.header("authorization");
@@ -10,20 +10,29 @@ export const requireAuth: RequestHandler = async (req, res, next) => {
   }
 
   let userId: string;
+  let sessionId: string;
   try {
-    ({ userId } = await accessTokenService.verify(match[1]!));
+    ({ userId, sessionId } = await accessTokenService.verify(match[1]!));
   } catch {
-    res.status(401).json({ error: "invalid_token", message: "The access token is invalid or expired." });
+    res.status(401).json({ error: "invalid_token", message: "The access token is invalid, expired or belongs to an older session format. Please refresh your session." });
     return;
   }
 
   try {
-    const account = await getCurrentAccount.execute(userId);
+    const [account, sessionActive] = await Promise.all([
+      getCurrentAccount.execute(userId),
+      accountSecurityService.isSessionActive(userId, sessionId),
+    ]);
+    if (!sessionActive) {
+      res.status(401).json({ error: "session_revoked", message: "This session has been signed out. Please sign in again." });
+      return;
+    }
     if (!account || account.status === "DELETED" || account.status === "SUSPENDED") {
       res.status(403).json({ error: "account_unavailable", message: "This MDATE account is not available." });
       return;
     }
     res.locals.userId = account.id;
+    res.locals.sessionId = sessionId;
     res.locals.account = account;
     next();
   } catch (error) {

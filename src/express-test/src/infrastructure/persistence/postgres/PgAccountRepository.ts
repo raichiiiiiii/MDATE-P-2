@@ -1,5 +1,5 @@
 import type { Pool, PoolClient, QueryResultRow } from "pg";
-import type { AccountSnapshot, AccountSetupInput } from "../../../domain/identity/Account.js";
+import type { AccountPreferencesInput, AccountSnapshot, AccountSetupInput } from "../../../domain/identity/Account.js";
 import type { AccountRepository } from "../../../domain/identity/AccountRepository.js";
 
 type Executor = Pool | PoolClient;
@@ -64,6 +64,48 @@ async function selectAccount(db: Executor, userId: string): Promise<AccountSnaps
   return result.rows[0] ? toSnapshot(result.rows[0]) : null;
 }
 
+async function writePreferences(
+  client: PoolClient,
+  userId: string,
+  input: AccountPreferencesInput,
+): Promise<void> {
+  await client.query(
+    `INSERT INTO accessibility_preferences
+       (user_id, text_size, contrast, alternative_input_on, updated_at)
+     VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP)
+     ON CONFLICT (user_id) DO UPDATE SET
+       text_size = EXCLUDED.text_size,
+       contrast = EXCLUDED.contrast,
+       alternative_input_on = EXCLUDED.alternative_input_on,
+       updated_at = CURRENT_TIMESTAMP`,
+    [
+      userId,
+      input.accessibilityPreferences.textSize,
+      input.accessibilityPreferences.contrast,
+      input.accessibilityPreferences.alternativeInputOn,
+    ],
+  );
+
+  await client.query(
+    `INSERT INTO voice_preferences
+       (user_id, preferred_voice_id, audio_rate, audio_volume, voice_disabled, updated_at)
+     VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP)
+     ON CONFLICT (user_id) DO UPDATE SET
+       preferred_voice_id = EXCLUDED.preferred_voice_id,
+       audio_rate = EXCLUDED.audio_rate,
+       audio_volume = EXCLUDED.audio_volume,
+       voice_disabled = EXCLUDED.voice_disabled,
+       updated_at = CURRENT_TIMESTAMP`,
+    [
+      userId,
+      input.voicePreferences.preferredVoiceId,
+      input.voicePreferences.audioRate,
+      input.voicePreferences.audioVolume,
+      input.voicePreferences.voiceDisabled,
+    ],
+  );
+}
+
 export class PgAccountRepository implements AccountRepository {
   constructor(private readonly pool: Pool) {}
 
@@ -87,30 +129,40 @@ export class PgAccountRepository implements AccountRepository {
         await client.query("ROLLBACK");
         return null;
       }
-      await client.query(
-        `INSERT INTO accessibility_preferences
-           (user_id, text_size, contrast, alternative_input_on, updated_at)
-         VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP)
-         ON CONFLICT (user_id) DO UPDATE SET
-           text_size = EXCLUDED.text_size, contrast = EXCLUDED.contrast,
-           alternative_input_on = EXCLUDED.alternative_input_on,
-           updated_at = CURRENT_TIMESTAMP`,
-        [userId, input.accessibilityPreferences.textSize, input.accessibilityPreferences.contrast,
-          input.accessibilityPreferences.alternativeInputOn],
-      );
-      await client.query(
-        `INSERT INTO voice_preferences
-           (user_id, preferred_voice_id, audio_rate, audio_volume, voice_disabled, updated_at)
-         VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP)
-         ON CONFLICT (user_id) DO UPDATE SET
-           preferred_voice_id = EXCLUDED.preferred_voice_id, audio_rate = EXCLUDED.audio_rate,
-           audio_volume = EXCLUDED.audio_volume, voice_disabled = EXCLUDED.voice_disabled,
-           updated_at = CURRENT_TIMESTAMP`,
-        [userId, input.voicePreferences.preferredVoiceId, input.voicePreferences.audioRate,
-          input.voicePreferences.audioVolume, input.voicePreferences.voiceDisabled],
-      );
+      await writePreferences(client, userId, input);
       const account = await selectAccount(client, userId);
       if (!account) throw new Error("Could not retrieve the updated MDATE account.");
+      await client.query("COMMIT");
+      return account;
+    } catch (error) {
+      await client.query("ROLLBACK").catch(() => undefined);
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async updatePreferences(userId: string, input: AccountPreferencesInput): Promise<AccountSnapshot | null> {
+    const client = await this.pool.connect();
+    try {
+      await client.query("BEGIN");
+      const updated = await client.query<{ id: string }>(
+        `UPDATE users
+         SET preferred_language = $2, updated_at = CURRENT_TIMESTAMP
+         WHERE id = $1 AND status = 'ACTIVE'
+           AND setup_completed_at IS NOT NULL AND deleted_at IS NULL
+         RETURNING id`,
+        [userId, input.preferredLanguage],
+      );
+      if (!updated.rows[0]) {
+        await client.query("ROLLBACK");
+        return null;
+      }
+
+      await writePreferences(client, userId, input);
+
+      const account = await selectAccount(client, userId);
+      if (!account) throw new Error("Could not retrieve the updated MDATE preferences.");
       await client.query("COMMIT");
       return account;
     } catch (error) {

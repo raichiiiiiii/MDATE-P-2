@@ -14,15 +14,11 @@ export class InvalidPasswordResetTokenError extends Error {}
 function digest(value: string): string {
   return createHash("sha256").update(value).digest("hex");
 }
-
 function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
 }
-
 function assertPasswordLength(password: string): void {
-  if (Buffer.byteLength(password, "utf8") > 72) {
-    throw new Error("Password must not exceed 72 UTF-8 bytes when using bcrypt.");
-  }
+  if (Buffer.byteLength(password, "utf8") > 72) throw new Error("Password must not exceed 72 UTF-8 bytes when using bcrypt.");
 }
 
 export class IdentityService {
@@ -39,13 +35,11 @@ export class IdentityService {
     const refreshToken = randomBytes(32).toString("base64url");
     const familyId = randomUUID();
     await this.identities.createRefreshSession({
-      userId,
-      familyId,
-      tokenHash: digest(refreshToken),
+      userId, familyId, tokenHash: digest(refreshToken),
       expiresAt: new Date(Date.now() + this.settings.refreshTokenTtlDays * 24 * 60 * 60 * 1000),
     });
     return {
-      accessToken: await this.accessTokens.sign({ userId, roles }),
+      accessToken: await this.accessTokens.sign({ userId, roles, sessionId: familyId }),
       refreshToken,
     };
   }
@@ -57,21 +51,15 @@ export class IdentityService {
     const userId = await this.identities.createUser(email, passwordHash);
     const account = await this.accounts.findById(userId);
     if (!account) throw new Error("The new MDATE account could not be loaded.");
-    if (account.status === "SUSPENDED" || account.status === "DELETED") {
-      throw new AccountUnavailableError();
-    }
+    if (account.status === "SUSPENDED" || account.status === "DELETED") throw new AccountUnavailableError();
     return { ...(await this.issueSession(userId, account.roles)), account };
   }
 
   async login(emailInput: string, password: string) {
     const email = normalizeEmail(emailInput);
     const credentials = await this.identities.findCredentialsByEmail(email);
-    if (!credentials?.passwordHash) throw new InvalidCredentialsError();
-    const valid = await this.passwords.verify(password, credentials.passwordHash);
-    if (!valid) throw new InvalidCredentialsError();
-    if (credentials.status === "SUSPENDED" || credentials.status === "DELETED") {
-      throw new AccountUnavailableError();
-    }
+    if (!credentials?.passwordHash || !await this.passwords.verify(password, credentials.passwordHash)) throw new InvalidCredentialsError();
+    if (credentials.status === "SUSPENDED" || credentials.status === "DELETED") throw new AccountUnavailableError();
     const account = await this.accounts.findById(credentials.id);
     if (!account) throw new InvalidCredentialsError();
     return { ...(await this.issueSession(credentials.id, account.roles)), account };
@@ -80,8 +68,7 @@ export class IdentityService {
   async refresh(rawRefreshToken: string) {
     const newRefreshToken = randomBytes(32).toString("base64url");
     const rotated = await this.identities.rotateRefreshSession({
-      oldTokenHash: digest(rawRefreshToken),
-      newTokenHash: digest(newRefreshToken),
+      oldTokenHash: digest(rawRefreshToken), newTokenHash: digest(newRefreshToken),
       newExpiresAt: new Date(Date.now() + this.settings.refreshTokenTtlDays * 24 * 60 * 60 * 1000),
     });
     if (rotated.status !== "rotated") throw new InvalidRefreshTokenError();
@@ -91,7 +78,7 @@ export class IdentityService {
       throw new AccountUnavailableError();
     }
     return {
-      accessToken: await this.accessTokens.sign({ userId: rotated.userId, roles: account.roles }),
+      accessToken: await this.accessTokens.sign({ userId: rotated.userId, roles: account.roles, sessionId: rotated.sessionId }),
       refreshToken: newRefreshToken,
       account,
     };
@@ -107,8 +94,7 @@ export class IdentityService {
     if (!userId) return;
     const token = randomBytes(32).toString("base64url");
     await this.identities.createPasswordResetToken({
-      userId,
-      tokenHash: digest(token),
+      userId, tokenHash: digest(token),
       expiresAt: new Date(Date.now() + this.settings.passwordResetTtlMinutes * 60 * 1000),
     });
     const url = new URL(this.settings.passwordResetBaseUrl);
@@ -119,8 +105,7 @@ export class IdentityService {
   async confirmPasswordReset(token: string, newPassword: string): Promise<void> {
     assertPasswordLength(newPassword);
     const success = await this.identities.consumePasswordReset({
-      tokenHash: digest(token),
-      newPasswordHash: await this.passwords.hash(newPassword),
+      tokenHash: digest(token), newPasswordHash: await this.passwords.hash(newPassword),
     });
     if (!success) throw new InvalidPasswordResetTokenError();
   }

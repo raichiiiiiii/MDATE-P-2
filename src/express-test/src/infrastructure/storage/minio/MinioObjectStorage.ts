@@ -10,17 +10,14 @@ import type { ObjectBody } from "../../../application/ports/ObjectStorage.js";
 
 function defaultExpirySeconds(): number {
   const configured = Number(process.env.MINIO_PRESIGNED_URL_TTL_SECONDS || 300);
-  return Number.isInteger(configured) && configured >= 30 && configured <= 900
-    ? configured
-    : 300;
+  return Number.isInteger(configured) && configured >= 30 && configured <= 900 ? configured : 300;
 }
 
 function assertKey(key: string): void {
   if (!key || key.trim() !== key || key.startsWith("/") || key.includes("\\") || key.includes("\0")) {
     throw new Error("The object key is invalid.");
   }
-  const segments = key.split("/");
-  if (segments.some((segment) => segment === ".." || segment === ".")) {
+  if (key.split("/").some((segment) => segment === ".." || segment === ".")) {
     throw new Error("The object key must not contain . or .. path segments.");
   }
 }
@@ -48,20 +45,11 @@ export class MinioObjectStorage implements ObjectStorage {
     const appUser = process.env.MINIO_APP_USER;
     const appPassword = process.env.MINIO_APP_PASSWORD;
     const region = process.env.MINIO_REGION || "us-east-1";
-
-    if (!appUser || !appPassword) {
-      throw new Error("MINIO_APP_USER and MINIO_APP_PASSWORD must be configured in the Express environment.");
-    }
+    if (!appUser || !appPassword) throw new Error("MINIO_APP_USER and MINIO_APP_PASSWORD must be configured in the Express environment.");
     let parsedEndpoint: URL;
-    try {
-      parsedEndpoint = new URL(endpoint);
-    } catch {
-      throw new Error("MINIO_ENDPOINT must be a valid http(s) URL.");
-    }
-    if (parsedEndpoint.protocol !== "http:" && parsedEndpoint.protocol !== "https:") {
-      throw new Error("MINIO_ENDPOINT must use http or https.");
-    }
-
+    try { parsedEndpoint = new URL(endpoint); }
+    catch { throw new Error("MINIO_ENDPOINT must be a valid http(s) URL."); }
+    if (parsedEndpoint.protocol !== "http:" && parsedEndpoint.protocol !== "https:") throw new Error("MINIO_ENDPOINT must use http or https.");
     return new MinioObjectStorage(new S3Client({
       endpoint: parsedEndpoint.toString().replace(/\/$/, ""),
       region,
@@ -70,61 +58,52 @@ export class MinioObjectStorage implements ObjectStorage {
     }));
   }
 
-  async putObject(input: {
-    bucket: MdateStorageBucket;
-    key: string;
-    body: ObjectBody;
-    contentType: string;
-    metadata?: Record<string, string>;
-  }): Promise<void> {
+  async putObject(input: { bucket: MdateStorageBucket; key: string; body: ObjectBody; contentType: string; metadata?: Record<string, string> }): Promise<void> {
     assertKey(input.key);
-    if (!input.contentType || input.contentType.trim() === "") {
-      throw new Error("contentType is required.");
-    }
+    if (!input.contentType?.trim()) throw new Error("contentType is required.");
     await this.client.send(new PutObjectCommand({
-      Bucket: resolveBucket(input.bucket),
-      Key: input.key,
-      Body: input.body,
-      ContentType: input.contentType,
-      ...(input.metadata ? { Metadata: input.metadata } : {}),
+      Bucket: resolveBucket(input.bucket), Key: input.key, Body: input.body,
+      ContentType: input.contentType, ...(input.metadata ? { Metadata: input.metadata } : {}),
     }));
   }
 
-  async createPresignedUploadUrl(input: {
-    bucket: MdateStorageBucket;
-    key: string;
-    contentType: string;
-    expiresInSeconds?: number;
-  }): Promise<string> {
+  async createPresignedUploadUrl(input: { bucket: MdateStorageBucket; key: string; contentType: string; expiresInSeconds?: number }): Promise<string> {
     assertKey(input.key);
     const expiresIn = input.expiresInSeconds ?? defaultExpirySeconds();
     assertExpiry(expiresIn);
     return getSignedUrl(this.client, new PutObjectCommand({
-      Bucket: resolveBucket(input.bucket),
-      Key: input.key,
-      ContentType: input.contentType,
+      Bucket: resolveBucket(input.bucket), Key: input.key, ContentType: input.contentType,
     }), { expiresIn });
   }
 
-  async createPresignedDownloadUrl(input: {
-    bucket: MdateStorageBucket;
-    key: string;
-    expiresInSeconds?: number;
-  }): Promise<string> {
+  async createPresignedDownloadUrl(input: { bucket: MdateStorageBucket; key: string; expiresInSeconds?: number }): Promise<string> {
     assertKey(input.key);
     const expiresIn = input.expiresInSeconds ?? defaultExpirySeconds();
     assertExpiry(expiresIn);
-    return getSignedUrl(this.client, new GetObjectCommand({
-      Bucket: resolveBucket(input.bucket),
-      Key: input.key,
-    }), { expiresIn });
+    return getSignedUrl(this.client, new GetObjectCommand({ Bucket: resolveBucket(input.bucket), Key: input.key }), { expiresIn });
+  }
+
+  async getObjectBytes(input: { bucket: MdateStorageBucket; key: string; maxBytes: number }): Promise<{ body: Uint8Array; contentType: string | null } | null> {
+    assertKey(input.key);
+    if (!Number.isInteger(input.maxBytes) || input.maxBytes < 1) throw new Error("maxBytes must be a positive integer.");
+    try {
+      const result = await this.client.send(new GetObjectCommand({ Bucket: resolveBucket(input.bucket), Key: input.key }));
+      if (!result.Body) return null;
+      if (typeof result.ContentLength === "number" && result.ContentLength > input.maxBytes) {
+        throw new Error("Stored object exceeds the allowed size.");
+      }
+      const body = await result.Body.transformToByteArray();
+      if (body.byteLength > input.maxBytes) throw new Error("Stored object exceeds the allowed size.");
+      return { body, contentType: result.ContentType ?? null };
+    } catch (error) {
+      const record = error as { name?: string; $metadata?: { httpStatusCode?: number } };
+      if (record.name === "NoSuchKey" || record.name === "NotFound" || record.$metadata?.httpStatusCode === 404) return null;
+      throw error;
+    }
   }
 
   async deleteObject(input: { bucket: MdateStorageBucket; key: string }): Promise<void> {
     assertKey(input.key);
-    await this.client.send(new DeleteObjectCommand({
-      Bucket: resolveBucket(input.bucket),
-      Key: input.key,
-    }));
+    await this.client.send(new DeleteObjectCommand({ Bucket: resolveBucket(input.bucket), Key: input.key }));
   }
 }

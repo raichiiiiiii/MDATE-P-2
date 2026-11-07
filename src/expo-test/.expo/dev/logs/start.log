@@ -4905,3 +4905,169 @@
 {"_e":"metro:client_log","_t":1793807280979,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
 {"_e":"metro:client_log","_t":1793807281003,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
 {"_e":"metro:client_log","_t":1793807281005,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793813994246,"id":"56","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793813994247,"id":"56","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793813994299,"id":"56","total":1,"ms":52.4159}
+{"_e":"metro:client_log","_t":1793813994532,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793813994561,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793813994563,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:failed","_t":1793814079854,"id":null,"message":"Unable to resolve \"expo-image-picker\" from \"src\\features\\profile\\screens\\ProfileScreen.tsx\"\n  4 | } from \"react-native\";\n  5 | import { useRouter } from \"expo-router\";\n> 6 | import * as ImagePicker from \"expo-image-picker\";\n    |                               ^\n  7 | import { Ionicons } from \"@expo/vector-icons\";\n  8 | import { useAuth } from \"../../auth/AuthProvider\";\n  9 | import {","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\profile\\screens\\ProfileScreen.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-image-picker\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\(app)\\(main)\\profile.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../../../src/features/profile/screens/ProfileScreen\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-image-picker","originModulePath":"src\\features\\profile\\screens\\ProfileScreen.tsx"}
+{"_e":"metro:client_log","_t":1793814079868,"level":"error","data":["[UnableToResolveError: Unable to resolve module expo-image-picker from C:\\Users\\User\\dev\\test\\src\\expo-test\\src\\features\\profile\\screens\\ProfileScreen.tsx: expo-image-picker could not be found within the project or in these directories:\n  node_modules\n  4 | } from \"react-native\";\n  5 | import { useRouter } from \"expo-router\";\n> 6 | import * as ImagePicker from \"expo-image-picker\";\n    |                               ^\n  7 | import { Ionicons } from \"@expo/vector-icons\";\n  8 | import { useAuth } from \"../../auth/AuthProvider\";\n  9 | import {]"]}
+{"_e":"metro:bundling:failed","_t":1793814080060,"id":null,"message":"Unable to resolve \"expo-image-picker\" from \"src\\features\\profile\\screens\\ProfileScreen.tsx\"\n  4 | } from \"react-native\";\n  5 | import { useRouter } from \"expo-router\";\n> 6 | import * as ImagePicker from \"expo-image-picker\";\n    |                               ^\n  7 | import { Ionicons } from \"@expo/vector-icons\";\n  8 | import { useAuth } from \"../../auth/AuthProvider\";\n  9 | import {","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\profile\\screens\\ProfileScreen.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-image-picker\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\(app)\\(main)\\profile.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../../../src/features/profile/screens/ProfileScreen\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-image-picker","originModulePath":"src\\features\\profile\\screens\\ProfileScreen.tsx"}
+{"_e":"metro:client_log","_t":1793814080061,"level":"error","data":["[UnableToResolveError: Unable to resolve module expo-image-picker from C:\\Users\\User\\dev\\test\\src\\expo-test\\src\\features\\profile\\screens\\ProfileScreen.tsx: expo-image-picker could not be found within the project or in these directories:\n  node_modules\n  4 | } from \"react-native\";\n  5 | import { useRouter } from \"expo-router\";\n> 6 | import * as ImagePicker from \"expo-image-picker\";\n    |                               ^\n  7 | import { Ionicons } from \"@expo/vector-icons\";\n  8 | import { useAuth } from \"../../auth/AuthProvider\";\n  9 | import {]"]}
+{"_e":"metro:bundling:failed","_t":1793814081964,"id":null,"message":"Unable to resolve \"expo-image-picker\" from \"src\\features\\profile\\screens\\ProfileScreen.tsx\"\n  4 | } from \"react-native\";\n  5 | import { useRouter } from \"expo-router\";\n> 6 | import * as ImagePicker from \"expo-image-picker\";\n    |                               ^\n  7 | import { Ionicons } from \"@expo/vector-icons\";\n  8 | import { useAuth } from \"../../auth/AuthProvider\";\n  9 | import {","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\profile\\screens\\ProfileScreen.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-image-picker\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\(app)\\(main)\\profile.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../../../src/features/profile/screens/ProfileScreen\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-image-picker","originModulePath":"src\\features\\profile\\screens\\ProfileScreen.tsx"}
+{"_e":"metro:client_log","_t":1793814081966,"level":"error","data":["[UnableToResolveError: Unable to resolve module expo-image-picker from C:\\Users\\User\\dev\\test\\src\\expo-test\\src\\features\\profile\\screens\\ProfileScreen.tsx: expo-image-picker could not be found within the project or in these directories:\n  node_modules\n  4 | } from \"react-native\";\n  5 | import { useRouter } from \"expo-router\";\n> 6 | import * as ImagePicker from \"expo-image-picker\";\n    |                               ^\n  7 | import { Ionicons } from \"@expo/vector-icons\";\n  8 | import { useAuth } from \"../../auth/AuthProvider\";\n  9 | import {]"]}
+{"_e":"metro:bundling:failed","_t":1793814105432,"id":null,"message":"Unable to resolve \"expo-image-picker\" from \"src\\features\\profile\\screens\\ProfileScreen.tsx\"\n  4 | } from \"react-native\";\n  5 | import { useRouter } from \"expo-router\";\n> 6 | import * as ImagePicker from \"expo-image-picker\";\n    |                               ^\n  7 | import { Ionicons } from \"@expo/vector-icons\";\n  8 | import { useAuth } from \"../../auth/AuthProvider\";\n  9 | import {","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39msrc\\features\\profile\\screens\\ProfileScreen.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"expo-image-picker\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\\(app)\\(main)\\profile.tsx\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../../../src/features/profile/screens/ProfileScreen\"\u001b[39m\n\n\u001b[90m \u001b[39mapp\u001b[2m (require.context)\u001b[22m\n","filename":null,"targetModuleName":"expo-image-picker","originModulePath":"src\\features\\profile\\screens\\ProfileScreen.tsx"}
+{"_e":"metro:client_log","_t":1793814105434,"level":"error","data":["[UnableToResolveError: Unable to resolve module expo-image-picker from C:\\Users\\User\\dev\\test\\src\\expo-test\\src\\features\\profile\\screens\\ProfileScreen.tsx: expo-image-picker could not be found within the project or in these directories:\n  node_modules\n  4 | } from \"react-native\";\n  5 | import { useRouter } from \"expo-router\";\n> 6 | import * as ImagePicker from \"expo-image-picker\";\n    |                               ^\n  7 | import { Ionicons } from \"@expo/vector-icons\";\n  8 | import { useAuth } from \"../../auth/AuthProvider\";\n  9 | import {]"]}
+{"_e":"metro:client_log","_t":1793814114205,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793814114207,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"root:init","_t":1793814123249,"format":"v0-jsonl","version":"57.0.31"}
+{"_e":"env:mode","_t":1793814123250,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1793814123254,"mode":"development","files":["../..\\..\\.env"],"env":{"EXPO_PUBLIC_API_URL_NATIVE":"http://192.168.1.XXX:3000","EXPO_PUBLIC_API_URL_WEB":"http://localhost:3000","EXPO_PUBLIC_AUTH0_AUDIENCE":"https://api.mdate.com","EXPO_PUBLIC_AUTH0_DOMAIN":"mdate.au.auth0.com","EXPO_PUBLIC_AUTH0_NATIVE_CLIENT_ID":"pr8QDYIMCIM5WXsHK3FKcC8D6sYvQ8nT","EXPO_PUBLIC_AUTH0_WEB_CLIENT_ID":"ju9fuxzqxVmQQNSygtJyhyAKF5FYui33"}}
+{"_e":"devserver:start","_t":1793814123714,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1793814124168,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1793814124604,"plugins":[]}
+{"_e":"metro:instantiate","_t":1793814131275,"atlas":false,"workers":10,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1793814131698,"id":"1","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793814131699,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793814131709,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793814131810,"id":"1","progress":0.11982248520710058,"total":52,"current":18}
+{"_e":"metro:bundling:progress","_t":1793814131910,"id":"1","progress":0.11982248520710058,"total":255,"current":87}
+{"_e":"metro:bundling:progress","_t":1793814132011,"id":"1","progress":0.32460361372387936,"total":423,"current":241}
+{"_e":"metro:bundling:progress","_t":1793814132111,"id":"1","progress":0.4094284936687907,"total":597,"current":382}
+{"_e":"metro:bundling:progress","_t":1793814132216,"id":"1","progress":0.5272808663762676,"total":723,"current":525}
+{"_e":"metro:bundling:progress","_t":1793814132316,"id":"1","progress":0.8395140625,"total":800,"current":733}
+{"_e":"metro:bundling:progress","_t":1793814132416,"id":"1","progress":0.983936004162331,"total":992,"current":984}
+{"_e":"metro:bundling:done","_t":1793814132471,"id":"1","total":992,"ms":772.0591}
+{"_e":"metro:client_log","_t":1793814132715,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793814132716,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793814132716,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793855825246,"id":"v","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793855825247,"id":"v","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1793855825248,"id":"v","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793855825313,"id":"v","total":1,"ms":66.3282}
+{"_e":"metro:client_log","_t":1793855825517,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793855825541,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793855825543,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793855827748,"id":"10","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793855827748,"id":"10","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793855827787,"id":"10","total":1,"ms":38.5611}
+{"_e":"metro:client_log","_t":1793855827923,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793855827937,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793855827938,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793855839896,"id":"18","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793855839896,"id":"18","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793855839945,"id":"18","total":1,"ms":49.4266}
+{"_e":"metro:client_log","_t":1793855840099,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793855840109,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793855840110,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793855841038,"id":"1c","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793855841038,"id":"1c","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793855841076,"id":"1c","total":1,"ms":37.9038}
+{"_e":"metro:client_log","_t":1793855841224,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793855841235,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793855841235,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793855854225,"id":"1l","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793855854225,"id":"1l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793855854269,"id":"1l","total":1,"ms":44.611}
+{"_e":"metro:bundling:started","_t":1793855857480,"id":"1p","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793855857480,"id":"1p","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793855857530,"id":"1p","total":1,"ms":50.059}
+{"_e":"metro:client_log","_t":1793855858506,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793855858506,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793855858506,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793855865456,"id":"1z","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793855865456,"id":"1z","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793855865499,"id":"1z","total":1,"ms":42.8236}
+{"_e":"metro:bundling:started","_t":1793855866138,"id":"22","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793855866138,"id":"22","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793855866166,"id":"22","total":1,"ms":27.3816}
+{"_e":"metro:client_log","_t":1793855867774,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793855867774,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793855867774,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793855883957,"id":"29","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793855883957,"id":"29","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793855883994,"id":"29","total":1,"ms":36.9241}
+{"_e":"metro:bundling:started","_t":1793855886171,"id":"2d","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793855886171,"id":"2d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793855886195,"id":"2d","total":1,"ms":24.6353}
+{"_e":"metro:client_log","_t":1793855887079,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793855887079,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793855887080,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793858445338,"id":"2w","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793858445339,"id":"2w","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793858445376,"id":"2w","total":1,"ms":37.856}
+{"_e":"metro:client_log","_t":1793858445588,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793858445735,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793858445738,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793858465553,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793858469907,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793858473703,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793858474809,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793858477386,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859034193,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859035606,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859036337,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859036804,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859037287,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859037725,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859038223,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859038690,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859183023,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859189928,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859189975,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859190360,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859190399,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859190696,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859190744,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859191193,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859191262,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859191582,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859191886,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859191962,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859192015,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859192438,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859192539,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859192938,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859192982,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:client_log","_t":1793859193685,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"metro:bundling:started","_t":1793860010018,"id":"3l","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793860010018,"id":"3l","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793860010066,"id":"3l","total":1,"ms":48.8866}
+{"_e":"metro:client_log","_t":1793860010312,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793860010463,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793860010471,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793860023419,"id":"3p","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793860023419,"id":"3p","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793860023461,"id":"3p","total":1,"ms":42.0737}
+{"_e":"metro:client_log","_t":1793860023607,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793860023619,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793860023620,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793860024098,"id":"3t","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793860024098,"id":"3t","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793860024142,"id":"3t","total":1,"ms":43.4948}
+{"_e":"metro:client_log","_t":1793860024285,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793860024296,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793860024296,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793860028739,"id":"49","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793860028739,"id":"49","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793860028780,"id":"49","total":1,"ms":41.2431}
+{"_e":"metro:client_log","_t":1793860028931,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:bundling:started","_t":1793860028935,"id":"4b","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793860028935,"id":"4b","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793860028970,"id":"4b","total":1,"ms":35.0728}
+{"_e":"metro:client_log","_t":1793860029117,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793860029130,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793860029130,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793860029829,"id":"4f","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793860029829,"id":"4f","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793860029875,"id":"4f","total":1,"ms":46.1656}
+{"_e":"metro:client_log","_t":1793860030022,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793860030035,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793860030035,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:bundling:started","_t":1793860033764,"id":"4k","platform":"web","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1793860033764,"id":"4k","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1793860033806,"id":"4k","total":1,"ms":41.2027}
+{"_e":"metro:client_log","_t":1793860033952,"level":"log","data":["Running application \"main\" with appParams:\n","{\"hydrate\": undefined, \"rootTag\": \"#root\"}","\nDevelopment-level warnings: ON.\nPerformance optimizations: OFF."]}
+{"_e":"metro:client_log","_t":1793860033963,"level":"warn","data":["Route \"./(therapist-portal)/_layout.tsx\" is missing the required default export. Ensure a React component is exported as default."]}
+{"_e":"metro:client_log","_t":1793860033963,"level":"warn","data":["Route \"./(therapist-portal)/index.tsx\" is missing the required default export. Ensure a React component is exported as default."]}

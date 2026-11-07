@@ -1,5 +1,6 @@
 import { env } from "../shared/configuration/env.js";
 import { CompleteAccountSetup } from "../application/account-setup/CompleteAccountSetup.js";
+import { UpdateAccountPreferences } from "../application/preferences/UpdateAccountPreferences.js";
 import { GetCurrentAccount } from "../application/identity/GetCurrentAccount.js";
 import { IdentityService } from "../application/identity/IdentityService.js";
 import { BcryptPasswordHasher } from "../infrastructure/auth/BcryptPasswordHasher.js";
@@ -17,6 +18,7 @@ const trainingContentRepository = new PgTrainingContentRepository(pool);
 
 export const getCurrentAccount = new GetCurrentAccount(accountRepository);
 export const completeAccountSetup = new CompleteAccountSetup(accountRepository);
+export const updateAccountPreferences = new UpdateAccountPreferences(accountRepository);
 export const trainingContent = new TrainingContentService(trainingContentRepository);
 export const accessTokenService = new JwtAccessTokenService();
 export const identityService = new IdentityService(
