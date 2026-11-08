@@ -6,8 +6,13 @@ export type ApiRequestOptions = {
 };
 export type ApiRequest = <T = unknown>(path: string, options?: ApiRequestOptions) => Promise<T>;
 
+/** A non-2xx response returned by the MDATE API. */
 export class ApiError extends Error {
-  constructor(message: string, readonly status: number) {
+  constructor(
+    message: string,
+    readonly status: number,
+    readonly code?: string,
+  ) {
     super(message);
     this.name = "ApiError";
   }
@@ -39,7 +44,8 @@ export async function parseApiResponse<T>(response: Response): Promise<T> {
       : typeof record.error === "string"
         ? record.error
         : `The API returned HTTP ${response.status}.`;
-    throw new ApiError(message, response.status);
+    const code = typeof record.error === "string" ? record.error : undefined;
+    throw new ApiError(message, response.status, code);
   }
   return payload as T;
 }

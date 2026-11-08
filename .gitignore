@@ -1,5 +1,6 @@
 node_modules/
 .env
+.expo/
 
 # Local-only therapy media copied from the POC (never commit recordings or datasets).
 src/express-test/storage/media/*
