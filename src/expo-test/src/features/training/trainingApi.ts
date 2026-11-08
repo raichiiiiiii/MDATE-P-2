@@ -62,7 +62,7 @@ export type QSetDetails = {
   questions: QSetQuestion[];
 };
 
-function getApiBaseUrl(): string {
+export function getTrainingApiBaseUrl(): string {
   const baseUrl = typeof window !== "undefined"
     ? process.env.EXPO_PUBLIC_API_URL_WEB
     : process.env.EXPO_PUBLIC_API_URL_NATIVE;
@@ -73,7 +73,7 @@ function getApiBaseUrl(): string {
 }
 
 async function get<T>(path: string, getAuthHeaders: ApiHeadersFactory): Promise<T> {
-  const url = `${getApiBaseUrl()}${path}`;
+  const url = `${getTrainingApiBaseUrl()}${path}`;
   const headers = await getAuthHeaders(url, "GET");
   const response = await fetch(url, { method: "GET", headers: { Accept: "application/json", ...headers } });
   const payload: unknown = await response.json().catch(() => null);
@@ -94,6 +94,11 @@ export function localize(value: unknown, language: Language): string {
   return typeof selected === "string" ? selected : "";
 }
 
+/** Read the active question's localized prompt from its content model. */
+export function getPrompt(questionContent: Record<string, unknown> | undefined, language: Language): string {
+  return localize(questionContent?.prompt, language);
+}
+
 export function localizeList(value: unknown, language: Language): string[] {
   if (typeof value !== "object" || value === null || Array.isArray(value)) return [];
   const record = value as Record<string, unknown>;
@@ -107,7 +112,7 @@ export const getSubmoduleQSets = (id: string, headers: ApiHeadersFactory) => get
 
 export async function getQSet(id: string, headers: ApiHeadersFactory): Promise<QSetDetails> {
   const result = await get<QSetDetails>(`/api/v1/q-sets/${encodeURIComponent(id)}`, headers);
-  const baseUrl = getApiBaseUrl();
+  const baseUrl = getTrainingApiBaseUrl();
   return {
     ...result,
     questions: result.questions.map((question) => ({

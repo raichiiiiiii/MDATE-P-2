@@ -1,81 +1,105 @@
-# MDATE review + merge overlay
+# MDATE — Try to Guess Practice Screen Overlay
 
-Target repository: `raichiiiiiii/MDATE-P-2`
-Reviewed default branch: `main`
-Reviewed commit: `c9fcd0f9d23de5b8759e381381a13ac6e8b221d1`
+This overlay updates the existing q-set practice view to a card-based, aphasia-friendly guessing-game layout and connects the microphone control to the repository's existing authenticated Whisper transcription endpoint.
 
-## What this overlay changes
+## Repository paths
 
-1. `src/expo-test/src/features/auth/apiClient.ts`
-   - Preserves the backend's machine-readable `error` value as `ApiError.code`.
-   - Keeps the HTTP status in `ApiError.status`.
+Extract/merge this ZIP at the repository root (`MDATE-P-2/`). It contains these replacement/addition paths:
 
-2. `src/expo-test/src/features/auth/AuthEntryScreen.tsx`
-   - Treats `invalid_credentials` as a normal sign-in outcome and displays the generic message in the form without `console.error`.
-   - Gives a clear message for an already-registered email during sign-up.
-   - Shows a generic temporary-unavailable message for HTTP 5xx and network failures.
-   - Emits diagnostic warnings only in development, and does not log expected 4xx authentication failures.
-   - Applies the same expected-failure logging rule to password-reset requests.
+```text
+src/expo-test/
+  app.json
+  src/features/training/
+    trainingApi.ts
+    speechApi.ts                         [new]
+    screens/ChallengeScreen.tsx
+```
 
-3. `infra/postgres/migrations/003_training_content.sql` and `005_account_management.sql`
-   - Copies the repository's idempotent SQL from `infra/postgres/init/` into a migration directory.
-   - This is for databases backed by an existing Docker volume. Files under `init/` are not automatically replayed when a non-empty Postgres data volume starts.
-   - The training script creates `training_modules`, module versions, submodules, question sets, questions, media metadata, indexes, and starter rows. The account-management script creates the profile/avatar and email-change schema.
+The actual repository route is already:
 
-4. `.gitignore`
-   - Adds `.expo/` so local Expo state and logs are not newly committed.
+```text
+src/expo-test/app/(app)/q-sets/[qSetId].tsx
+```
 
-## Merge instructions
+That route re-exports `ChallengeScreen`; no additional `select_category.jsx` route is needed. The path named in the request appears to refer to the former/legacy naming, not the route present on the current `main` branch.
 
-1. Back up or commit your current working tree.
-2. Extract this ZIP into the repository root and allow the listed files to merge/overwrite at the same relative paths.
-3. Review the diff before committing:
+## 1. Install the Expo SDK 57 packages
 
-   ```powershell
-   git status --short
-   git diff -- .gitignore src/expo-test/src/features/auth/apiClient.ts src/expo-test/src/features/auth/AuthEntryScreen.tsx
-   ```
+From PowerShell:
 
-4. If `src/expo-test/.expo` is already tracked, remove only its Git index entries (this does not delete your local Expo cache):
+```powershell
+cd .\src\expo-test
+npx expo install expo-audio expo-speech
+```
 
-   ```powershell
-   git rm -r --cached src/expo-test/.expo
-   ```
+Use `npx expo install` rather than hardcoding package versions; Expo will choose versions compatible with this project's SDK 57 dependencies and update `package.json` and `package-lock.json`.
 
-5. Apply the SQL scripts to the existing Docker database. The repository Compose file names the database container `postgres`; replace the container name and database user if your running container differs. Run from the repository root, with the correct database name:
+## 2. Verify the environment
 
-   ```powershell
-   $pgUser = "YOUR_POSTGRES_USER"
-   $pgDb = "mdate_db"
-   Get-Content -Raw .\infra\postgres\migrations\003_training_content.sql | docker exec -i postgres psql -v ON_ERROR_STOP=1 -U $pgUser -d $pgDb
-   Get-Content -Raw .\infra\postgres\migrations\005_account_management.sql | docker exec -i postgres psql -v ON_ERROR_STOP=1 -U $pgUser -d $pgDb
-   ```
+The transcription request uses the current `EXPO_PUBLIC_API_URL_WEB` or `EXPO_PUBLIC_API_URL_NATIVE` value and the existing `getAuthHeaders()` authentication flow. The API must be reachable from the device/browser.
 
-   These scripts are idempotent for the schema/data they define. They do not drop user data or reset the volume. Do not use `docker compose down -v` as a migration shortcut; that would delete the database volume.
+For web microphone access, use `http://localhost` during local development or HTTPS in deployed environments. Browsers require a secure context and explicit microphone permission for recording.
 
-6. Verify the schema:
+The backend must have its speech route available:
 
-   ```powershell
-   docker exec -i postgres psql -U $pgUser -d $pgDb -c "SELECT to_regclass('public.training_modules') AS training_modules, to_regclass('public.avatar_upload_intents') AS avatar_upload_intents, to_regclass('public.email_change_requests') AS email_change_requests;"
-   ```
+```text
+POST /api/v1/speech/transcribe
+multipart/form-data:
+  audio: recording file
+  language: ms | en
+```
 
-7. Verify the projects locally:
+The current backend accepts WebM and M4A uploads. Expo Audio's high-quality preset records WebM on web and M4A on native platforms. The uploaded file is temporary and the backend removes it after transcription.
 
-   ```powershell
-   Push-Location .\src\express-test
-   npm ci
-   npm run typecheck
-   npm run build
-   Pop-Location
+## 3. Apply and run
 
-   Push-Location .\src\expo-test
-   npm ci
-   npx tsc --noEmit
-   Pop-Location
-   ```
+After extracting the overlay:
 
-## Scope and limitations
+```powershell
+cd .\src\expo-test
+npx expo install expo-audio expo-speech
+npx expo start -c
+```
 
-This ZIP does not rewrite the Docker Compose deployment because the current `docker/compose/compose.yaml` references `src/frontend` and `src/backend`, which are not present in the repository tree; no frontend/backend Dockerfiles are present either. It also defines both `object-storage` and `minio` services with overlapping host ports 9000/9001. See `REVIEW-FINDINGS.md` before relying on the full-stack Compose file.
+In another terminal, ensure the Express API and the local Whisper worker dependencies/model are available. Test on the web and on the Android tablet separately; browser recording and native file upload use different file-handling paths.
 
-The ZIP was prepared from repository source inspection. TypeScript builds and SQL application were not executed against your local machine or Docker database; run the verification steps above after merging.
+If you use a custom development build rather than Expo Go, rebuild the native app after adding the `expo-audio` config plugin so the microphone permission configuration is applied.
+
+## 4. What is implemented
+
+- Gold coin / points pill and language toggle (English / Bahasa Melayu).
+- Segmented, striped question-progress bar using the current question index.
+- Large image clue card using the question's media assets and localized alt text.
+- Dynamic prompt via `getPrompt(question.content, language)`.
+- Prompt read-aloud through `expo-speech`.
+- Incremental contextual hint reveal from `question.content.hints`.
+- Large microphone button: start recording, tap again to stop, upload to the authenticated Whisper endpoint, and append the transcript into the answer field.
+- Keyboard control that focuses the answer field.
+- Previous / next question navigation and return-to-activities navigation.
+- Malay and English interface strings.
+
+## 5. Deliberate integration boundaries
+
+The current repository does not expose a patient points-balance endpoint or configured per-question session timer. The top-left badge therefore shows `—` rather than misrepresenting `rewardPoolPoints` (the q-set reward pool) as the patient's live balance. The progress bar shows question progress, not a made-up seconds countdown.
+
+The current speech endpoint transcribes audio only; it does not create a therapy attempt, issue XP, or update a points balance. This screen places transcripts into the answer box but does not claim that an answer has been submitted or clinically assessed. Those actions should be wired only after the attempt/adaptation contract is implemented and reviewed.
+
+Hint reveal does not deduct points. There is no approved hint-cost rule or live balance contract in the current codebase, so points are not silently charged.
+
+## 6. Validation checklist
+
+- [ ] `npx expo install expo-audio expo-speech` completes and updates the lockfile.
+- [ ] `npx tsc --noEmit` passes in `src/expo-test`.
+- [ ] The q-set route still loads a published q-set.
+- [ ] English / Malay toggling changes prompt, hints, and interface labels.
+- [ ] Prompt speaker reads the localized prompt aloud.
+- [ ] Hint button reveals hints one at a time and can reset after the last hint.
+- [ ] Web: browser permission is granted, recording stops, and transcript appears in the answer box.
+- [ ] Android: microphone permission is granted, M4A uploads, and transcript appears in the answer box.
+- [ ] Denied permission, no detected speech, and unavailable Whisper worker display recoverable messages.
+- [ ] No points are added or deducted by this screen.
+
+## References
+
+- Expo Audio SDK 57: https://docs.expo.dev/versions/v57.0.0/sdk/audio/
+- Expo Speech SDK 57: https://docs.expo.dev/versions/v57.0.0/sdk/speech/

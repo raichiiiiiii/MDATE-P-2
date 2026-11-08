@@ -10,7 +10,8 @@
     "android": { "package": "com.mdate.app" },
     "plugins": [
       "expo-router",
-      ["expo-image-picker", { "photosPermission": "MDATE uses your photo library so you can choose a profile picture." }]
+      ["expo-image-picker", { "photosPermission": "MDATE uses your photo library so you can choose a profile picture." }],
+      ["expo-audio", { "microphonePermission": "MDATE uses your microphone to transcribe practice answers.", "enableBackgroundRecording": false }]
     ],
     "web": { "bundler": "metro" }
   }
