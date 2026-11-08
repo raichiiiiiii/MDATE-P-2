@@ -136,8 +136,16 @@ services:
       - ../scripts/init-minio.sh:/scripts/init-minio.sh:ro
     restart: "no"
 
+  tunnel:
+      image: cloudflare/cloudflared:latest
+      container_name: cloudflared
+      restart: unless-stopped
+      command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - proxy
 volumes:
   postgres_data:
   mongodb_data:
   minio_data:
   redis_data:
+
