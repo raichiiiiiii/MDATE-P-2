@@ -41,6 +41,7 @@ type AuthContextValue = {
   retrySession: () => Promise<void>;
   requestPasswordReset: (email: string) => Promise<void>;
   confirmPasswordReset: (token: string, password: string) => Promise<void>;
+  confirmEmailChange: (token: string) => Promise<void>;
   completeSetup: (input: AccountSetupInput) => Promise<void>;
   updatePreferences: (preferences: AccountPreferences) => Promise<AccountPreferences>;
 };
@@ -270,6 +271,14 @@ export function AuthProvider({ children }: PropsWithChildren) {
     });
   }, []);
 
+  // Email-change confirmation is intentionally public: the single-use token
+  // proves control of the new email address and is sufficient authorization.
+  const confirmEmailChange = useCallback(async (token: string) => {
+    await publicRequest("/api/v1/auth/email-change/confirm", {
+      method: "POST", body: { token },
+    });
+  }, []);
+
   const completeSetup = useCallback(async (input: AccountSetupInput) => {
     const account = await completeAccountSetup(apiRequest, input);
     setUser(account);
@@ -305,12 +314,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
     retrySession,
     requestPasswordReset,
     confirmPasswordReset,
+    confirmEmailChange,
     completeSetup,
     updatePreferences,
   }), [
     user, accessToken, phase, errorMessage, loadingProgress, loadingMessage,
     apiRequest, getAuthHeaders, signIn, signUp, signOut, refreshSession, retrySession,
-    requestPasswordReset, confirmPasswordReset, completeSetup, updatePreferences,
+    requestPasswordReset, confirmPasswordReset, confirmEmailChange, completeSetup, updatePreferences,
   ]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
