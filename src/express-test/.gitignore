@@ -7,3 +7,4 @@ dist/
 # Keep the fine-tuned Whisper weights local; only the placeholder README is tracked.
 /models/whisper-aphasia/*
 !/models/whisper-aphasia/README.md
+.venv/
