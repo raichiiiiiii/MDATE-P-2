@@ -5,7 +5,7 @@ services:
     build:
       context: ../../src/expo-test
       dockerfile: Dockerfile
-    container_name: mdate-frontend-dev
+    container_name: frontend
     init: true
     working_dir: /app
     command: >-
@@ -37,7 +37,7 @@ services:
     build:
       context: ../../src/express-test
       dockerfile: Dockerfile
-    container_name: mdate-backend-dev
+    container_name: backend
     init: true
     working_dir: /app
     command: >-
@@ -99,7 +99,7 @@ services:
     build:
       context: ../../infra/postgres
       dockerfile: Dockerfile
-    container_name: mdate-postgres-dev
+    container_name: postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-mdate}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in the root .env}
@@ -118,7 +118,7 @@ services:
 
   cache:
     image: redis:7-alpine
-    container_name: mdate-redis-dev
+    container_name: redis
     command: ["redis-server", "--save", "", "--appendonly", "no"]
     # Redis is intentionally internal and ephemeral. The current API does not
     # yet instantiate a Redis client; this service is infrastructure only.
@@ -167,7 +167,7 @@ services:
     build:
       context: ../../infra/nginx
       dockerfile: Dockerfile
-    container_name: mdate-nginx-dev
+    container_name: nginx
     environment:
       APP_HOSTNAME: ${APP_HOSTNAME:-localhost}
       STORAGE_HOSTNAME: ${STORAGE_HOSTNAME:-storage.example.com}
@@ -190,7 +190,7 @@ services:
 
   tunnel:
     image: cloudflare/cloudflared:latest
-    container_name: mdate-cloudflared-dev
+    container_name: cloudflared
     command: ["tunnel", "--no-autoupdate", "run", "--token", "${CLOUDFLARE_TUNNEL_TOKEN:-}"]
     profiles: ["tunnel"]
     depends_on:
