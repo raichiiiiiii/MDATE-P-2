@@ -1,0 +1,6 @@
+# The versions below match the local Transformers 5.x checkpoint workflow.
+# PyTorch is installed separately from the official CPU wheel index in Dockerfile.
+numpy>=1.26,<3
+transformers==5.22.2
+accelerate>=1.10,<2
+safetensors>=0.6,<1

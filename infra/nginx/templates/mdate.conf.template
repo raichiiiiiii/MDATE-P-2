@@ -1,0 +1,61 @@
+server {
+    listen 80 default_server;
+    server_name ${APP_HOSTNAME} _;
+
+    client_max_body_size 100m;
+
+    # Preserve /api/v1/... exactly as Express routes it.
+    location /api/ {
+        proxy_pass http://backend:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+        proxy_connect_timeout 10s;
+        proxy_send_timeout 300s;
+        proxy_read_timeout 300s;
+        proxy_request_buffering off;
+    }
+
+    location /health {
+        proxy_pass http://backend:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+    }
+
+    # Expo web, Metro bundle requests and HMR/websocket traffic.
+    location / {
+        proxy_pass http://frontend:8081;
+        proxy_http_version 1.1;
+        proxy_set_header Host $http_host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+        proxy_read_timeout 3600s;
+        proxy_buffering off;
+    }
+}
+
+# Cloudflare Tunnel should route the storage hostname to this same Nginx
+# origin. Keeping the original Host header is required for SigV4 presigned URLs.
+server {
+    listen 80;
+    server_name ${STORAGE_HOSTNAME};
+    client_max_body_size 100m;
+
+    location / {
+        proxy_pass http://minio:9000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $http_x_forwarded_proto;
+        proxy_request_buffering off;
+        proxy_buffering off;
+        proxy_read_timeout 300s;
+    }
+}

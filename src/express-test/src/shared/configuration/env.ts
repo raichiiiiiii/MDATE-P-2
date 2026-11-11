@@ -16,6 +16,7 @@ const envSchema = z.object({
   PASSWORD_RESET_BASE_URL: z.string().url().default("http://localhost:8081/reset-password"),
   EMAIL_CHANGE_BASE_URL: z.string().url().default("http://localhost:8081/confirm-email-change"),
   MINIO_ENDPOINT: z.string().url().default("http://localhost:9000"),
+  MINIO_PUBLIC_ENDPOINT: z.string().url().optional(),
   MINIO_APP_USER: optionalSecret,
   MINIO_APP_PASSWORD: optionalSecret,
   MINIO_REGION: z.string().min(1).default("us-east-1"),

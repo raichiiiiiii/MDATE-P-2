@@ -9,25 +9,34 @@ import {
 type AppViewportProps = {
   children: ReactNode;
   maxWidth?: number;
+  maxHeight?: number;
   backgroundColor?: string;
   style?: ViewStyle;
 };
 
 export default function AppViewport({
   children,
-  maxWidth = 430,
+  maxWidth = 412,
+  maxHeight = 892,
   backgroundColor = "#F8FAFC",
   style,
 }: AppViewportProps) {
+  const desktopFrameStyle: ViewStyle | undefined = Platform.OS === "web"
+    ? {
+        maxWidth,
+        maxHeight,
+        aspectRatio: 9 / 19.5,
+        flexShrink: 1,
+      }
+    : undefined;
+
   return (
-    <View style={[styles.root, { backgroundColor }]}>
+    <View style={styles.root}>
       <View
         style={[
           styles.viewport,
-          {
-            maxWidth: Platform.OS === "web" ? maxWidth : undefined,
-            backgroundColor,
-          },
+          desktopFrameStyle,
+          { backgroundColor },
           style,
         ]}
       >
@@ -40,7 +49,10 @@ export default function AppViewport({
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: "#E2E8F0",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#000000",
   },
   viewport: {
     flex: 1,
@@ -49,4 +61,3 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
 });
-

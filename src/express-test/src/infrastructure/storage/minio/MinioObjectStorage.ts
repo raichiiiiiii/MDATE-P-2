@@ -37,25 +37,48 @@ function resolveBucket(bucket: MdateStorageBucket): string {
   return configured[bucket];
 }
 
+function createS3Client(endpoint: string, region: string, appUser: string, appPassword: string): S3Client {
+  let parsedEndpoint: URL;
+  try {
+    parsedEndpoint = new URL(endpoint);
+  } catch {
+    throw new Error("MINIO_ENDPOINT and MINIO_PUBLIC_ENDPOINT must be valid URLs.");
+  }
+  if (parsedEndpoint.protocol !== "http:" && parsedEndpoint.protocol !== "https:") {
+    throw new Error("MinIO endpoints must use http or https.");
+  }
+  return new S3Client({
+    endpoint: parsedEndpoint.toString().replace(/\/$/, ""),
+    region,
+    forcePathStyle: true,
+    credentials: { accessKeyId: appUser, secretAccessKey: appPassword },
+  });
+}
+
 export class MinioObjectStorage implements ObjectStorage {
-  constructor(private readonly client: S3Client) {}
+  constructor(
+    private readonly client: S3Client,
+    private readonly presignClient: S3Client = client,
+  ) {}
 
   static fromEnvironment(): MinioObjectStorage {
     const endpoint = process.env.MINIO_ENDPOINT || "http://localhost:9000";
+    const publicEndpoint = process.env.MINIO_PUBLIC_ENDPOINT?.trim();
     const appUser = process.env.MINIO_APP_USER;
     const appPassword = process.env.MINIO_APP_PASSWORD;
     const region = process.env.MINIO_REGION || "us-east-1";
-    if (!appUser || !appPassword) throw new Error("MINIO_APP_USER and MINIO_APP_PASSWORD must be configured in the Express environment.");
-    let parsedEndpoint: URL;
-    try { parsedEndpoint = new URL(endpoint); }
-    catch { throw new Error("MINIO_ENDPOINT must be a valid http(s) URL."); }
-    if (parsedEndpoint.protocol !== "http:" && parsedEndpoint.protocol !== "https:") throw new Error("MINIO_ENDPOINT must use http or https.");
-    return new MinioObjectStorage(new S3Client({
-      endpoint: parsedEndpoint.toString().replace(/\/$/, ""),
-      region,
-      forcePathStyle: true,
-      credentials: { accessKeyId: appUser, secretAccessKey: appPassword },
-    }));
+    if (!appUser || !appPassword) {
+      throw new Error("MINIO_APP_USER and MINIO_APP_PASSWORD must be configured in the Express environment.");
+    }
+
+    const internalClient = createS3Client(endpoint, region, appUser, appPassword);
+    const presignClient = publicEndpoint
+      ? createS3Client(publicEndpoint, region, appUser, appPassword)
+      : internalClient;
+
+    // Normal object I/O stays on the Docker network. Only signed URLs use the
+    // endpoint that the browser/tablet can reach outside the Docker network.
+    return new MinioObjectStorage(internalClient, presignClient);
   }
 
   async putObject(input: { bucket: MdateStorageBucket; key: string; body: ObjectBody; contentType: string; metadata?: Record<string, string> }): Promise<void> {
@@ -71,7 +94,7 @@ export class MinioObjectStorage implements ObjectStorage {
     assertKey(input.key);
     const expiresIn = input.expiresInSeconds ?? defaultExpirySeconds();
     assertExpiry(expiresIn);
-    return getSignedUrl(this.client, new PutObjectCommand({
+    return getSignedUrl(this.presignClient, new PutObjectCommand({
       Bucket: resolveBucket(input.bucket), Key: input.key, ContentType: input.contentType,
     }), { expiresIn });
   }
@@ -80,7 +103,7 @@ export class MinioObjectStorage implements ObjectStorage {
     assertKey(input.key);
     const expiresIn = input.expiresInSeconds ?? defaultExpirySeconds();
     assertExpiry(expiresIn);
-    return getSignedUrl(this.client, new GetObjectCommand({ Bucket: resolveBucket(input.bucket), Key: input.key }), { expiresIn });
+    return getSignedUrl(this.presignClient, new GetObjectCommand({ Bucket: resolveBucket(input.bucket), Key: input.key }), { expiresIn });
   }
 
   async getObjectBytes(input: { bucket: MdateStorageBucket; key: string; maxBytes: number }): Promise<{ body: Uint8Array; contentType: string | null } | null> {

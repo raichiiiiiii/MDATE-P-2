@@ -1,0 +1,14 @@
+node_modules
+dist
+.venv
+venv
+__pycache__
+*.pyc
+.env
+.env.*
+models
+storage/media/*
+!storage/media/README.md
+!storage/media/.gitkeep
+coverage
+*.log

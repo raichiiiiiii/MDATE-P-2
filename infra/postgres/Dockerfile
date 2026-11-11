@@ -1,12 +1,10 @@
 FROM postgres:16-alpine
 
-# Copy first-time database initialization scripts.
-# The official PostgreSQL entrypoint runs these in filename order when
-# PGDATA is empty, so 001 -> 002 -> 003 preserves dependency order.
+# First-boot SQL only. PostgreSQL executes these files, in filename order,
+# only when PGDATA is empty. Do not copy migrations/ here as well: the
+# existing 003_training_content.sql would be executed twice.
 COPY init/ /docker-entrypoint-initdb.d/
-COPY migrations/ /docker-entrypoint-initdb.d/
 
-# Copy custom postgresql.conf
 COPY config/postgresql.conf /etc/postgresql/postgresql.conf
 
 CMD ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
