@@ -5411,3 +5411,19 @@
 {"_e":"metro:client_log","_t":1794143608969,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
 {"_e":"metro:client_log","_t":1794143609273,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
 {"_e":"metro:client_log","_t":1794143614913,"level":"warn","data":["\"keyboard-outline\" is not a valid icon name for family \"ionicons\""]}
+{"_e":"root:init","_t":1794412479487,"format":"v0-jsonl","version":"57.0.33"}
+{"_e":"env:mode","_t":1794412479488,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1794412479497,"mode":"development","files":["../../../.env"],"env":{"EXPO_PUBLIC_AUTH0_AUDIENCE":"https://api.mdate.com","EXPO_PUBLIC_AUTH0_DOMAIN":"mdate.au.auth0.com","EXPO_PUBLIC_AUTH0_NATIVE_CLIENT_ID":"pr8QDYIMCIM5WXsHK3FKcC8D6sYvQ8nT","EXPO_PUBLIC_AUTH0_WEB_CLIENT_ID":"ju9fuxzqxVmQQNSygtJyhyAKF5FYui33"}}
+{"_e":"devserver:start","_t":1794412479829,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../../../app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1794412480014,"serverRoot":"../../..","projectRoot":"../../..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"metro:server_log","_t":1794412480063,"level":"warn","data":["Failed to download the latest version of React Native DevTools. Using a fallback version instead. Connect to the internet or check your network settings."]}
+{"_e":"expo:dev-tools-plugin:load","_t":1794412480210,"plugins":[]}
+{"_e":"metro:instantiate","_t":1794412480260,"atlas":false,"workers":10,"host":"::","port":8081}
+{"_e":"root:init","_t":1794498406668,"format":"v0-jsonl","version":"57.0.33"}
+{"_e":"env:mode","_t":1794498406669,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1794498406677,"mode":"development","files":["../../../.env"],"env":{"EXPO_PUBLIC_AUTH0_AUDIENCE":"https://api.mdate.com","EXPO_PUBLIC_AUTH0_DOMAIN":"mdate.au.auth0.com","EXPO_PUBLIC_AUTH0_NATIVE_CLIENT_ID":"pr8QDYIMCIM5WXsHK3FKcC8D6sYvQ8nT","EXPO_PUBLIC_AUTH0_WEB_CLIENT_ID":"ju9fuxzqxVmQQNSygtJyhyAKF5FYui33"}}
+{"_e":"devserver:start","_t":1794498407046,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../../../app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1794498407268,"serverRoot":"../../..","projectRoot":"../../..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"metro:server_log","_t":1794498407331,"level":"warn","data":["Failed to download the latest version of React Native DevTools. Using a fallback version instead. Connect to the internet or check your network settings."]}
+{"_e":"expo:dev-tools-plugin:load","_t":1794498407529,"plugins":[]}
+{"_e":"metro:instantiate","_t":1794498407590,"atlas":false,"workers":10,"host":"::","port":8081}
