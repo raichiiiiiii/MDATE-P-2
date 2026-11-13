@@ -136,6 +136,8 @@ services:
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Set MINIO_ROOT_USER in the root .env}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Set MINIO_ROOT_PASSWORD in the root .env}
+      # Community Edition uses server-wide CORS rather than bucket-level CORS.
+      MINIO_API_CORS_ALLOW_ORIGIN: "${MINIO_CORS_ALLOWED_ORIGINS:-${APP_PUBLIC_ORIGIN:-http://localhost:8080}}"
     ports:
       # The S3 API is published on the LAN for native-device presigned uploads.
       # For public access, use the storage hostname through Cloudflare Tunnel.
@@ -158,11 +160,11 @@ services:
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Set MINIO_ROOT_PASSWORD in the root .env}
       MINIO_APP_USER: ${MINIO_APP_USER:?Set MINIO_APP_USER in the root .env}
       MINIO_APP_PASSWORD: ${MINIO_APP_PASSWORD:?Set MINIO_APP_PASSWORD in the root .env}
-      EXPO_WEB_ORIGIN: ${APP_PUBLIC_ORIGIN:-http://localhost:8080}
     entrypoint: ["/bin/sh", "/scripts/init-minio.sh"]
     volumes:
       - ../scripts/init-minio.sh:/scripts/init-minio.sh:ro
     restart: "no"
+
   proxy:
     build:
       context: ../../infra/nginx

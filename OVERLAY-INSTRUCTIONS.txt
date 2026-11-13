@@ -1,0 +1,24 @@
+MDATE MinIO CORS initialization fix
+
+1. Extract this ZIP into the root of your MDATE-P-2 repository.
+2. Allow the four existing files to be overwritten:
+   - .env.example
+   - docker/compose/compose.yaml
+   - docker/scripts/init-minio.sh
+   - docker/README.md
+3. Keep your existing root .env. It is intentionally NOT included.
+4. Review APP_PUBLIC_ORIGIN in .env. MinIO's server-wide CORS setting defaults to that origin.
+5. Recreate MinIO and rerun the one-shot initializer:
+
+   docker compose -f docker/compose/compose.yaml --env-file .env up --build --force-recreate minio minio-init
+
+6. Check the result:
+
+   docker compose -f docker/compose/compose.yaml --env-file .env logs --no-color minio-init
+   docker compose -f docker/compose/compose.yaml --env-file .env ps -a
+
+7. Start the complete stack:
+
+   docker compose -f docker/compose/compose.yaml --env-file .env up --build
+
+The overlay does not delete or reset named volumes. Do not run `docker compose down -v` for this fix.

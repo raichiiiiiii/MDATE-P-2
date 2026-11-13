@@ -1,8 +1,6 @@
 #!/bin/sh
 set -eu
 
-: "${EXPO_WEB_ORIGIN:=http://localhost:8081}"
-
 # Wait for MinIO to become reachable. Keep retries finite so misconfiguration
 # produces a visible failure rather than an endless restart loop.
 tries=0
@@ -19,25 +17,8 @@ mc mb --ignore-existing mdate/mdate-audio
 mc mb --ignore-existing mdate/mdate-assets
 mc mb --ignore-existing mdate/mdate-exports
 
-# Expo Web uploads directly to a presigned URL, so the browser origin needs
-# CORS permission on the private asset bucket. Native clients do not use CORS.
-cat > /tmp/mdate-assets-cors.xml <<EOF
-<CORSConfiguration>
-  <CORSRule>
-    <AllowedOrigin>${EXPO_WEB_ORIGIN}</AllowedOrigin>
-    <AllowedMethod>GET</AllowedMethod>
-    <AllowedMethod>PUT</AllowedMethod>
-    <AllowedMethod>HEAD</AllowedMethod>
-    <AllowedHeader>*</AllowedHeader>
-    <ExposeHeader>ETag</ExposeHeader>
-    <MaxAgeSeconds>300</MaxAgeSeconds>
-  </CORSRule>
-</CORSConfiguration>
-EOF
-mc cors set mdate/mdate-assets /tmp/mdate-assets-cors.xml
-
-# Make a dedicated backend identity that cannot administer MinIO. Policy access
-# is limited to the three MDATE buckets.
+# Create a dedicated backend identity that cannot administer MinIO. Policy
+# access is limited to the three MDATE buckets.
 cat > /tmp/mdate-app-policy.json <<'POLICY'
 {
   "Version": "2012-10-17",
@@ -74,4 +55,4 @@ mc admin policy create mdate mdate-app-bucket-access /tmp/mdate-app-policy.json 
 mc admin user add mdate "$MINIO_APP_USER" "$MINIO_APP_PASSWORD" >/dev/null 2>&1 || true
 mc admin policy attach mdate mdate-app-bucket-access --user "$MINIO_APP_USER"
 
-echo "MDATE MinIO initialization complete: buckets, avatar CORS and application identity configured."
+echo "MDATE MinIO initialization complete: buckets and application identity configured."

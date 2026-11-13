@@ -1,6 +1,6 @@
 # MDATE Docker development overlay
 
-This overlay targets repository `raichiiiiiii/MDATE-P-2`, branch `main`, inspected at commit `3e9f939d87968370803fce611ccc33357a9fd0bc`.
+This overlay targets repository `raichiiiiiii/MDATE-P-2`, branch `main`.
 
 It keeps the repository's current application locations (`src/expo-test` and `src/express-test`) and provides a development stack with hot reload.
 
@@ -11,22 +11,22 @@ Browser / Android tablet
         |
         v
 Nginx :80  <---- Cloudflare Tunnel (optional profile; TLS at Cloudflare edge)
-   |       |\
-   |       | \-- storage hostname --> MinIO :9000 (S3 presigned URLs)
-   |       \---- /api/* -----------> Express :3000
-   \------------ / ---------------> Expo web / Metro :8081
+   |       |\\
+   |       | \\-- storage hostname --> MinIO :9000 (S3 presigned URLs)
+   |       \\---- /api/* -----------> Express :3000
+   \\------------ / ---------------> Expo web / Metro :8081
 
 Express ---> PostgreSQL :5432
-       \----> Redis :6379 (container only; API integration is not present yet)
-       \----> MinIO :9000 (internal S3 operations)
-       \----> local Python Whisper worker + FFmpeg
+       \\----> Redis :6379 (container only; API integration is not present yet)
+       \\----> MinIO :9000 (internal S3 operations)
+       \\----> local Python Whisper worker + FFmpeg
 ```
 
 Only Nginx is the application HTTP entrypoint. Expo Metro is separately published on the LAN during development because the physical tablet needs to fetch the native JavaScript bundle. PostgreSQL and the MinIO console are loopback-only; Redis and Express have no host-published ports. The MinIO S3 port is published on the LAN for local presigned uploads.
 
 ## 1. Merge the overlay
 
-Extract the ZIP into the repository root and allow files to merge/overwrite. It does not move or replace the existing application directories. The ZIP deliberately excludes `.env`, model weights, recordings, and database data.
+Extract the ZIP into the repository root and allow files to merge/overwrite. It does not move or replace the existing application directories. The overlay deliberately excludes `.env`, model weights, recordings, and database data.
 
 ## 2. Prepare the environment
 
@@ -43,6 +43,7 @@ Edit `.env` before starting:
 - Replace `POSTGRES_PASSWORD`, `JWT_ACCESS_SECRET`, `MINIO_ROOT_PASSWORD`, and `MINIO_APP_PASSWORD` with private values. Use URL-safe letters/numbers/underscore/hyphen in `POSTGRES_PASSWORD` because it is embedded in `DATABASE_URL`.
 - For local development, keep `APP_PUBLIC_ORIGIN=http://localhost:8080` and set `MINIO_PUBLIC_ENDPOINT=http://<LOCAL_IP>:9000`.
 - For Cloudflare access, set `APP_HOSTNAME` and `STORAGE_HOSTNAME` to the two Cloudflare hostnames, `APP_PUBLIC_ORIGIN=https://<app-hostname>`, and `MINIO_PUBLIC_ENDPOINT=https://<storage-hostname>`.
+- MinIO's server-wide CORS allowlist defaults to `APP_PUBLIC_ORIGIN`. Set `MINIO_CORS_ALLOWED_ORIGINS` only when the web app must be served from multiple browser origins; use a comma-separated list. Include the app's origin, not the storage hostname.
 
 Generate a JWT secret in PowerShell with:
 
@@ -131,6 +132,6 @@ That reset is destructive. It removes the volumes named by this overlay. It does
 - The fresh volume contains a fresh schema, but it does not seed published therapy modules unless the current SQL initialization files provide that seed. Schema initialization and content seeding are separate concerns.
 - Redis starts with both RDB snapshots and AOF disabled. The current Express code does not yet connect to Redis, so this overlay does not claim Redis-backed caching/idempotency is active.
 - The MinIO adapter uses `MINIO_ENDPOINT` for server-to-server traffic and `MINIO_PUBLIC_ENDPOINT` for URLs signed for browsers/tablets. This is necessary because a client device cannot resolve the Docker-only hostname `minio`.
-- The MinIO CORS initializer permits the configured `APP_PUBLIC_ORIGIN`. If using another browser origin, update that value before running `minio-init` again or reset/reinitialize the MinIO volume.
+- MinIO Community Edition uses server-wide CORS configured by `MINIO_API_CORS_ALLOW_ORIGIN`; bucket-level CORS initialization is intentionally omitted. Change `MINIO_CORS_ALLOWED_ORIGINS` or `APP_PUBLIC_ORIGIN` and recreate/restart the MinIO container for the new allowlist to take effect.
 - Expo web calls the same origin as the page (`APP_PUBLIC_ORIGIN`); Nginx forwards `/api/*` without stripping `/api`. Native clients use `NATIVE_API_ORIGIN`.
 - Nginx and the Cloudflare Tunnel are development infrastructure, not a production security boundary. Do not expose the development stack to the public internet with a production patient dataset.
