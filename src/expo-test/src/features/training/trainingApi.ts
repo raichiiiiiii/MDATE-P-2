@@ -1,4 +1,5 @@
 import type { ApiHeadersFactory } from "../auth/accountApi";
+import { getApiBaseUrl } from "../auth/apiClient";
 
 export type Language = "ms" | "en";
 export type LocalizedText = Record<string, string>;
@@ -62,14 +63,12 @@ export type QSetDetails = {
   questions: QSetQuestion[];
 };
 
+/**
+ * Keep the training API on the same origin as auth and account API requests.
+ * This also ensures relative media URLs resolve through the active Nginx host.
+ */
 export function getTrainingApiBaseUrl(): string {
-  const baseUrl = typeof window !== "undefined"
-    ? process.env.EXPO_PUBLIC_API_URL_WEB
-    : process.env.EXPO_PUBLIC_API_URL_NATIVE;
-  if (!baseUrl) {
-    throw new Error("Missing API URL. Set EXPO_PUBLIC_API_URL_WEB and EXPO_PUBLIC_API_URL_NATIVE in your .env file.");
-  }
-  return baseUrl.replace(/\/+$/, "");
+  return getApiBaseUrl();
 }
 
 async function get<T>(path: string, getAuthHeaders: ApiHeadersFactory): Promise<T> {

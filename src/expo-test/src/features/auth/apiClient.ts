@@ -18,12 +18,22 @@ export class ApiError extends Error {
   }
 }
 
+/**
+ * Resolve the API address for this runtime.
+ *
+ * Web runs behind Nginx, which proxies /api/* to Express. Use the current page
+ * origin so localhost, a named Cloudflare hostname, and a Quick Tunnel hostname
+ * all reach the API through the same origin without browser CORS configuration.
+ * Native apps cannot use window.location, so they retain the configured LAN URL.
+ */
 export function getApiBaseUrl(): string {
-  const value = typeof window !== "undefined"
-    ? process.env.EXPO_PUBLIC_API_URL_WEB
-    : process.env.EXPO_PUBLIC_API_URL_NATIVE;
+  if (typeof window !== "undefined") {
+    return window.location.origin.replace(/\/+$/, "");
+  }
+
+  const value = process.env.EXPO_PUBLIC_API_URL_NATIVE?.trim();
   if (!value) {
-    throw new Error("Set EXPO_PUBLIC_API_URL_WEB and EXPO_PUBLIC_API_URL_NATIVE in your Expo environment.");
+    throw new Error("Set EXPO_PUBLIC_API_URL_NATIVE in your Expo environment.");
   }
   return value.replace(/\/+$/, "");
 }
