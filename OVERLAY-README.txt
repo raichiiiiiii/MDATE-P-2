@@ -1,67 +1,62 @@
-MDATE — SAME-ORIGIN API / CLOUDFLARE QUICK TUNNEL FIX
-====================================================
+MDATE — Dynamic browser-origin validation overlay
 
-PURPOSE
+Purpose
 -------
-Fixes web API requests that incorrectly target http://localhost:8080 when the
-application is opened through a public Cloudflare hostname such as
-https://<random-name>.trycloudflare.com.
+Fixes HTTP 403 "This browser origin is not allowed" when a Cloudflare Quick
+Tunnel hostname changes. The API no longer compares every browser Origin to a
+single fixed EXPO_WEB_ORIGIN value. It compares the browser Origin to the
+request's Host and externally visible protocol.
 
-WHAT CHANGED
-------------
-1. src/expo-test/src/features/auth/apiClient.ts
-   - Web API requests now use window.location.origin.
-   - Native API requests continue to use EXPO_PUBLIC_API_URL_NATIVE.
+Files to merge
+--------------
+src/express-test/src/main/http/middleware/requireAllowedOrigin.ts
+src/express-test/src/main/http/middleware/requireAllowedOrigin.test.ts
+src/express-test/package.json
+src/express-test/.env.example
 
-2. src/expo-test/src/features/training/trainingApi.ts
-   - Training API now reuses the shared API URL resolver.
-   - Auth, training, speech, and relative training-media requests therefore use
-     the same active origin on web.
-
-3. src/expo-test/.env.example
-   - Removes the obsolete EXPO_PUBLIC_API_URL_WEB setting.
-   - Documents the native API URL setting.
-
-MERGE
+Merge
 -----
-Extract this ZIP into the MDATE-P-2 repository root and allow the three files
-to merge/overwrite. No .env file, credentials, database data, MinIO data, or
-model weights are included.
+1. Extract this ZIP into the repository root.
+2. Allow the listed files to overwrite existing files.
+3. Keep your root .env unchanged. No new root .env setting is required.
+4. Recreate the backend so it loads the new middleware:
 
-RESTART FRONTEND
-----------------
-From the repository root in PowerShell:
+   docker compose --env-file .env -f docker/compose/compose.yaml up -d --build --force-recreate backend
 
-docker compose --env-file .env -f docker/compose/compose.yaml up -d --build --force-recreate frontend
+5. Check backend startup:
 
-The code is bind-mounted, but recreating the frontend also ensures Expo picks
-up the new runtime configuration and clears the old process environment.
+   docker compose --env-file .env -f docker/compose/compose.yaml logs --tail 100 backend
 
-TEST
-----
-1. Local frontend:
-   http://localhost:8080
+6. Test the public API health route:
 
-2. Public Quick Tunnel frontend:
-   https://<your-current-name>.trycloudflare.com
+   curl.exe -i https://YOUR-QUICK-TUNNEL.trycloudflare.com/health
 
-3. Test the backend directly through each host:
-   http://localhost:8080/health
-   https://<your-current-name>.trycloudflare.com/health
+7. Test an authentication endpoint. A 400/401 response may be expected based
+   on payload/session; the specific "origin_not_allowed" 403 should disappear.
 
-4. In browser Developer Tools > Network, inspect an API call such as
-   /api/v1/auth/refresh or /api/v1/me. The Request URL should start with the
-   same origin as the page. For the Quick Tunnel it should begin with
-   https://<your-current-name>.trycloudflare.com/api/...
-   It must not point to http://localhost:8080.
+Run regression tests from src/express-test:
 
-IMPORTANT
----------
-- Browse the web app through Nginx (localhost:8080 or the public Tunnel URL).
-  Do not use the direct Expo web/Metro port 8081 as the application URL; that
-  port does not proxy /api to Express.
-- Nginx and Cloudflare Tunnel configuration are unchanged. No local TLS
-  certificate or Nginx HTTPS listener is required for Cloudflare edge TLS.
-- This fix addresses API requests. Public MinIO presigned upload/download URLs
-  are a separate concern: if MINIO_PUBLIC_ENDPOINT still points to a private
-  LAN address, remote users may still be unable to upload or download objects.
+   npm run test:origin
+   npm run typecheck
+
+Technical notes
+---------------
+- Local HTTP works when Nginx forwards no X-Forwarded-Proto; Express falls
+  back to its direct HTTP protocol.
+- Cloudflare documents that it sets X-Forwarded-Proto to the visitor's original
+  HTTP/HTTPS scheme. The existing Nginx template forwards this header to Express.
+- The backend is not host-published in Compose, so browser requests reach it
+  through Nginx. Do not publish the backend port directly.
+- Requests without an Origin header (such as native clients) continue through
+  this middleware; authentication/authorization remains enforced separately.
+- The global Express CORS policy still uses EXPO_WEB_ORIGIN for any explicitly
+  cross-origin integrations. Same-origin browser API calls do not require CORS.
+- This overlay does not change MinIO CORS, presigned storage URLs, Nginx routing,
+  Cloudflare TLS, database volumes, or application data.
+
+Trust boundary
+--------------
+The comparison depends on Host and X-Forwarded-Proto being supplied by the
+trusted Nginx proxy path. Keep Express accessible only on the internal Docker
+network. The current Nginx configuration preserves Host and forwards the
+Cloudflare-provided X-Forwarded-Proto header.
