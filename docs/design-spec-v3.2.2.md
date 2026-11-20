@@ -1068,7 +1068,8 @@ These are recorded as open work so they are not silently omitted. They do not bl
 
 **This specification must not become the accidental source of truth for backend architecture that is already locked elsewhere.** Either the HLD and SRS are added to the repository, or stable references (permanent commit SHAs, external URLs with archiving) are recorded here. Until either is done, §4.5.3 Milestone 2, §7.4, and any other HLD-dependent requirement are **provisional**.
 
-**Repository documentation inventory (actual state):** `docs/` currently contains `design-spec.md` (v1), `design-spec-v2.md`, `design-spec-v3.md`, `design-spec-v3.1.md`, `design-spec-v3.2.md` (review snapshot at `9d055247…`), `design-spec-v3.2.1.md` (review snapshot at `ac33c4a1…`), and this file (`design-spec-v3.2.2.md`) once committed.
+**Repository documentation inventory (actual state):** `docs/` currently contains `design-spec.md` (v1), `design-spec-v2.md`, `design-spec-v3.md`, `design-spec-v3.1.md`, `design-spec-v3.2.md` (review snapshot at `9d055247…`), `design-spec-v3.2.1.md` (review snapshot at `ac33c4a1…`), and this file (design-spec-v3.2.2.md), committed to main as
+the current review snapshot..
 
 **Workflow note (P0-C1):** the recommended workflow for **future substantive revisions** (beyond v3.2.2) is to develop on a dedicated review branch and merge to `main` only after Gate A (§11) passes. v3.2.2 itself is a targeted correction of a review of the previous snapshot, so it is committed directly to `main` for the same reason v3.2.1 was — the review is against a stable file, and the corrected document is the reviewable artefact. Documenting a workflow that has not actually happened is not acceptable; v3.2.2 records what happened.
 
