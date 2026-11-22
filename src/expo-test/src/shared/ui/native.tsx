@@ -8,9 +8,11 @@ import {
   type TextProps,
   type TextStyle,
 } from "react-native";
+import { usePatientPreferences } from "../theme/PatientPreferencesContext";
 
 // Re-export the rest of React Native unchanged. Text and TextInput below are
-// intentionally overridden so the existing screens share the app typography.
+// intentionally overridden so screens share Poppins and account accessibility
+// preferences whenever they import from this module.
 export * from "react-native";
 
 const POPPINS_BY_WEIGHT: Readonly<Record<string, string>> = {
@@ -25,33 +27,56 @@ const POPPINS_BY_WEIGHT: Readonly<Record<string, string>> = {
   "900": "Poppins_900Black",
 };
 
-function withPoppins(style: StyleProp<TextStyle>): StyleProp<TextStyle> {
+function isWhite(color: unknown): boolean {
+  if (typeof color !== "string") return false;
+  const normalized = color.trim().toLowerCase();
+  return normalized === "white" || normalized === "#fff" || normalized === "#ffffff" ||
+    normalized === "rgb(255, 255, 255)" || normalized === "rgba(255, 255, 255, 1)";
+}
+
+function accessibleTextStyle(
+  style: StyleProp<TextStyle>,
+  textSize: "small" | "medium" | "large",
+  highContrast: boolean,
+): StyleProp<TextStyle> {
   const flattened = StyleSheet.flatten(style);
-
-  // Keep deliberate font overrides (for example, the dashboard monospace
-  // placeholder) instead of replacing them with Poppins.
-  if (typeof flattened?.fontFamily === "string" && flattened.fontFamily.length > 0) {
-    return style;
-  }
-
   const requestedWeight = String(flattened?.fontWeight ?? "400");
-  const normalizedWeight =
-    requestedWeight === "bold"
-      ? "700"
-      : requestedWeight === "normal"
-        ? "400"
-        : requestedWeight;
+  const normalizedWeight = requestedWeight === "bold"
+    ? "700"
+    : requestedWeight === "normal" ? "400" : requestedWeight;
+  const hasExplicitFontFamily = typeof flattened?.fontFamily === "string" && flattened.fontFamily.length > 0;
+  const fontFamily = hasExplicitFontFamily
+    ? flattened.fontFamily
+    : POPPINS_BY_WEIGHT[normalizedWeight] ?? POPPINS_BY_WEIGHT["400"];
 
-  const fontFamily = POPPINS_BY_WEIGHT[normalizedWeight] ?? "Poppins_400Regular";
+  const scale = textSize === "large" ? 1.2 : textSize === "small" ? 0.9 : 1;
+  const requestedSize = typeof flattened?.fontSize === "number" ? flattened.fontSize : 16;
+  // The design specification sets 16px as the minimum text floor at every setting.
+  const fontSize = Math.max(16, Math.round(requestedSize * scale));
+  const requestedLineHeight = typeof flattened?.lineHeight === "number"
+    ? flattened.lineHeight * scale
+    : fontSize * 1.4;
+  const lineHeight = Math.max(Math.round(fontSize * 1.3), Math.round(requestedLineHeight));
 
-  // Each Google Fonts export is a distinct font face, so use the matching
-  // face and neutralize synthetic bolding from the original fontWeight.
-  return [style, { fontFamily, fontWeight: "normal" }];
+  return [style, {
+    fontFamily,
+    ...(hasExplicitFontFamily ? {} : { fontWeight: "normal" as const }),
+    fontSize,
+    lineHeight,
+    ...(highContrast && !isWhite(flattened?.color) ? { color: "#000000" } : {}),
+  }];
 }
 
 export const Text = forwardRef<React.ElementRef<typeof NativeText>, TextProps>(
-  function PoppinsText({ style, ...props }, ref) {
-    return <NativeText ref={ref} {...props} style={withPoppins(style)} />;
+  function PatientText({ style, ...props }, ref) {
+    const preferences = usePatientPreferences();
+    return (
+      <NativeText
+        ref={ref}
+        {...props}
+        style={accessibleTextStyle(style, preferences.accessibility.textSize, preferences.accessibility.contrast === "high")}
+      />
+    );
   },
 );
 
@@ -60,8 +85,17 @@ Text.displayName = "Text";
 export const TextInput = forwardRef<
   React.ElementRef<typeof NativeTextInput>,
   TextInputProps
->(function PoppinsTextInput({ style, ...props }, ref) {
-  return <NativeTextInput ref={ref} {...props} style={withPoppins(style)} />;
+>(function PatientTextInput({ style, placeholderTextColor, ...props }, ref) {
+  const preferences = usePatientPreferences();
+  const highContrast = preferences.accessibility.contrast === "high";
+  return (
+    <NativeTextInput
+      ref={ref}
+      {...props}
+      placeholderTextColor={highContrast && !isWhite(placeholderTextColor) ? "#262626" : placeholderTextColor}
+      style={accessibleTextStyle(style, preferences.accessibility.textSize, highContrast)}
+    />
+  );
 });
 
 TextInput.displayName = "TextInput";

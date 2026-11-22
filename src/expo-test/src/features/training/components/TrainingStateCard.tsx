@@ -1,5 +1,6 @@
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Text } from "../../../shared/ui/native";
 
 type TrainingStateCardProps = {
   title: string;
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
   },
   message: {
     color: "#52657A",
-    fontSize: 15,
+    fontSize: 16,
     lineHeight: 23,
     textAlign: "center",
   },

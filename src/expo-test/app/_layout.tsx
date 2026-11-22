@@ -13,32 +13,35 @@ import { Poppins_900Black } from "@expo-google-fonts/poppins/900Black";
 
 import AppViewport from "../src/components/AppViewport";
 import { AuthProvider, useAuth } from "../src/features/auth/AuthProvider";
+import { PatientPreferencesProvider } from "../src/shared/theme/PatientPreferencesContext";
 
 function RootNavigator() {
   const { phase, user } = useAuth();
   const isTherapist = user?.roles.some((role) => role.toLowerCase() === "therapist") ?? false;
 
   return (
-    <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "#F8FAFC" } }}>
-      <Stack.Protected guard={phase === "loading" || phase === "error"}>
-        <Stack.Screen name="index" />
-      </Stack.Protected>
-      <Stack.Protected guard={phase === "signed-out"}>
-        <Stack.Screen name="(auth)" />
-        <Stack.Screen name="reset-password" />
-      </Stack.Protected>
-      <Stack.Protected guard={phase === "setup-required"}>
-        <Stack.Screen name="(account-setup)" />
-      </Stack.Protected>
-      <Stack.Protected guard={phase === "ready"}>
-        <Stack.Screen name="(app)" />
-      </Stack.Protected>
-      <Stack.Protected guard={phase === "ready" && isTherapist}>
-        <Stack.Screen name="(therapist-portal)" />
-      </Stack.Protected>
-      {/* Verification links must remain reachable while signed in or signed out. */}
-      <Stack.Screen name="confirm-email-change" />
-    </Stack>
+    <PatientPreferencesProvider account={user}>
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "#F8FAFC" } }}>
+        <Stack.Protected guard={phase === "loading" || phase === "error"}>
+          <Stack.Screen name="index" />
+        </Stack.Protected>
+        <Stack.Protected guard={phase === "signed-out"}>
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="reset-password" />
+        </Stack.Protected>
+        <Stack.Protected guard={phase === "setup-required"}>
+          <Stack.Screen name="(account-setup)" />
+        </Stack.Protected>
+        <Stack.Protected guard={phase === "ready"}>
+          <Stack.Screen name="(app)" />
+        </Stack.Protected>
+        <Stack.Protected guard={phase === "ready" && isTherapist}>
+          <Stack.Screen name="(therapist-portal)" />
+        </Stack.Protected>
+        {/* Verification links must remain reachable while signed in or signed out. */}
+        <Stack.Screen name="confirm-email-change" />
+      </Stack>
+    </PatientPreferencesProvider>
   );
 }
 

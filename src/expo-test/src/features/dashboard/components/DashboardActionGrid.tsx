@@ -1,5 +1,6 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Text } from "../../../shared/ui/native";
 
 import type { DashboardAction, DashboardRoute } from "../data/dashboardActions";
 
@@ -20,7 +21,7 @@ export default function DashboardActionGrid({ actions, onActionPress }: Dashboar
           onPress={() => onActionPress(action.href)}
           style={({ pressed }) => [styles.actionButton, pressed && styles.pressed]}
         >
-          <Ionicons name={action.icon} size={24} color="#333" />
+          <Ionicons name={action.icon} size={26} color="#174EA6" />
           <Text style={styles.actionButtonText}>{action.title}</Text>
         </Pressable>
       ))}
@@ -32,26 +33,31 @@ const styles = StyleSheet.create({
   gridContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
+    gap: 10,
     justifyContent: "space-between",
   },
   actionButton: {
-    width: "22%",
-    aspectRatio: 1,
+    width: "48%",
+    minHeight: 64,
     borderWidth: 1.5,
-    borderColor: "#ccc",
+    borderColor: "#CBD5E1",
     borderRadius: 16,
-    justifyContent: "center",
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
-    backgroundColor: "#FFF",
+    gap: 10,
+    backgroundColor: "#FFFFFF",
   },
   actionButtonText: {
-    fontSize: 10,
-    color: "#333",
-    marginTop: 4,
-    textAlign: "center",
+    fontSize: 16,
+    lineHeight: 22,
+    fontWeight: "600",
+    color: "#172B4D",
+    flex: 1,
   },
   pressed: {
-    opacity: 0.7,
+    opacity: 0.75,
+    backgroundColor: "#F1F5F9",
   },
 });

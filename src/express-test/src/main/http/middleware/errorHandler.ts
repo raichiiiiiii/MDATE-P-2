@@ -6,9 +6,12 @@ export const errorHandler: ErrorRequestHandler = (error, _req, res, next) => {
   if (res.headersSent) { next(error); return; }
   if (error instanceof multer.MulterError) {
     const tooLarge = error.code === "LIMIT_FILE_SIZE";
+    const isAvatar = error.field === "avatar";
     res.status(tooLarge ? 413 : 400).json({
-      error: tooLarge ? "audio_file_too_large" : "invalid_upload",
-      message: tooLarge ? "Audio uploads must be 15 MB or smaller." : "The audio upload is invalid.",
+      error: tooLarge ? (isAvatar ? "avatar_file_too_large" : "audio_file_too_large") : "invalid_upload",
+      message: tooLarge
+        ? (isAvatar ? "Choose an image no larger than 2 MB." : "Audio uploads must be 15 MB or smaller.")
+        : "The upload is invalid.",
     });
     return;
   }

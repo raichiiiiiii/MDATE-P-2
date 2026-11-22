@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
 import {
-  ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View,
+  ActivityIndicator, Image, Platform, Pressable, ScrollView, StyleSheet, View,
 } from "react-native";
 import { useRouter } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../auth/AuthProvider";
+import { toApiUrl } from "../../auth/apiClient";
+import { Text, TextInput } from "../../../shared/ui/native";
 import {
   confirmAvatarUpload, createAvatarUpload, deleteMyAvatar, getMyProfile,
-  requestEmailChange, updateMyProfile, type MyProfile,
+  requestEmailChange, updateMyProfile, uploadMyAvatarDirect, type MyProfile,
 } from "../services/profileApi";
 
 const MAX_AVATAR_BYTES = 2 * 1024 * 1024;
@@ -78,10 +80,18 @@ export default function ProfileScreen() {
       if (!Number.isInteger(sizeBytes) || sizeBytes < 1 || sizeBytes > MAX_AVATAR_BYTES) {
         throw new Error("Choose an image no larger than 2 MB.");
       }
-      const ticket = await createAvatarUpload(apiRequest, contentType, sizeBytes);
-      const uploaded = await fetch(ticket.uploadUrl, { method: "PUT", headers: ticket.headers, body: blob });
-      if (!uploaded.ok) throw new Error(`The image upload failed (HTTP ${uploaded.status}). Check MinIO connectivity and CORS settings.`);
-      const updated = await confirmAvatarUpload(apiRequest, ticket.uploadId);
+      const form = new FormData();
+      if (Platform.OS === "web") {
+        const ext = contentType === "image/png" ? "png" : contentType === "image/webp" ? "webp" : "jpg";
+        form.append("avatar", blob, `avatar.${ext}`);
+      } else {
+        form.append("avatar", {
+          uri: asset.uri,
+          name: asset.fileName || "avatar.jpg",
+          type: contentType,
+        } as unknown as Blob);
+      }
+      const updated = await uploadMyAvatarDirect(apiRequest, form);
       setProfile(updated);
       syncAccount({ ...updated.account, avatarUrl: updated.avatarUrl, avatarUpdatedAt: updated.avatarUpdatedAt });
       setMessage("Your profile picture has been updated.");
@@ -123,7 +133,14 @@ export default function ProfileScreen() {
           <View style={styles.card}>
             <Text style={styles.sectionTitle}>Profile picture</Text>
             <View style={styles.avatarRow}>
-              {profile.avatarUrl ? <Image source={{ uri: profile.avatarUrl }} style={styles.avatar}/> : <View style={styles.avatarFallback}><Ionicons name="person" size={42} color="#174EA6"/></View>}
+              {profile.avatarUrl ? (
+                <Image
+                  source={{ uri: profile.avatarUrl.startsWith("http") ? profile.avatarUrl : toApiUrl(profile.avatarUrl) }}
+                  style={styles.avatar}
+                />
+              ) : (
+                <View style={styles.avatarFallback}><Ionicons name="person" size={42} color="#174EA6"/></View>
+              )}
               <View style={styles.avatarActions}>
                 <Pressable accessibilityRole="button" disabled={busy} onPress={() => void chooseAvatar()} style={styles.primaryButton}><Text style={styles.primaryButtonText}>Choose picture</Text></Pressable>
                 {profile.avatarUrl ? <Pressable accessibilityRole="button" disabled={busy} onPress={() => void removeAvatar()} style={styles.textButton}><Text style={styles.textButtonText}>Remove picture</Text></Pressable> : null}
@@ -159,5 +176,5 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-  page:{flexGrow:1,backgroundColor:"#F8FAFC",padding:20,paddingTop:28,paddingBottom:40},content:{width:"100%",maxWidth:620,alignSelf:"center",gap:13},back:{flexDirection:"row",alignItems:"center",alignSelf:"flex-start",gap:4,minHeight:42},backText:{color:"#174EA6",fontSize:16,fontWeight:"700"},eyebrow:{color:"#174EA6",fontSize:12,fontWeight:"800",letterSpacing:1.3},title:{fontSize:30,lineHeight:38,fontWeight:"800",color:"#172B4D"},description:{fontSize:16,lineHeight:24,color:"#52657A",marginBottom:5},card:{backgroundColor:"#FFFFFF",borderWidth:1,borderColor:"#DFE7F0",borderRadius:17,padding:17,gap:11},sectionTitle:{fontSize:19,lineHeight:26,fontWeight:"800",color:"#172B4D"},avatarRow:{flexDirection:"row",alignItems:"center",gap:16},avatar:{width:92,height:92,borderRadius:46,backgroundColor:"#EAF2FF"},avatarFallback:{width:92,height:92,borderRadius:46,backgroundColor:"#EAF2FF",alignItems:"center",justifyContent:"center",borderWidth:1,borderColor:"#C6D9F5"},avatarActions:{flex:1,alignItems:"flex-start",gap:8},primaryButton:{minHeight:48,paddingHorizontal:16,borderRadius:11,backgroundColor:"#174EA6",alignItems:"center",justifyContent:"center",alignSelf:"stretch"},primaryButtonText:{fontSize:16,fontWeight:"800",color:"#FFFFFF"},textButton:{minHeight:38,justifyContent:"center",paddingHorizontal:5},textButtonText:{fontSize:15,color:"#A12B24",fontWeight:"700"},helper:{fontSize:13,lineHeight:19,color:"#65788D"},label:{fontSize:15,lineHeight:22,fontWeight:"700",color:"#243B53",marginTop:3},input:{minHeight:50,borderWidth:1.5,borderColor:"#B8C7D9",borderRadius:10,paddingHorizontal:12,color:"#172B4D",fontSize:16,backgroundColor:"#FFFFFF"},readOnly:{minHeight:48,borderWidth:1,borderColor:"#DFE7F0",borderRadius:10,paddingHorizontal:12,alignItems:"center",justifyContent:"space-between",flexDirection:"row",gap:12,backgroundColor:"#F6F8FB"},readOnlyText:{flex:1,color:"#52657A",fontSize:15},verified:{color:"#16734A",fontWeight:"800",fontSize:13},unverified:{color:"#996515",fontWeight:"800",fontSize:13},securityLink:{minHeight:58,borderWidth:1,borderColor:"#D5E1EF",borderRadius:13,backgroundColor:"#FFFFFF",paddingHorizontal:14,flexDirection:"row",alignItems:"center",gap:11},securityLinkText:{flex:1,color:"#174EA6",fontSize:16,fontWeight:"800"},error:{color:"#B42318",fontSize:15,lineHeight:22},message:{color:"#16734A",fontSize:15,lineHeight:22},disabled:{opacity:0.65},
+  page:{flexGrow:1,backgroundColor:"#F8FAFC",padding:20,paddingTop:20,paddingBottom:40},content:{width:"100%",maxWidth:620,alignSelf:"center",gap:14},back:{flexDirection:"row",alignItems:"center",alignSelf:"flex-start",gap:8,minHeight:48,paddingHorizontal:12,paddingVertical:8,borderRadius:12,backgroundColor:"#FFFFFF",borderWidth:1.5,borderColor:"#DFE7F0"},backText:{color:"#172B4D",fontSize:16,fontWeight:"700"},eyebrow:{color:"#174EA6",fontSize:16,fontWeight:"800",letterSpacing:1.1},title:{fontSize:30,lineHeight:38,fontWeight:"800",color:"#172B4D"},description:{fontSize:16,lineHeight:24,color:"#52657A",marginBottom:5},card:{backgroundColor:"#FFFFFF",borderWidth:1,borderColor:"#DFE7F0",borderRadius:17,padding:17,gap:11},sectionTitle:{fontSize:20,lineHeight:28,fontWeight:"800",color:"#172B4D"},avatarRow:{flexDirection:"row",alignItems:"center",gap:16},avatar:{width:92,height:92,borderRadius:46,backgroundColor:"#EAF2FF"},avatarFallback:{width:92,height:92,borderRadius:46,backgroundColor:"#EAF2FF",alignItems:"center",justifyContent:"center",borderWidth:1,borderColor:"#C6D9F5"},avatarActions:{flex:1,alignItems:"flex-start",gap:8},primaryButton:{minHeight:48,paddingHorizontal:16,borderRadius:11,backgroundColor:"#174EA6",alignItems:"center",justifyContent:"center",alignSelf:"stretch"},primaryButtonText:{fontSize:16,fontWeight:"800",color:"#FFFFFF"},textButton:{minHeight:48,justifyContent:"center",paddingHorizontal:8},textButtonText:{fontSize:16,color:"#A12B24",fontWeight:"700"},helper:{fontSize:16,lineHeight:22,color:"#65788D"},label:{fontSize:16,lineHeight:23,fontWeight:"700",color:"#243B53",marginTop:3},input:{minHeight:50,borderWidth:1.5,borderColor:"#B8C7D9",borderRadius:10,paddingHorizontal:12,color:"#172B4D",fontSize:16,backgroundColor:"#FFFFFF"},readOnly:{minHeight:48,borderWidth:1,borderColor:"#DFE7F0",borderRadius:10,paddingHorizontal:12,alignItems:"center",justifyContent:"space-between",flexDirection:"row",gap:12,backgroundColor:"#F6F8FB"},readOnlyText:{flex:1,color:"#52657A",fontSize:16},verified:{color:"#16734A",fontWeight:"800",fontSize:16},unverified:{color:"#996515",fontWeight:"800",fontSize:16},securityLink:{minHeight:58,borderWidth:1,borderColor:"#D5E1EF",borderRadius:13,backgroundColor:"#FFFFFF",paddingHorizontal:14,flexDirection:"row",alignItems:"center",gap:11},securityLinkText:{flex:1,color:"#174EA6",fontSize:16,fontWeight:"800"},error:{color:"#B42318",fontSize:16,lineHeight:23},message:{color:"#16734A",fontSize:16,lineHeight:23},disabled:{opacity:0.65},
 });

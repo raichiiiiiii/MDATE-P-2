@@ -1,16 +1,17 @@
 import { useCallback, useEffect, useMemo, useState, type ComponentProps } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 
 import { useAuth } from "../../auth/AuthProvider";
+import { usePatientPreferences } from "../../../shared/theme/PatientPreferencesContext";
+import { Text } from "../../../shared/ui/native";
 import TrainingHeader from "../components/TrainingHeader";
 import TrainingStateCard from "../components/TrainingStateCard";
 import {
   getModule,
   getSubmoduleQSets,
   localize,
-  type Language,
   type ModuleDetails,
   type QSetSummary,
   type SubmoduleSummary,
@@ -20,11 +21,11 @@ export default function ActivitySelectorScreen() {
   const { moduleId } = useLocalSearchParams<{ moduleId: string }>();
   const router = useRouter();
   const { getAuthHeaders } = useAuth();
+  const { language, setLanguage } = usePatientPreferences();
 
   const [module, setModule] = useState<ModuleDetails | null>(null);
   const [activityIndex, setActivityIndex] = useState(0);
   const [practiceSets, setPracticeSets] = useState<QSetSummary[]>([]);
-  const [language, setLanguage] = useState<Language>("en");
   const [loading, setLoading] = useState(true);
   const [setsLoading, setSetsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -95,7 +96,7 @@ export default function ActivitySelectorScreen() {
         <TrainingHeader
           eyebrow="CHOOSE AN ACTIVITY"
           language={language}
-          onToggleLanguage={() => setLanguage((current) => current === "en" ? "ms" : "en")}
+          onToggleLanguage={() => setLanguage(language === "en" ? "ms" : "en")}
           onBack={() => router.back()}
           backLabel="Return to modules"
         />
@@ -234,7 +235,7 @@ const styles = StyleSheet.create({
   },
   moduleContext: {
     color: "#64748B",
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: "700",
     textAlign: "center",
     marginTop: -5,
@@ -256,8 +257,8 @@ const styles = StyleSheet.create({
   },
   supportingText: {
     color: "#64748B",
-    fontSize: 14,
-    lineHeight: 21,
+    fontSize: 16,
+    lineHeight: 23,
     textAlign: "center",
   },
   carousel: {
@@ -280,12 +281,12 @@ const styles = StyleSheet.create({
   titleBlock: { flex: 1, alignItems: "center", gap: 5 },
   activityTitle: {
     color: "#172B4D",
-    fontSize: 22,
-    lineHeight: 29,
+    fontSize: 24,
+    lineHeight: 31,
     fontWeight: "800",
     textAlign: "center",
   },
-  position: { color: "#64748B", fontSize: 13, fontWeight: "600" },
+  position: { color: "#64748B", fontSize: 16, fontWeight: "600" },
   instructionCard: {
     borderRadius: 16,
     borderWidth: 1.5,
@@ -294,13 +295,13 @@ const styles = StyleSheet.create({
     padding: 17,
     gap: 8,
   },
-  cardHeading: { color: "#172B4D", fontSize: 15, lineHeight: 21, fontWeight: "800" },
-  instruction: { color: "#475569", fontSize: 15, lineHeight: 23 },
+  cardHeading: { color: "#172B4D", fontSize: 16, lineHeight: 22, fontWeight: "800" },
+  instruction: { color: "#475569", fontSize: 16, lineHeight: 24 },
   setSection: { gap: 11, marginTop: 1 },
-  sectionTitle: { color: "#172B4D", fontSize: 19, lineHeight: 26, fontWeight: "800" },
-  emptyText: { color: "#64748B", fontSize: 15, lineHeight: 23 },
+  sectionTitle: { color: "#172B4D", fontSize: 20, lineHeight: 28, fontWeight: "800" },
+  emptyText: { color: "#64748B", fontSize: 16, lineHeight: 24 },
   setCard: {
-    minHeight: 79,
+    minHeight: 80,
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
@@ -312,16 +313,16 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   setNumber: {
-    width: 44,
-    height: 44,
-    borderRadius: 13,
+    width: 48,
+    height: 48,
+    borderRadius: 14,
     backgroundColor: "#EAF2FF",
     alignItems: "center",
     justifyContent: "center",
   },
   setNumberText: { color: "#174EA6", fontSize: 18, fontWeight: "800" },
   setCopy: { flex: 1, gap: 4 },
-  setTitle: { color: "#172B4D", fontSize: 16, lineHeight: 22, fontWeight: "800" },
-  setMeta: { color: "#64748B", fontSize: 13, lineHeight: 19 },
+  setTitle: { color: "#172B4D", fontSize: 18, lineHeight: 24, fontWeight: "800" },
+  setMeta: { color: "#64748B", fontSize: 16, lineHeight: 22 },
   pressed: { opacity: 0.75 },
 });

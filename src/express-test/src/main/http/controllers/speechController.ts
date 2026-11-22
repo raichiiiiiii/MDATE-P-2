@@ -41,6 +41,29 @@ export const speechHealth: RequestHandler = (_req, res) => {
   });
 };
 
+export const warmupSpeechModel: RequestHandler = async (_req, res, next) => {
+  try {
+    const status = await whisperWorker.warmup();
+    res.status(200).json({
+      feature: "speech-assessment",
+      status: status.state,
+      ready: status.ready,
+      model: status.model,
+      ...(status.error ? { error: "speech_worker_unavailable", detail: status.error } : {}),
+    });
+  } catch (error) {
+    const workerStatus = whisperWorker.status;
+    res.status(503).json({
+      feature: "speech-assessment",
+      status: workerStatus.state,
+      ready: false,
+      model: workerStatus.model,
+      error: "speech_worker_failed",
+      message: error instanceof Error ? error.message : "Could not initialize speech model.",
+    });
+  }
+};
+
 export const transcribeSpeech: RequestHandler = async (req, res, next) => {
   try {
     if (!req.file) {

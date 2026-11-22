@@ -29,6 +29,7 @@ export interface ProfileRepository {
     userId: string;
     contentType: string;
   }): Promise<string | null>;
+  setAvatar(userId: string, objectKey: string, contentType: string): Promise<string | null>;
   removeAvatar(userId: string): Promise<string | null>;
   invalidateAvatarUploadIntent(id: string, userId: string): Promise<void>;
 }

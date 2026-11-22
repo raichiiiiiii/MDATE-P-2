@@ -11,6 +11,9 @@ export async function getMyProfile(apiRequest: ApiRequest): Promise<MyProfile> {
 export async function updateMyProfile(apiRequest: ApiRequest, displayName: string): Promise<{ account: MdateAccount }> {
   return apiRequest("/api/v1/me/profile", { method: "PATCH", body: { displayName } });
 }
+export async function uploadMyAvatarDirect(apiRequest: ApiRequest, form: FormData): Promise<MyProfile> {
+  return apiRequest<MyProfile>("/api/v1/me/profile/avatar", { method: "POST", body: form });
+}
 export async function createAvatarUpload(apiRequest: ApiRequest, contentType: string, sizeBytes: number): Promise<AvatarUploadTicket> {
   return apiRequest("/api/v1/me/profile/avatar/upload-url", { method: "POST", body: { contentType, sizeBytes } });
 }

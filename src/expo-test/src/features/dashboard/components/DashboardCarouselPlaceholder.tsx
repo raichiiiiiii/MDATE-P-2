@@ -1,36 +1,40 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Text } from "../../../shared/ui/native";
 
 /** Visual placeholder for the future dashboard carousel/data widget. */
 export default function DashboardCarouselPlaceholder() {
   return (
     <View style={styles.widgetBox}>
-      <Text style={styles.widgetPlaceholderText}>async loadData(dynamic, critical)</Text>
-      <Text style={styles.widgetSubText}>{"<carousel />"}</Text>
+      <Text style={styles.widgetPlaceholderText}>Therapy Activities Overview</Text>
+      <Text style={styles.widgetSubText}>{"Interactive modules & practice sets"}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   widgetBox: {
-    height: 180,
+    minHeight: 140,
     borderWidth: 1.5,
-    borderColor: "#ccc",
+    borderColor: "#DFE7F0",
     borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 16,
-    backgroundColor: "#FAFAFA",
-    padding: 12,
+    marginBottom: 8,
+    backgroundColor: "#F8FAFC",
+    padding: 16,
+    gap: 6,
   },
   widgetPlaceholderText: {
-    fontSize: 14,
-    color: "#444",
+    fontSize: 18,
+    lineHeight: 24,
+    fontWeight: "700",
+    color: "#172B4D",
     textAlign: "center",
-    marginBottom: 6,
   },
   widgetSubText: {
-    fontSize: 14,
-    color: "#666",
-    fontFamily: "monospace",
+    fontSize: 16,
+    lineHeight: 22,
+    color: "#64748B",
+    textAlign: "center",
   },
 });

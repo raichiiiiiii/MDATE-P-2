@@ -47,6 +47,39 @@ export const confirmAvatarUploadController: RequestHandler = async (req, res, ne
   catch (error) { if (!sendProfileError(error, res)) next(error); }
 };
 
+export const uploadAvatarDirectController: RequestHandler = async (req, res, next) => {
+  try {
+    if (!req.file) {
+      res.status(400).json({ error: "invalid_avatar", message: "Choose a JPEG, PNG or WebP image no larger than 2 MB." });
+      return;
+    }
+    res.json(await profileService.uploadAvatarDirect(userId(res), req.file.buffer, req.file.mimetype));
+  } catch (error) {
+    if (!sendProfileError(error, res)) next(error);
+  }
+};
+
+export const getUserAvatarController: RequestHandler = async (req, res, next) => {
+  try {
+    const targetUserId = typeof req.params.userId === "string" ? req.params.userId : "";
+    if (!targetUserId) {
+      res.status(400).json({ error: "invalid_id", message: "User ID is required." });
+      return;
+    }
+    const result = await profileService.getAvatarStream(targetUserId);
+    if (!result) {
+      res.status(404).json({ error: "avatar_not_found", message: "No avatar is configured for this user." });
+      return;
+    }
+    res.setHeader("Content-Type", result.contentType);
+    res.setHeader("Cache-Control", "public, max-age=300");
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    res.send(Buffer.from(result.body));
+  } catch (error) {
+    if (!sendProfileError(error, res)) next(error);
+  }
+};
+
 export const deleteAvatarController: RequestHandler = async (_req, res, next) => {
   try { res.json(await profileService.removeAvatar(userId(res))); }
   catch (error) { if (!sendProfileError(error, res)) next(error); }

@@ -45,12 +45,43 @@ export class ProfileService {
     if (!account) throw new ProfileNotFoundError("The account could not be found.");
     let avatarUrl: string | null = null;
     if (avatar?.storageKey && this.storage) {
-      avatarUrl = await this.storage.createPresignedDownloadUrl({ bucket: BUCKET, key: avatar.storageKey, expiresInSeconds: 300 });
+      avatarUrl = `/api/v1/users/${userId}/avatar?v=${avatar.updatedAt ? new Date(avatar.updatedAt).getTime() : Date.now()}`;
     }
     return {
       account,
       avatarUrl,
       avatarUpdatedAt: avatar?.updatedAt ?? null,
+    };
+  }
+
+  async uploadAvatarDirect(userId: string, fileBuffer: Buffer | Uint8Array, contentType: string) {
+    const storage = this.requireStorage();
+    if (!ALLOWED_TYPES.has(contentType) || fileBuffer.byteLength < 1 || fileBuffer.byteLength > MAX_AVATAR_BYTES) {
+      throw new InvalidAvatarError("Choose a JPEG, PNG or WebP image no larger than 2 MB.");
+    }
+    const actualType = detectedImageType(fileBuffer);
+    if (!actualType || actualType !== contentType) {
+      throw new InvalidAvatarError("The uploaded file is not a valid image matching the selected format.");
+    }
+    const id = randomUUID();
+    const extension = EXTENSIONS[contentType]!;
+    const objectKey = `avatars/${userId}/${id}.${extension}`;
+    await storage.putObject({ bucket: BUCKET, key: objectKey, body: fileBuffer, contentType });
+    const previousKey = await this.profiles.setAvatar(userId, objectKey, contentType);
+    if (previousKey && previousKey !== objectKey) {
+      await storage.deleteObject({ bucket: BUCKET, key: previousKey }).catch((error) => console.error("[MDATE] Previous avatar cleanup failed:", error));
+    }
+    return this.getProfile(userId);
+  }
+
+  async getAvatarStream(userId: string): Promise<{ body: Uint8Array; contentType: string } | null> {
+    const avatar = await this.profiles.findAvatar(userId);
+    if (!avatar?.storageKey || !this.storage) return null;
+    const object = await this.storage.getObjectBytes({ bucket: BUCKET, key: avatar.storageKey, maxBytes: MAX_AVATAR_BYTES });
+    if (!object) return null;
+    return {
+      body: object.body,
+      contentType: avatar.contentType || object.contentType || "image/jpeg",
     };
   }
 

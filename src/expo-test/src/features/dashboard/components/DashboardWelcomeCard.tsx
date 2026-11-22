@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Text } from "../../../shared/ui/native";
 
 type DashboardWelcomeCardProps = {
   displayName: string;
@@ -48,13 +49,13 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "#172B4D",
-    fontSize: 19,
-    lineHeight: 26,
+    fontSize: 20,
+    lineHeight: 28,
     fontWeight: "800",
   },
   description: {
     color: "#435A73",
-    fontSize: 15,
-    lineHeight: 22,
+    fontSize: 16,
+    lineHeight: 23,
   },
 });

@@ -22,7 +22,9 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/main/server.js",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test:origin": "tsx --test src/main/http/middleware/requireAllowedOrigin.test.ts"
+    "test:origin": "tsx --test src/main/http/middleware/requireAllowedOrigin.test.ts",
+    "test:speech": "tsx --test src/main/http/controllers/speechAssessment.test.ts",
+    "test": "tsx --test src/main/http/middleware/requireAllowedOrigin.test.ts src/main/http/controllers/speechAssessment.test.ts"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",

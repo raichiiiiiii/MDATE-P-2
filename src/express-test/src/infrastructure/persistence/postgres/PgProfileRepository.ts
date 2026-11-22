@@ -97,6 +97,28 @@ export class PgProfileRepository implements ProfileRepository {
     } finally { client.release(); }
   }
 
+  async setAvatar(userId: string, objectKey: string, contentType: string): Promise<string | null> {
+    const client = await this.pool.connect();
+    try {
+      await client.query("BEGIN");
+      const current = await client.query<{ oldKey: string | null }>(
+        `SELECT avatar_storage_key AS "oldKey" FROM users WHERE id = $1 AND deleted_at IS NULL FOR UPDATE`,
+        [userId],
+      );
+      if (!current.rows[0]) throw new Error("The account could not be found.");
+      await client.query(
+        `UPDATE users SET avatar_storage_key = $2, avatar_content_type = $3,
+             avatar_updated_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = $1`,
+        [userId, objectKey, contentType],
+      );
+      await client.query("COMMIT");
+      return current.rows[0].oldKey;
+    } catch (error) {
+      await client.query("ROLLBACK").catch(() => undefined);
+      throw error;
+    } finally { client.release(); }
+  }
+
   async removeAvatar(userId: string): Promise<string | null> {
     const client = await this.pool.connect();
     try {

@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Text } from "../../../shared/ui/native";
 
 /** Coin balance and secondary metric remain visual placeholders for later work. */
 export default function DashboardMetricsRow() {
@@ -68,7 +69,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAFAFA",
   },
   placeholderLabel: {
-    fontSize: 13,
-    color: "#999",
+    fontSize: 16,
+    lineHeight: 22,
+    color: "#64748B",
   },
 });

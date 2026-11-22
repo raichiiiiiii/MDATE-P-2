@@ -5,36 +5,43 @@ import {
   View,
   type ViewStyle,
 } from "react-native";
+import { colors, layout } from "../shared/theme/tokens";
 
 type AppViewportProps = {
   children: ReactNode;
   maxWidth?: number;
-  maxHeight?: number;
   backgroundColor?: string;
   style?: ViewStyle;
 };
 
+// React Native Web accepts CSS viewport units at runtime, but its shared
+// ViewStyle type does not consistently expose every CSS unit across versions.
+const dynamicViewportStyle = Platform.OS === "web"
+  ? ({ height: "100dvh", minHeight: "100dvh", boxSizing: "border-box" } as unknown as ViewStyle)
+  : undefined;
+
 export default function AppViewport({
   children,
-  maxWidth = 412,
-  maxHeight = 892,
-  backgroundColor = "#F8FAFC",
+  maxWidth = layout.patientViewportMaxWidth,
+  backgroundColor = colors.page,
   style,
 }: AppViewportProps) {
   const desktopFrameStyle: ViewStyle | undefined = Platform.OS === "web"
-    ? {
+    ? ({
+        width: "100%",
         maxWidth,
-        maxHeight,
-        aspectRatio: 9 / 19.5,
-        flexShrink: 1,
-      }
+        flex: 1,
+        flexShrink: 0,
+        boxSizing: "border-box",
+      } as unknown as ViewStyle)
     : undefined;
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, dynamicViewportStyle, { backgroundColor }]}>
       <View
         style={[
           styles.viewport,
+          dynamicViewportStyle,
           desktopFrameStyle,
           { backgroundColor },
           style,
@@ -51,13 +58,14 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#000000",
+    justifyContent: "flex-start",
+    backgroundColor: colors.page,
   },
   viewport: {
     flex: 1,
     width: "100%",
     alignSelf: "center",
     overflow: "hidden",
+    backgroundColor: colors.page,
   },
 });

@@ -83,6 +83,16 @@ export class WhisperWorker {
     };
   }
 
+  async warmup(): Promise<{
+    state: WorkerState;
+    ready: boolean;
+    model: string;
+    error: string | null;
+  }> {
+    await this.start();
+    return this.status;
+  }
+
   transcribe(audioPath: string, language: SpeechLanguageCode): Promise<TranscriptionResult> {
     const task = this.requestQueue.then(async () => {
       await this.start();

@@ -1,21 +1,55 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 import { useAuth } from "../../auth/AuthProvider";
+import { usePatientPreferences } from "../../../shared/theme/PatientPreferencesContext";
+import { Text } from "../../../shared/ui/native";
 import TrainingHeader from "../components/TrainingHeader";
 import TrainingStateCard from "../components/TrainingStateCard";
-import { listModules, localize, type Language, type ModuleSummary } from "../trainingApi";
+import { listModules, localize, type ModuleSummary } from "../trainingApi";
+import { getSpeechHealth, warmupSpeechModel, type SpeechHealthResponse } from "../speechApi";
 
 export default function ModuleSelectorScreen() {
   const router = useRouter();
   const { getAuthHeaders } = useAuth();
+  const { language, setLanguage } = usePatientPreferences();
   const [modules, setModules] = useState<ModuleSummary[]>([]);
   const [moduleIndex, setModuleIndex] = useState(0);
-  const [language, setLanguage] = useState<Language>("en");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [speechStatus, setSpeechStatus] = useState<SpeechHealthResponse | null>(null);
+  const [warmingUp, setWarmingUp] = useState(false);
+  const [warmupError, setWarmupError] = useState<string | null>(null);
+
+  const checkSpeechEngine = useCallback(async () => {
+    try {
+      const health = await getSpeechHealth(getAuthHeaders);
+      setSpeechStatus(health);
+    } catch {
+      // health check failure tolerated when offline/starting
+    }
+  }, [getAuthHeaders]);
+
+  useEffect(() => {
+    void checkSpeechEngine();
+  }, [checkSpeechEngine]);
+
+  const handleWarmup = async () => {
+    setWarmingUp(true);
+    setWarmupError(null);
+    try {
+      const result = await warmupSpeechModel(getAuthHeaders);
+      setSpeechStatus(result);
+    } catch (err) {
+      setWarmupError(err instanceof Error ? err.message : "Failed to load local Whisper model.");
+      void checkSpeechEngine();
+    } finally {
+      setWarmingUp(false);
+    }
+  };
 
   const loadModules = useCallback(async () => {
     setLoading(true);
@@ -57,7 +91,9 @@ export default function ModuleSelectorScreen() {
         <TrainingHeader
           eyebrow="CHOOSE A MODULE"
           language={language}
-          onToggleLanguage={() => setLanguage((current) => current === "en" ? "ms" : "en")}
+          onToggleLanguage={() => setLanguage(language === "en" ? "ms" : "en")}
+          onBack={() => router.push("/dashboard")}
+          backLabel="Return to dashboard"
         />
 
         {loading ? (
@@ -140,6 +176,69 @@ export default function ModuleSelectorScreen() {
               </View>
             </View>
 
+            {/* Local Whisper Speech Model Status & Pre-load Action */}
+            {/* <View style={styles.speechModelCard}>
+              <View style={styles.speechHeaderRow}>
+                <Ionicons
+                  name={
+                    speechStatus?.ready
+                      ? "checkmark-circle"
+                      : warmingUp || speechStatus?.status === "starting"
+                        ? "sync-outline"
+                        : "mic-circle-outline"
+                  }
+                  size={26}
+                  color={speechStatus?.ready ? "#16734A" : "#174EA6"}
+                />
+                <Text style={styles.speechCardTitle}>
+                  {language === "ms" ? "Model Pertuturan (Whisper)" : "Local Speech Model (Whisper)"}
+                </Text>
+              </View>
+
+              <Text style={styles.speechCardDesc}>
+                {speechStatus?.ready
+                  ? (language === "ms"
+                    ? "Model pertuturan sedia untuk input suara."
+                    : "The speech model is loaded and ready for voice input.")
+                  : warmingUp || speechStatus?.status === "starting"
+                    ? (language === "ms"
+                      ? "Sedang memuatkan model Whisper ke dalam memori…"
+                      : "Loading local Whisper model into memory…")
+                    : (language === "ms"
+                      ? "Muatkan model pertuturan tempatan sekarang untuk mengelakkan kelewatan semasa latihan."
+                      : "Load the local speech model now to prevent delays during voice exercises.")}
+              </Text>
+
+              {warmupError ? (
+                <Text style={styles.speechErrorText}>{warmupError}</Text>
+              ) : null}
+
+              {!speechStatus?.ready && (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={language === "ms" ? "Muat Model Pertuturan" : "Load Speech Model"}
+                  disabled={warmingUp || speechStatus?.status === "starting"}
+                  onPress={() => void handleWarmup()}
+                  style={({ pressed }) => [
+                    styles.loadModelButton,
+                    (warmingUp || speechStatus?.status === "starting") && styles.disabled,
+                    pressed && styles.pressed,
+                  ]}
+                >
+                  {warmingUp || speechStatus?.status === "starting" ? (
+                    <ActivityIndicator size="small" color="#174EA6" />
+                  ) : (
+                    <Ionicons name="cloud-download-outline" size={22} color="#174EA6" />
+                  )}
+                  <Text style={styles.loadModelButtonText}>
+                    {warmingUp || speechStatus?.status === "starting"
+                      ? (language === "ms" ? "Memuatkan model…" : "Loading model…")
+                      : (language === "ms" ? "Muat Model Pertuturan" : "Load Speech Model")}
+                  </Text>
+                </Pressable>
+              )}
+            </View> */}
+
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={`${language === "ms" ? "Pilih modul" : "Choose module"} ${moduleTitle}`}
@@ -200,13 +299,13 @@ const styles = StyleSheet.create({
   },
   moduleTagText: {
     color: "#FFFFFF",
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: "800",
   },
   supportingText: {
     color: "#64748B",
-    fontSize: 14,
-    lineHeight: 21,
+    fontSize: 16,
+    lineHeight: 23,
     textAlign: "center",
   },
   carousel: {
@@ -236,14 +335,14 @@ const styles = StyleSheet.create({
   },
   moduleTitle: {
     color: "#172B4D",
-    fontSize: 23,
-    lineHeight: 30,
+    fontSize: 24,
+    lineHeight: 32,
     fontWeight: "800",
     textAlign: "center",
   },
   modulePosition: {
     color: "#64748B",
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: "600",
   },
   descriptionCard: {
@@ -257,14 +356,14 @@ const styles = StyleSheet.create({
   },
   cardHeading: {
     color: "#172B4D",
-    fontSize: 15,
-    lineHeight: 21,
+    fontSize: 16,
+    lineHeight: 22,
     fontWeight: "800",
   },
   description: {
     color: "#475569",
-    fontSize: 15,
-    lineHeight: 23,
+    fontSize: 16,
+    lineHeight: 24,
   },
   metadataRow: {
     flexDirection: "row",
@@ -274,8 +373,8 @@ const styles = StyleSheet.create({
   },
   metadata: {
     color: "#174EA6",
-    fontSize: 13,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 22,
     fontWeight: "700",
   },
   primaryButton: {
@@ -296,5 +395,52 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.78,
+  },
+  speechModelCard: {
+    minHeight: 100,
+    borderWidth: 1.5,
+    borderColor: "#CBD5E1",
+    borderRadius: 16,
+    backgroundColor: "#FFFFFF",
+    padding: 16,
+    gap: 10,
+  },
+  speechHeaderRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  speechCardTitle: {
+    color: "#172B4D",
+    fontSize: 17,
+    lineHeight: 24,
+    fontWeight: "800",
+  },
+  speechCardDesc: {
+    color: "#475569",
+    fontSize: 16,
+    lineHeight: 23,
+  },
+  speechErrorText: {
+    color: "#B42318",
+    fontSize: 16,
+    lineHeight: 22,
+  },
+  loadModelButton: {
+    minHeight: 48,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: "#174EA6",
+    backgroundColor: "#F0F4FA",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    paddingHorizontal: 16,
+  },
+  loadModelButtonText: {
+    color: "#174EA6",
+    fontSize: 16,
+    fontWeight: "800",
   },
 });

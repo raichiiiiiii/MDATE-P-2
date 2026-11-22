@@ -13,13 +13,20 @@ export type DashboardAction = {
 };
 
 /**
- * The existing main Stack contains four screens. The eight dashboard shortcuts
- * intentionally navigate to those four screens; they do not imply eight
- * separately implemented destinations.
+ * Design Spec §3.6 & §4.1:
+ * "Start Training" is extracted as the dedicated Primary action (therapy-entry).
+ * The remaining seven shortcuts serve as Secondary navigation.
  */
-export const DASHBOARD_ACTIONS: readonly DashboardAction[] = [
+export const PRIMARY_DASHBOARD_ACTION: DashboardAction = {
+  id: "start-training",
+  title: "Start Training",
+  icon: "flash",
+  href: "/modules",
+  destinationLabel: "Modules",
+};
+
+export const SECONDARY_DASHBOARD_ACTIONS: readonly DashboardAction[] = [
   { id: "dashboard", title: "Dashboard", icon: "home-outline", href: "/dashboard", destinationLabel: "Dashboard" },
-  { id: "start-training", title: "Start Training", icon: "flash-outline", href: "/modules", destinationLabel: "Modules" },
   { id: "modules", title: "Modules", icon: "book-outline", href: "/modules", destinationLabel: "Modules" },
   { id: "progress", title: "Progress", icon: "stats-chart-outline", href: "/progress", destinationLabel: "Progress" },
   { id: "session-history", title: "History", icon: "time-outline", href: "/progress", destinationLabel: "Progress" },
@@ -27,3 +34,5 @@ export const DASHBOARD_ACTIONS: readonly DashboardAction[] = [
   { id: "accessibility", title: "Accessibility", icon: "eye-outline", href: "/setting", destinationLabel: "Settings" },
   { id: "voice-preferences", title: "Voice", icon: "volume-high-outline", href: "/setting", destinationLabel: "Settings" },
 ];
+
+export const DASHBOARD_ACTIONS = SECONDARY_DASHBOARD_ACTIONS;

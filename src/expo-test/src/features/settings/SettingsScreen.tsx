@@ -5,13 +5,13 @@ import {
   ScrollView,
   StyleSheet,
   Switch,
-  Text,
-  TextInput,
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 import { useAuth } from "../auth/AuthProvider";
+import { Text, TextInput } from "../../shared/ui/native";
 import {
   getAccountPreferences,
   type AccountPreferences,
@@ -50,6 +50,7 @@ const CONTRASTS: { label: string; value: Contrast }[] = [
 ];
 
 export default function SettingsScreen() {
+  const router = useRouter();
   const { apiRequest, updatePreferences, user } = useAuth();
   const [preferences, setPreferences] = useState<AccountPreferences>(() => ({
     ...DEFAULT_PREFERENCES,
@@ -131,6 +132,16 @@ export default function SettingsScreen() {
   return (
     <ScrollView contentContainerStyle={styles.page} keyboardShouldPersistTaps="handled">
       <View style={styles.content}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Return to dashboard"
+          onPress={() => router.push("/dashboard")}
+          style={styles.backButton}
+        >
+          <Ionicons name="arrow-back" size={24} color="#172B4D" />
+          <Text style={styles.backButtonText}>Dashboard</Text>
+        </Pressable>
+
         <View style={styles.headingRow}>
           <View style={styles.headingCopy}>
             <Text style={styles.eyebrow}>MDATE PREFERENCES</Text>
@@ -402,24 +413,42 @@ function StepperControl({
 }
 
 const styles = StyleSheet.create({
-  page: { flexGrow: 1, backgroundColor: "#F8FAFC", paddingHorizontal: 20, paddingTop: 28, paddingBottom: 40 },
-  content: { width: "100%", maxWidth: 580, alignSelf: "center", gap: 15 },
+  page: { flexGrow: 1, backgroundColor: "#F8FAFC", paddingHorizontal: 20, paddingTop: 20, paddingBottom: 40 },
+  content: { width: "100%", maxWidth: 580, alignSelf: "center", gap: 16 },
+  backButton: {
+    minHeight: 48,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    alignSelf: "flex-start",
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderRadius: 14,
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1.5,
+    borderColor: "#DFE7F0",
+  },
+  backButtonText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#172B4D",
+  },
   headingRow: { flexDirection: "row", alignItems: "center", gap: 14, marginBottom: 3 },
   headingCopy: { flex: 1, gap: 5 },
-  eyebrow: { color: "#174EA6", fontSize: 12, fontWeight: "800", letterSpacing: 1.3 },
+  eyebrow: { color: "#174EA6", fontSize: 16, fontWeight: "800", letterSpacing: 1.1 },
   title: { color: "#172B4D", fontSize: 29, lineHeight: 37, fontWeight: "800" },
-  description: { color: "#52657A", fontSize: 15, lineHeight: 22 },
+  description: { color: "#52657A", fontSize: 16, lineHeight: 23 },
   headingIcon: { width: 58, height: 58, borderRadius: 17, backgroundColor: "#EAF2FF", alignItems: "center", justifyContent: "center" },
   section: { backgroundColor: "#FFFFFF", borderWidth: 1, borderColor: "#DFE7F0", borderRadius: 17, padding: 17, gap: 12 },
   sectionHeading: { flexDirection: "row", alignItems: "center", gap: 9 },
-  sectionTitle: { color: "#172B4D", fontSize: 19, lineHeight: 26, fontWeight: "800" },
-  label: { color: "#243B53", fontSize: 15, lineHeight: 22, fontWeight: "800", marginTop: 2 },
-  settingTitle: { color: "#243B53", fontSize: 15, lineHeight: 22, fontWeight: "700" },
-  helper: { color: "#65788D", fontSize: 13, lineHeight: 19 },
+  sectionTitle: { color: "#172B4D", fontSize: 20, lineHeight: 28, fontWeight: "800" },
+  label: { color: "#243B53", fontSize: 16, lineHeight: 23, fontWeight: "800", marginTop: 2 },
+  settingTitle: { color: "#243B53", fontSize: 16, lineHeight: 23, fontWeight: "700" },
+  helper: { color: "#65788D", fontSize: 16, lineHeight: 22 },
   choiceGroup: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
-  choice: { minHeight: 45, flexGrow: 1, minWidth: 90, borderWidth: 1.5, borderColor: "#CBD7E4", borderRadius: 11, paddingHorizontal: 12, paddingVertical: 10, alignItems: "center", justifyContent: "center", backgroundColor: "#FFFFFF" },
+  choice: { minHeight: 48, flexGrow: 1, minWidth: 90, borderWidth: 1.5, borderColor: "#CBD7E4", borderRadius: 12, paddingHorizontal: 12, paddingVertical: 10, alignItems: "center", justifyContent: "center", backgroundColor: "#FFFFFF" },
   choiceSelected: { borderColor: "#174EA6", backgroundColor: "#EFF6FF" },
-  choiceText: { color: "#334B63", fontSize: 14, lineHeight: 20, fontWeight: "600", textAlign: "center" },
+  choiceText: { color: "#334B63", fontSize: 16, lineHeight: 22, fontWeight: "600", textAlign: "center" },
   choiceTextSelected: { color: "#174EA6", fontWeight: "800" },
   switchRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingTop: 8, paddingBottom: 2 },
   switchCopy: { flex: 1, gap: 3 },
@@ -427,15 +456,17 @@ const styles = StyleSheet.create({
   stepperBlock: { borderTopWidth: 1, borderTopColor: "#E6EDF5", paddingTop: 12, gap: 9 },
   stepperHeader: { flexDirection: "row", alignItems: "center", gap: 12 },
   stepperCopy: { flex: 1, gap: 3 },
-  stepperValue: { minWidth: 55, textAlign: "right", color: "#174EA6", fontSize: 17, fontWeight: "800", fontVariant: ["tabular-nums"] },
+  stepperValue: { minWidth: 55, textAlign: "right", color: "#174EA6", fontSize: 18, fontWeight: "800", fontVariant: ["tabular-nums"] },
   stepperControls: { flexDirection: "row", gap: 8 },
-  stepperButton: { minHeight: 43, flex: 1, borderWidth: 1.5, borderColor: "#B8C7D9", borderRadius: 10, backgroundColor: "#F8FAFC", alignItems: "center", justifyContent: "center" },
+  stepperButton: { minHeight: 48, flex: 1, borderWidth: 1.5, borderColor: "#B8C7D9", borderRadius: 12, backgroundColor: "#F8FAFC", alignItems: "center", justifyContent: "center" },
   disabledControl: { opacity: 0.35 },
   stateCard: { minHeight: 150, borderWidth: 1, borderColor: "#DFE7F0", borderRadius: 16, backgroundColor: "#FFFFFF", alignItems: "center", justifyContent: "center", gap: 12, padding: 22 },
-  stateText: { color: "#52657A", fontSize: 15, lineHeight: 22 },
-  error: { color: "#B42318", fontSize: 14, lineHeight: 21 },
-  success: { color: "#18794E", fontSize: 14, lineHeight: 21, fontWeight: "700" },
+  stateText: { color: "#52657A", fontSize: 16, lineHeight: 23 },
+  retryButton: { minHeight: 48, borderRadius: 12, backgroundColor: "#174EA6", alignItems: "center", justifyContent: "center", paddingHorizontal: 20, marginTop: 4 },
+  retryButtonText: { color: "#FFFFFF", fontSize: 16, fontWeight: "700" },
+  error: { color: "#B42318", fontSize: 16, lineHeight: 23 },
+  success: { color: "#18794E", fontSize: 16, lineHeight: 23, fontWeight: "700" },
   saveButton: { minHeight: 56, borderRadius: 13, backgroundColor: "#174EA6", alignItems: "center", justifyContent: "center", paddingHorizontal: 18, marginTop: 2 },
-  saveButtonText: { color: "#FFFFFF", fontSize: 17, lineHeight: 24, fontWeight: "800" },
+  saveButtonText: { color: "#FFFFFF", fontSize: 18, lineHeight: 25, fontWeight: "800" },
   disabled: { opacity: 0.65 },
 });

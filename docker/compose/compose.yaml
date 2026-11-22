@@ -2,35 +2,39 @@ name: ${COMPOSE_PROJECT_NAME:-mdate-dev}
 
 services:
   frontend:
-    build:
-      context: ../../src/expo-test
-      dockerfile: Dockerfile
-    container_name: frontend
-    init: true
-    working_dir: /app
-    command: >-
-      sh -lc "npm ci && npx expo start --web --host lan --port 8081"
-    environment:
-      NODE_ENV: development
-      EXPO_DEVTOOLS_LISTEN_ADDRESS: 0.0.0.0
-      REACT_NATIVE_PACKAGER_HOSTNAME: ${LOCAL_IP:-127.0.0.1}
-      EXPO_PUBLIC_API_URL_NATIVE: ${NATIVE_API_ORIGIN:-http://127.0.0.1:8080}
-      WATCHPACK_POLLING: "true"
-      CHOKIDAR_USEPOLLING: "true"
-    volumes:
-      - ../../src/expo-test:/app
-      - expo_node_modules:/app/node_modules
-      - expo_cache:/root/.expo
-    ports:
-      # Expo Metro is exposed to the LAN for a physical Android tablet/dev client.
-      - "${DEV_BIND_ADDRESS:-0.0.0.0}:${EXPO_PORT:-8081}:8081"
-    healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8081').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
-      interval: 15s
-      timeout: 5s
-      retries: 20
-      start_period: 45s
-    restart: unless-stopped
+      build:
+        context: ../../src/expo-test
+        dockerfile: Dockerfile
+      container_name: frontend
+      init: true
+      working_dir: /app
+      command: npx expo start --web --host lan --port 8081
+      environment:
+        NODE_ENV: development
+        CI: "0"
+        REACT_NATIVE_PACKAGER_HOSTNAME: ${LOCAL_IP:?Set LOCAL_IP to your host LAN IP}
+        EXPO_PUBLIC_API_URL_NATIVE: ${NATIVE_API_ORIGIN:-http://127.0.0.1:8080}
+      volumes:
+        - expo_node_modules:/app/node_modules
+        - expo_cache:/root/.expo
+      ports:
+        - "${DEV_BIND_ADDRESS:-0.0.0.0}:${EXPO_PORT:-8081}:8081"
+      develop:
+        watch:
+          - action: sync
+            path: ../../src/expo-test
+            target: /app
+            ignore:
+              - node_modules/
+          - action: rebuild
+            path: ../../src/expo-test/package.json
+      healthcheck:
+        test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8081').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+        interval: 15s
+        timeout: 5s
+        retries: 20
+        start_period: 45s
+      restart: unless-stopped
 
   backend:
     build:

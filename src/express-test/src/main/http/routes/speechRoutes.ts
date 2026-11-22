@@ -5,7 +5,7 @@ import { Router } from "express";
 import multer from "multer";
 import { requireAuth } from "../middleware/requireAuth.js";
 import { requireActiveUser } from "../middleware/requireActiveUser.js";
-import { evaluateSpeechAnswer, speechHealth, transcribeSpeech } from "../controllers/speechController.js";
+import { evaluateSpeechAnswer, speechHealth, transcribeSpeech, warmupSpeechModel } from "../controllers/speechController.js";
 
 class UnsupportedAudioTypeError extends Error {
   constructor() {
@@ -34,5 +34,6 @@ const upload = multer({
 
 export const speechRoutes = Router();
 speechRoutes.get("/speech/health", speechHealth);
+speechRoutes.post("/speech/warmup", requireAuth, requireActiveUser, warmupSpeechModel);
 speechRoutes.post("/speech/transcribe", requireAuth, requireActiveUser, upload.single("audio"), transcribeSpeech);
 speechRoutes.post("/speech/evaluate", requireAuth, requireActiveUser, evaluateSpeechAnswer);

@@ -44,6 +44,7 @@ type AuthContextValue = {
   confirmEmailChange: (token: string) => Promise<void>;
   completeSetup: (input: AccountSetupInput) => Promise<void>;
   updatePreferences: (preferences: AccountPreferences) => Promise<AccountPreferences>;
+  syncAccount: (account: MdateAccount) => void;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -297,6 +298,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
     return saved;
   }, [apiRequest]);
 
+  const syncAccount = useCallback((account: MdateAccount) => {
+    setUser((current) => current ? { ...current, ...account } : normalizeAccount(account));
+  }, []);
+
   const value = useMemo<AuthContextValue>(() => ({
     user,
     account: user,
@@ -317,10 +322,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
     confirmEmailChange,
     completeSetup,
     updatePreferences,
+    syncAccount,
   }), [
     user, accessToken, phase, errorMessage, loadingProgress, loadingMessage,
     apiRequest, getAuthHeaders, signIn, signUp, signOut, refreshSession, retrySession,
     requestPasswordReset, confirmPasswordReset, confirmEmailChange, completeSetup, updatePreferences,
+    syncAccount,
   ]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
