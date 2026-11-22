@@ -1,1 +1,1 @@
-export { default } from "../../../src/features/training/screens/ChallengeScreen";
+export { default } from "../../../src/features/training/screens/QSetExerciseScreen";

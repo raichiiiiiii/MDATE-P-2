@@ -89,6 +89,8 @@ export default function ActivitySelectorScreen() {
   };
 
   const iconName = (activeActivity?.iconName || "puzzle") as ComponentProps<typeof MaterialCommunityIcons>["name"];
+  const orderedPracticeSets = [...practiceSets].sort((left, right) => left.position - right.position);
+  const isFindThePair = activeActivity?.exerciseType === "find_the_pair";
 
   return (
     <ScrollView contentContainerStyle={styles.page} showsVerticalScrollIndicator={false}>
@@ -181,36 +183,71 @@ export default function ActivitySelectorScreen() {
                   actionLabel="Try again"
                   onAction={() => activeActivityId && void loadPracticeSets(activeActivityId)}
                 />
-              ) : practiceSets.length === 0 ? (
+              ) : orderedPracticeSets.length === 0 ? (
                 <Text style={styles.emptyText}>
                   {language === "ms"
                     ? "Tiada set latihan diterbitkan untuk aktiviti ini."
                     : "No practice sets have been published for this activity."}
                 </Text>
-              ) : practiceSets.map((set) => (
-                <Pressable
-                  key={set.id}
-                  accessibilityRole="button"
-                  accessibilityLabel={`Open ${localize(set.title, language) || `Set ${set.position + 1}`}`}
-                  onPress={() => router.push(`/q-sets/${set.id}`)}
-                  style={({ pressed }) => [styles.setCard, pressed && styles.pressed]}
-                >
-                  <View style={styles.setNumber}>
-                    <Text style={styles.setNumberText}>{set.position + 1}</Text>
-                  </View>
-                  <View style={styles.setCopy}>
-                    <Text style={styles.setTitle}>
-                      {localize(set.title, language) || `Set ${set.position + 1}`}
-                    </Text>
-                    <Text style={styles.setMeta}>
-                      {language === "ms" ? "Tahap" : "Difficulty"} {set.difficultyIndex + 1}
-                      {" · "}
-                      {set.questionCount} {language === "ms" ? "soalan" : set.questionCount === 1 ? "question" : "questions"}
-                    </Text>
-                  </View>
-                  <Ionicons name="chevron-forward" size={23} color="#64748B" />
-                </Pressable>
-              ))}
+              ) : isFindThePair ? (
+                orderedPracticeSets.length === 2
+                  && orderedPracticeSets[0].position === 0
+                  && orderedPracticeSets[1].position === 1
+                  && orderedPracticeSets[0].questionCount === 5
+                  && orderedPracticeSets[1].questionCount === 5 ? (
+                  <Pressable
+                    key={orderedPracticeSets[0].id}
+                    accessibilityRole="button"
+                    accessibilityLabel={language === "ms" ? "Mulakan sesi Cari Pasangan, dua set, sepuluh pasangan" : "Start Find the Pair session, two sets, ten pairs"}
+                    onPress={() => router.push(`/q-sets/${orderedPracticeSets[0].id}`)}
+                    style={({ pressed }) => [styles.setCard, pressed && styles.pressed]}
+                  >
+                    <View style={styles.setNumber}>
+                      <Text style={styles.setNumberText}>10</Text>
+                    </View>
+                    <View style={styles.setCopy}>
+                      <Text style={styles.setTitle}>
+                        {language === "ms" ? "Mulakan sesi" : "Start session"}
+                      </Text>
+                      <Text style={styles.setMeta}>
+                        {language === "ms" ? "2 set · 10 pasangan · 5 setiap set" : "2 sets · 10 pairs · 5 per set"}
+                      </Text>
+                    </View>
+                    <Ionicons name="chevron-forward" size={23} color="#64748B" />
+                  </Pressable>
+                ) : (
+                  <Text style={styles.emptyText}>
+                    {language === "ms"
+                      ? "Cari Pasangan memerlukan dua set terbitan dengan lima pasangan setiap satu."
+                      : "Find the Pair requires two published sets with five pairs each."}
+                  </Text>
+                )
+              ) : (
+                orderedPracticeSets.map((set) => (
+                  <Pressable
+                    key={set.id}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Open ${localize(set.title, language) || `Set ${set.position + 1}`}`}
+                    onPress={() => router.push(`/q-sets/${set.id}`)}
+                    style={({ pressed }) => [styles.setCard, pressed && styles.pressed]}
+                  >
+                    <View style={styles.setNumber}>
+                      <Text style={styles.setNumberText}>{set.position + 1}</Text>
+                    </View>
+                    <View style={styles.setCopy}>
+                      <Text style={styles.setTitle}>
+                        {localize(set.title, language) || `Set ${set.position + 1}`}
+                      </Text>
+                      <Text style={styles.setMeta}>
+                        {language === "ms" ? "Tahap" : "Difficulty"} {set.difficultyIndex + 1}
+                        {" · "}
+                        {set.questionCount} {language === "ms" ? "soalan" : set.questionCount === 1 ? "question" : "questions"}
+                      </Text>
+                    </View>
+                    <Ionicons name="chevron-forward" size={23} color="#64748B" />
+                  </Pressable>
+                ))
+              )}
             </View>
           </>
         ) : null}
