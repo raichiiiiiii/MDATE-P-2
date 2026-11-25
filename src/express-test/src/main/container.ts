@@ -14,15 +14,21 @@ import { PgAccountRepository } from "../infrastructure/persistence/postgres/PgAc
 import { PgAccountSecurityRepository } from "../infrastructure/persistence/postgres/PgAccountSecurityRepository.js";
 import { PgProfileRepository } from "../infrastructure/persistence/postgres/PgProfileRepository.js";
 import { PgTrainingContentRepository } from "../infrastructure/persistence/postgres/PgTrainingContentRepository.js";
+import { PgWalletRepository } from "../infrastructure/persistence/postgres/PgWalletRepository.js";
+import { PgTrainingSessionRepository } from "../infrastructure/persistence/postgres/PgTrainingSessionRepository.js";
 import { MinioObjectStorage } from "../infrastructure/storage/minio/MinioObjectStorage.js";
 import { pool } from "../infrastructure/persistence/postgres/pgPool.js";
 import { TrainingContentService } from "../application/training/TrainingContentService.js";
+import { WalletService } from "../application/wallet/WalletService.js";
+import { TrainingSessionService } from "../application/training/TrainingSessionService.js";
 
 const accountRepository = new PgAccountRepository(pool);
 const identityRepository = new PgIdentityRepository(pool);
 const accountSecurityRepository = new PgAccountSecurityRepository(pool);
 const profileRepository = new PgProfileRepository(pool);
 const trainingContentRepository = new PgTrainingContentRepository(pool);
+const walletRepository = new PgWalletRepository(pool);
+const trainingSessionRepository = new PgTrainingSessionRepository(pool);
 
 // MinIO is optional during local development. Profile text fields remain usable
 // without it; avatar-upload operations return the service's 503 response.
@@ -38,6 +44,8 @@ export const getCurrentAccount = new GetCurrentAccount(accountRepository);
 export const completeAccountSetup = new CompleteAccountSetup(accountRepository);
 export const updateAccountPreferences = new UpdateAccountPreferences(accountRepository);
 export const trainingContent = new TrainingContentService(trainingContentRepository);
+export const wallet = new WalletService(walletRepository);
+export const trainingSessions = new TrainingSessionService(trainingSessionRepository);
 export const accessTokenService = new JwtAccessTokenService();
 
 export const identityService = new IdentityService(

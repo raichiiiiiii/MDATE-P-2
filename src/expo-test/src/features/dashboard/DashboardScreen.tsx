@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useAuth } from "../auth/AuthProvider";
 import { getMyProfile } from "../profile/services/profileApi";
+import { useWallet } from "../wallet/hooks/useWallet";
 import { Text } from "../../shared/ui/native";
 import DashboardActionGrid from "./components/DashboardActionGrid";
 import DashboardHeader from "./components/DashboardHeader";
@@ -18,6 +19,7 @@ import {
 export default function DashboardScreen() {
   const router = useRouter();
   const { user, apiRequest, syncAccount } = useAuth();
+  const { wallet } = useWallet(apiRequest);
 
   useEffect(() => {
     let active = true;
@@ -42,8 +44,6 @@ export default function DashboardScreen() {
           avatarUrl={user?.avatarUrl}
           onProfilePress={() => router.push("/profile")}
         />
-
-        {/* Primary Action — Start Training (§3.6 & §4.1) */}
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={PRIMARY_DASHBOARD_ACTION.title}
@@ -57,10 +57,9 @@ export default function DashboardScreen() {
           <Text style={styles.primaryButtonText}>{PRIMARY_DASHBOARD_ACTION.title}</Text>
           <Ionicons name="arrow-forward" size={24} color="#FFFFFF" />
         </Pressable>
-
         <View style={styles.outerCard}>
           <DashboardCarouselPlaceholder />
-          <DashboardMetricsRow />
+          <DashboardMetricsRow coinBalance={wallet?.balance ?? null} />
           <Text style={styles.sectionSubtitle}>Quick Navigation</Text>
           <DashboardActionGrid actions={SECONDARY_DASHBOARD_ACTIONS} onActionPress={handleActionPress} />
         </View>
@@ -73,58 +72,19 @@ const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: "#F8FAFC" },
   container: { padding: 16, paddingBottom: 40, gap: 16 },
   primaryButton: {
-    minHeight: 64,
-    borderRadius: 20,
-    backgroundColor: "#174EA6",
-    paddingHorizontal: 20,
-    paddingVertical: 14,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    shadowColor: "#174EA6",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 10,
-    elevation: 4,
+    minHeight: 64, borderRadius: 20, backgroundColor: "#174EA6", paddingHorizontal: 20,
+    paddingVertical: 14, flexDirection: "row", alignItems: "center", justifyContent: "space-between",
+    shadowColor: "#174EA6", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.25, shadowRadius: 10, elevation: 4,
   },
-  primaryPressed: {
-    opacity: 0.85,
-    transform: [{ scale: 0.99 }],
-  },
+  primaryPressed: { opacity: 0.85, transform: [{ scale: 0.99 }] },
   primaryIconWrapper: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    alignItems: "center",
-    justifyContent: "center",
+    width: 44, height: 44, borderRadius: 22, backgroundColor: "rgba(255, 255, 255, 0.2)",
+    alignItems: "center", justifyContent: "center",
   },
-  primaryButtonText: {
-    color: "#FFFFFF",
-    fontSize: 24,
-    lineHeight: 30,
-    fontWeight: "700",
-    flex: 1,
-    marginLeft: 14,
-  },
+  primaryButtonText: { color: "#FFFFFF", fontSize: 24, lineHeight: 30, fontWeight: "700", flex: 1, marginLeft: 14 },
   outerCard: {
-    borderWidth: 1.5,
-    borderColor: "#DFE7F0",
-    borderRadius: 24,
-    padding: 16,
-    backgroundColor: "#FFFFFF",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-    gap: 16,
+    borderWidth: 1.5, borderColor: "#DFE7F0", borderRadius: 24, padding: 16, backgroundColor: "#FFFFFF",
+    shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 8, elevation: 2, gap: 16,
   },
-  sectionSubtitle: {
-    fontSize: 16,
-    lineHeight: 22,
-    fontWeight: "700",
-    color: "#64748B",
-    marginTop: 4,
-  },
+  sectionSubtitle: { fontSize: 16, lineHeight: 22, fontWeight: "700", color: "#64748B", marginTop: 4 },
 });

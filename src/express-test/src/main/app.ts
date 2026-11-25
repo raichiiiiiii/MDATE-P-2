@@ -12,6 +12,8 @@ import { securityRoutes } from "./http/routes/securityRoutes.js";
 import { trainingContentRoutes } from "./http/routes/trainingContentRoutes.js";
 import { mediaRoutes } from "./http/routes/mediaRoutes.js";
 import { speechRoutes } from "./http/routes/speechRoutes.js";
+import { walletRoutes } from "./http/routes/walletRoutes.js";
+import { trainingSessionRoutes } from "./http/routes/trainingSessionRoutes.js";
 
 export function createApp() {
   const app = express();
@@ -34,6 +36,8 @@ export function createApp() {
   app.use("/api/v1", securityRoutes);
   app.use("/api/v1", trainingContentRoutes);
   app.use("/api/v1", speechRoutes);
+  app.use("/api/v1", walletRoutes);
+  app.use("/api/v1", trainingSessionRoutes);
   app.use(notFoundHandler);
   app.use(errorHandler);
   return app;
