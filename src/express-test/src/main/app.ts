@@ -16,7 +16,9 @@ import { speechRoutes } from "./http/routes/speechRoutes.js";
 export function createApp() {
   const app = express();
   app.disable("x-powered-by");
-  app.use(helmet());
+  app.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  }));
   app.use(cors({
     origin: env.EXPO_WEB_ORIGIN,
     credentials: true,

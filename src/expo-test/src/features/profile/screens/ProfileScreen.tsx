@@ -137,6 +137,7 @@ export default function ProfileScreen() {
                 <Image
                   source={{ uri: profile.avatarUrl.startsWith("http") ? profile.avatarUrl : toApiUrl(profile.avatarUrl) }}
                   style={styles.avatar}
+                  onError={(e) => console.log("PROFILE_AVATAR_ERROR:", profile.avatarUrl, e.nativeEvent.error)}
                 />
               ) : (
                 <View style={styles.avatarFallback}><Ionicons name="person" size={42} color="#174EA6"/></View>

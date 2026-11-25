@@ -39,7 +39,9 @@ export function getApiBaseUrl(): string {
 }
 
 export function toApiUrl(path: string): string {
-  return `${getApiBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`;
+  const baseUrl = getApiBaseUrl().replace(/\/+$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${baseUrl}${normalizedPath}`;
 }
 
 export async function parseApiResponse<T>(response: Response): Promise<T> {

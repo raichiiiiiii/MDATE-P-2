@@ -107,7 +107,7 @@ export default function AuthEntryScreen({ initialMode = "sign-in" }: Props) {
             <View style={styles.mark}><Text style={styles.markText}>M</Text></View>
             <View>
               <Text style={styles.brand}>MDATE</Text>
-              <Text style={styles.tagline}>Mobile Digital Aphasia Therapy Environment</Text>
+              <Text style={styles.tagline}>Multilingual Digital Aphasia Therapy Environment</Text>
             </View>
           </View>
           <Text accessibilityRole="header" style={styles.heading}>
@@ -211,9 +211,7 @@ export default function AuthEntryScreen({ initialMode = "sign-in" }: Props) {
               {mode === "sign-in" ? "Create an account" : "I already have an account"}
             </Text>
           </Pressable>
-          <Text style={styles.footer}>
-            Your MDATE password is securely hashed by the backend. It is never stored in plain text.
-          </Text>
+          
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
