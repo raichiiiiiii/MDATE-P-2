@@ -14,6 +14,8 @@ import { mediaRoutes } from "./http/routes/mediaRoutes.js";
 import { speechRoutes } from "./http/routes/speechRoutes.js";
 import { walletRoutes } from "./http/routes/walletRoutes.js";
 import { trainingSessionRoutes } from "./http/routes/trainingSessionRoutes.js";
+import { trainingRewardRoutes } from "./http/routes/trainingRewardRoutes.js";
+import { rewardedTrainingSessionRoutes } from "./http/routes/rewardedTrainingSessionRoutes.js";
 
 export function createApp() {
   const app = express();
@@ -38,6 +40,8 @@ export function createApp() {
   app.use("/api/v1", speechRoutes);
   app.use("/api/v1", walletRoutes);
   app.use("/api/v1", trainingSessionRoutes);
+  app.use("/api/v1", trainingRewardRoutes);
+  app.use("/api/v1", rewardedTrainingSessionRoutes);
   app.use(notFoundHandler);
   app.use(errorHandler);
   return app;

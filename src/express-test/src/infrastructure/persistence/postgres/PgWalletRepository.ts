@@ -121,9 +121,15 @@ export class PgWalletRepository implements WalletRepository {
           command.referenceId !== command.storeItemId) {
         throw new InvalidTransactionAmountError("Store redemption commands must be server-priced debits for the referenced item.");
       }
-    } else if (command.reason === "SESSION_COMPLETE" || command.reason === "DAILY_CHECKIN") {
+    } else if (command.reason === "DAILY_CHECKIN") {
       if (command.amount !== null || command.type !== "CREDIT") {
-        throw new InvalidTransactionAmountError("Reward amounts must be resolved from server configuration.");
+        throw new InvalidTransactionAmountError("Daily check-in amounts must be resolved from server configuration.");
+      }
+    } else if (command.reason === "SESSION_COMPLETE") {
+      if (!Number.isSafeInteger(command.amount) || command.amount === null || command.amount <= 0 ||
+          command.type !== "CREDIT" || !command.requiredCompletedSessionId ||
+          command.requiredCompletedSessionId !== command.referenceId) {
+        throw new InvalidTransactionAmountError("Session completion credits must use a positive server-calculated amount and completed session reference.");
       }
     } else if (!Number.isInteger(command.amount) || command.amount === null || command.amount === 0 ||
         (command.type === "CREDIT" && command.amount < 0) ||
@@ -192,7 +198,7 @@ export class PgWalletRepository implements WalletRepository {
       let amount = command.amount;
       let maxClaimsPerUtcDay: number | undefined;
 
-      if (command.reason === "SESSION_COMPLETE" || command.reason === "DAILY_CHECKIN") {
+      if (command.reason === "DAILY_CHECKIN") {
         const ruleResult = await client.query<QueryResultRow & {
           amount: number; maxClaimsPerUtcDay: number; isActive: boolean;
         }>(
@@ -317,7 +323,8 @@ export class PgWalletRepository implements WalletRepository {
   }
 
   private assertSameOperation(row: TransactionRow, command: WalletTransactionCommand): void {
-    if (row.type !== command.type || row.reason !== command.reason || row.referenceId !== command.referenceId) {
+    if (row.type !== command.type || row.reason !== command.reason || row.referenceId !== command.referenceId ||
+        (command.amount !== null && row.amount !== command.amount)) {
       throw new IdempotencyConflictError();
     }
   }

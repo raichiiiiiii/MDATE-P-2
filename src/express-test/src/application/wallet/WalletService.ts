@@ -5,7 +5,6 @@ import type {
   WalletRepository,
   WalletRewardReason,
   WalletSnapshot,
-  WalletStoreItem,
   WalletTransactionPage,
 } from "../../domain/wallet/Wallet.js";
 import {
@@ -43,10 +42,11 @@ export class WalletService {
   }): Promise<WalletMutationResult> {
     const referenceId = input.referenceId ?? null;
     if (input.reason === "SESSION_COMPLETE") {
-      if (!referenceId || !UUID_PATTERN.test(referenceId)) {
-        throw new RewardNotEligibleError("A valid server-issued training session is required for this reward.");
-      }
-    } else if (referenceId !== null) {
+      throw new RewardNotEligibleError(
+        "Session rewards are calculated from the published module reward tree and settled automatically when the server records completion.",
+      );
+    }
+    if (referenceId !== null) {
       throw new RewardNotEligibleError("Daily check-in rewards do not accept a reference ID.");
     }
 
@@ -55,12 +55,31 @@ export class WalletService {
       amount: null,
       type: "CREDIT",
       reason: input.reason,
-      referenceId,
+      referenceId: null,
       idempotencyKey: input.idempotencyKey,
       metadata: { rewardRule: input.reason },
-      ...(input.reason === "SESSION_COMPLETE" && referenceId
-        ? { requiredCompletedSessionId: referenceId }
-        : {}),
+    });
+  }
+
+  /** Internal application-only credit path; no HTTP request accepts this amount. */
+  creditTrainingSessionReward(input: {
+    userId: string;
+    sessionId: string;
+    amount: number;
+    metadata: Record<string, unknown>;
+  }): Promise<WalletMutationResult> {
+    if (!UUID_PATTERN.test(input.sessionId) || !Number.isSafeInteger(input.amount) || input.amount <= 0) {
+      throw new RewardNotEligibleError("The server-calculated training reward is invalid.");
+    }
+    return this.wallets.applyTransaction({
+      userId: input.userId,
+      amount: input.amount,
+      type: "CREDIT",
+      reason: "SESSION_COMPLETE",
+      referenceId: input.sessionId,
+      idempotencyKey: `training-session:${input.sessionId}`,
+      metadata: input.metadata,
+      requiredCompletedSessionId: input.sessionId,
     });
   }
 
@@ -93,8 +112,6 @@ export class WalletService {
       const record = decoded as Record<string, unknown>;
       if (typeof record.createdAt !== "string" || Number.isNaN(Date.parse(record.createdAt))) throw new Error("invalid date");
       if (typeof record.id !== "string" || !UUID_PATTERN.test(record.id)) throw new Error("invalid ID");
-      // Preserve the original DB timestamp precision; normalizing through Date would
-      // truncate PostgreSQL microseconds and could skip rows sharing one millisecond.
       return { createdAt: record.createdAt, id: record.id };
     } catch {
       throw new InvalidWalletCursorError();

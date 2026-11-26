@@ -10,10 +10,11 @@ import TrainingHeader from "../components/TrainingHeader";
 import TrainingStateCard from "../components/TrainingStateCard";
 import { listModules, localize, type ModuleSummary } from "../trainingApi";
 import { getSpeechHealth, warmupSpeechModel, type SpeechHealthResponse } from "../speechApi";
+import { getModuleRewardTree } from "../hierarchicalTrainingApi";
 
 export default function ModuleSelectorScreen() {
   const router = useRouter();
-  const { getAuthHeaders } = useAuth();
+  const { getAuthHeaders, apiRequest } = useAuth();
   const { language, setLanguage } = usePatientPreferences();
   const [modules, setModules] = useState<ModuleSummary[]>([]);
   const [moduleIndex, setModuleIndex] = useState(0);
@@ -23,6 +24,7 @@ export default function ModuleSelectorScreen() {
   const [speechStatus, setSpeechStatus] = useState<SpeechHealthResponse | null>(null);
   const [warmingUp, setWarmingUp] = useState(false);
   const [warmupError, setWarmupError] = useState<string | null>(null);
+  const [moduleRewardCoins, setModuleRewardCoins] = useState<number | null>(null);
 
   const checkSpeechEngine = useCallback(async () => {
     try {
@@ -72,6 +74,16 @@ export default function ModuleSelectorScreen() {
   }, [loadModules]);
 
   const activeModule = modules[moduleIndex];
+  useEffect(() => {
+    let current = true;
+    setModuleRewardCoins(null);
+    if (activeModule) {
+      void getModuleRewardTree(apiRequest, activeModule.id)
+        .then((tree) => { if (current) setModuleRewardCoins(tree.module.rewardCoins); })
+        .catch(() => { if (current) setModuleRewardCoins(null); });
+    }
+    return () => { current = false; };
+  }, [activeModule?.id, apiRequest]);
   const moduleTitle = activeModule ? localize(activeModule.title, language) : "";
   const moduleDescription = activeModule ? localize(activeModule.description, language) : "";
 
@@ -172,6 +184,12 @@ export default function ModuleSelectorScreen() {
                 <Ionicons name="layers-outline" size={17} color="#174EA6" />
                 <Text style={styles.metadata}>
                   {activeModule.submoduleCount} {language === "ms" ? "jenis latihan" : "exercise types"}
+                </Text>
+              </View>
+              <View style={styles.metadataRow}>
+                <Ionicons name="wallet-outline" size={17} color="#8A6500" />
+                <Text style={[styles.metadata, styles.rewardMetadata]}>
+                  {moduleRewardCoins === null ? "Reward pool unavailable" : `${moduleRewardCoins} coins available in this module`}
                 </Text>
               </View>
             </View>
@@ -377,6 +395,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     fontWeight: "700",
   },
+  rewardMetadata: { color: "#8A6500" },
   primaryButton: {
     minHeight: 56,
     borderRadius: 14,

@@ -16,11 +16,12 @@ import {
   type QSetSummary,
   type SubmoduleSummary,
 } from "../trainingApi";
+import { getSubmoduleRewardTree, type SubmoduleRewardResponse } from "../hierarchicalTrainingApi";
 
 export default function ActivitySelectorScreen() {
   const { moduleId } = useLocalSearchParams<{ moduleId: string }>();
   const router = useRouter();
-  const { getAuthHeaders } = useAuth();
+  const { getAuthHeaders, apiRequest } = useAuth();
   const { language, setLanguage } = usePatientPreferences();
 
   const [module, setModule] = useState<ModuleDetails | null>(null);
@@ -30,6 +31,7 @@ export default function ActivitySelectorScreen() {
   const [setsLoading, setSetsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [setsError, setSetsError] = useState<string | null>(null);
+  const [rewardDetails, setRewardDetails] = useState<SubmoduleRewardResponse | null>(null);
 
   const loadModule = useCallback(async () => {
     if (!moduleId) return;
@@ -52,6 +54,17 @@ export default function ActivitySelectorScreen() {
 
   const activeActivity: SubmoduleSummary | undefined = module?.submodules[activityIndex];
   const activeActivityId = activeActivity?.id;
+
+  useEffect(() => {
+    let current = true;
+    setRewardDetails(null);
+    if (activeActivityId) {
+      void getSubmoduleRewardTree(apiRequest, activeActivityId)
+        .then((result) => { if (current) setRewardDetails(result); })
+        .catch(() => { if (current) setRewardDetails(null); });
+    }
+    return () => { current = false; };
+  }, [activeActivityId, apiRequest]);
 
   const loadPracticeSets = useCallback(async (submoduleId: string) => {
     setSetsLoading(true);
@@ -170,6 +183,14 @@ export default function ActivitySelectorScreen() {
               </Text>
             </View>
 
+            <View style={styles.rewardCard}>
+              <Text style={styles.rewardMode}>{rewardDetails?.submodule.gameMode.replace(/_/g, " ") ?? "Game mode"}</Text>
+              <Text style={styles.rewardValue}>
+                {rewardDetails ? `🪙 ${rewardDetails.submodule.inheritedRewardCoins} coins` : "Reward allocation unavailable"}
+              </Text>
+              <Text style={styles.rewardHint}>{language === "ms" ? "Ganjaran aktiviti" : "Inherited activity reward"}</Text>
+            </View>
+
             <View style={styles.setSection}>
               <Text style={styles.sectionTitle}>
                 {language === "ms" ? "Pilih set latihan" : "Choose a practice set"}
@@ -199,7 +220,7 @@ export default function ActivitySelectorScreen() {
                     key={orderedPracticeSets[0].id}
                     accessibilityRole="button"
                     accessibilityLabel={language === "ms" ? "Mulakan sesi Cari Pasangan, dua set, sepuluh pasangan" : "Start Find the Pair session, two sets, ten pairs"}
-                    onPress={() => router.push(`/q-sets/${orderedPracticeSets[0].id}`)}
+                    onPress={() => router.push(`/submodules/${activeActivity.id}`)}
                     style={({ pressed }) => [styles.setCard, pressed && styles.pressed]}
                   >
                     <View style={styles.setNumber}>
@@ -211,6 +232,9 @@ export default function ActivitySelectorScreen() {
                       </Text>
                       <Text style={styles.setMeta}>
                         {language === "ms" ? "2 set · 10 pasangan · 5 setiap set" : "2 sets · 10 pairs · 5 per set"}
+                      </Text>
+                      <Text style={styles.setRewardMeta}>
+                        {rewardDetails ? `🪙 ${rewardDetails.submodule.inheritedRewardCoins} activity coins` : ""}
                       </Text>
                     </View>
                     <Ionicons name="chevron-forward" size={23} color="#64748B" />
@@ -228,7 +252,7 @@ export default function ActivitySelectorScreen() {
                     key={set.id}
                     accessibilityRole="button"
                     accessibilityLabel={`Open ${localize(set.title, language) || `Set ${set.position + 1}`}`}
-                    onPress={() => router.push(`/q-sets/${set.id}`)}
+                    onPress={() => router.push(`/submodules/${activeActivity.id}`)}
                     style={({ pressed }) => [styles.setCard, pressed && styles.pressed]}
                   >
                     <View style={styles.setNumber}>
@@ -242,6 +266,12 @@ export default function ActivitySelectorScreen() {
                         {language === "ms" ? "Tahap" : "Difficulty"} {set.difficultyIndex + 1}
                         {" · "}
                         {set.questionCount} {language === "ms" ? "soalan" : set.questionCount === 1 ? "question" : "questions"}
+                      </Text>
+                      <Text style={styles.setRewardMeta}>
+                        {(() => {
+                          const rewardSet = rewardDetails?.submodule.qSets.find((item) => item.id === set.id);
+                          return rewardSet ? `🪙 ${rewardSet.inheritedRewardCoins} coins · Fibonacci ${rewardSet.fibonacciWeight}` : "";
+                        })()}
                       </Text>
                     </View>
                     <Ionicons name="chevron-forward" size={23} color="#64748B" />
@@ -337,6 +367,11 @@ const styles = StyleSheet.create({
   setSection: { gap: 11, marginTop: 1 },
   sectionTitle: { color: "#172B4D", fontSize: 20, lineHeight: 28, fontWeight: "800" },
   emptyText: { color: "#64748B", fontSize: 16, lineHeight: 24 },
+  rewardCard: { gap: 4, padding: 14, borderRadius: 14, borderWidth: 1, borderColor: "#E5B84C", backgroundColor: "#FFF8E1" },
+  rewardMode: { color: "#765600", fontSize: 14, fontWeight: "800", textTransform: "capitalize" },
+  rewardValue: { color: "#4A3908", fontSize: 22, fontWeight: "900" },
+  rewardHint: { color: "#765600", fontSize: 13 },
+  setRewardMeta: { color: "#8A6500", fontSize: 14, lineHeight: 20, fontWeight: "700" },
   setCard: {
     minHeight: 80,
     flexDirection: "row",

@@ -6,11 +6,12 @@ import { useAuth } from "../../auth/AuthProvider";
 import { usePatientPreferences } from "../../../shared/theme/PatientPreferencesContext";
 import TrainingStateCard from "../components/TrainingStateCard";
 import { getQSet, type QSetDetails } from "../trainingApi";
+import { resolveGameMode } from "../core/gameRegistry";
 import ChallengeScreen from "./ChallengeScreen";
 import FindThePairSessionScreen from "./FindThePairSessionScreen";
 
 export default function QSetExerciseScreen() {
-  const { qSetId } = useLocalSearchParams<{ qSetId: string }>();
+  const { qSetId, gameMode } = useLocalSearchParams<{ qSetId: string; gameMode?: string }>();
   const { getAuthHeaders } = useAuth();
   const { language } = usePatientPreferences();
   const [initialQSet, setInitialQSet] = useState<QSetDetails | null>(null);
@@ -34,16 +35,10 @@ export default function QSetExerciseScreen() {
     }
   }, [getAuthHeaders, qSetId]);
 
-  useEffect(() => {
-    void load();
-  }, [load]);
+  useEffect(() => { void load(); }, [load]);
 
   if (loading) {
-    return (
-      <View style={styles.statePage}>
-        <TrainingStateCard title={language === "ms" ? "Memuatkan latihan…" : "Loading practice…"} loading />
-      </View>
-    );
+    return <View style={styles.statePage}><TrainingStateCard title={language === "ms" ? "Memuatkan latihan…" : "Loading practice…"} loading /></View>;
   }
   if (error || !initialQSet) {
     return (
@@ -58,10 +53,18 @@ export default function QSetExerciseScreen() {
     );
   }
 
-  if (initialQSet.submodule.exerciseType === "find_the_pair") {
+  const inferredMode = gameMode || (
+    initialQSet.submodule.exerciseType === "find_the_pair" ? "find_the_pair" : "challenge"
+  );
+  const mode = resolveGameMode(inferredMode);
+
+  if (mode.modeId === "find_the_pair") {
     return <FindThePairSessionScreen initialQSet={initialQSet} />;
   }
 
+  // Challenge currently provides the live voice/keyboard interaction surface.
+  // The registered story_telling and standard_qset engines have independent
+  // state adapters and can be bound to dedicated views without changing routing.
   return <ChallengeScreen />;
 }
 
